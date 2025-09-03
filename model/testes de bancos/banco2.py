@@ -21,12 +21,24 @@ class Cliente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(50))
     
+
 class Produto(db.Model):
-     __tablename_ = 'produtos'
+     __tablename__ = 'produtos'
      id = db.Column(db.Integer, primary_key=True)
      nome = db.Column(db.String(50))
      preco = db.Column(db.Float)
      estoque = db.Column(db.Integer)
+@app.route('/consulta_cliente', methods=['GET'])
+def consulta_cliente():
+     clientes = Cliente.query.all()
+     resultado = []
+     for cliente in clientes:
+          item = {"id": cliente.id, "nome": cliente.nome}
+          # Adiciona idade se existir
+          if hasattr(cliente, "idade"):
+               item["idade"] = cliente.idade
+          resultado.append(item)
+     return jsonify(resultado)
 
 @app.route('/')
 def index():
