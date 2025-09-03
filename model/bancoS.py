@@ -4,27 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
 
-
-def banco2(app):
-
-     db = SQLAlchemy()
-
-     class Cliente(db.Model):
-          __tablename__ = 'clientes'
-          id = db.Column(db.Integer, primary_key=True)
-          nome = db.Column(db.String(50))
-
-     class Produto(db.Model):
-          __tablename__ = 'produtos'
-          id = db.Column(db.Integer, primary_key=True)
-          nome = db.Column(db.String(50))
-          preco = db.Column(db.Float)
-          estoque = db.Column(db.Integer)
-
-     def banco2(app):
-          db.init_app(app)
-
-
 def versaoBD(url):
      try:
           engine = create_engine(url)

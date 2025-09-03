@@ -1,8 +1,8 @@
 from flask import Flask, Blueprint
-from bancoS import versaoBD , consulta
+from model.bancoS import versaoBD , consulta
 from sqlalchemy import create_engine, text 
 import os
-from bancoS import Cliente , jsonify
+
 
 
 linkBD = os.getenv('DB_URL')
@@ -33,14 +33,3 @@ def c():
      except Exception as e:
           return {"error": str(e)}, 500
      
-@url.route('/c2', methods=['GET'])
-def consulta_cliente():
-     clientes = Cliente.query.all()
-     resultado = []
-     for cliente in clientes:
-          item = {"id": cliente.id, "nome": cliente.nome}
-          # Adiciona idade se existir
-          if hasattr(cliente, "idade"):
-               item["idade"] = cliente.idade
-          resultado.append(item)
-     return jsonify(resultado)
