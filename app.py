@@ -1,6 +1,10 @@
 from config import app,db
 from flask_restx import Api
 from Controller.manifesto_carga_controller import manifesto_cargas_blueprint
+from flask_cors import CORS
+
+CORS(app)
+
 app.register_blueprint(manifesto_cargas_blueprint)
 
 if __name__ == "__main__":

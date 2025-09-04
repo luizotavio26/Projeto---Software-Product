@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Manifesto de Carga</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='manifesto_carga.css'>
+    <script src='manifesto_carga.js'></script>
+</head>
+<body>
+    
+    <div class="main-carga">
+        <h1>Cadastro de Cargas</h1>
+        <form>
+            <div class="textfield">
+                <input type="text" id="tipo_carga" placeholder="Tipo da carga">
+            </div>
+            <div class="textfield">
+                <input type="number" id="peso_carga" placeholder="Peso da carga (KG)">
+            </div>
+            <div class="textfield">
+                <input type="text" id="informacoes_cliente" placeholder="Informações do cliente">
+            </div>
+            <div class="textfield">
+                <input type="text" id="informacoes_motorista" placeholder="Informações do motorista">
+            </div>
+            <div class="textfield">
+                <input type="text" id="origem_carga" placeholder="Origem da carga">
+            </div>
+            <div class="textfield">
+                <input type="text" id="destino_carga" placeholder="Destino da carga">
+            </div>
+            <div class="textfield">
+                <input type="number" id="valor_kg" placeholder="Valor por KG (R$)">
+            </div>
+            <div class="textfield">
+                <input type="number" id="distancia" placeholder="Distância (KM)">
+            </div>
+            <button class="btn-cadastro" type="button" onclick="cadastroCarga()">Cadastrar carga</button>
+        </form>
+    </div>
+
+    <div class="cargas-lista">
+        <h2>Lista de Cargas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo</th>
+                    <th>Peso (KG)</th>
+                    <th>Cliente</th>
+                    <th>Motorista</th>
+                    <th>Origem</th>
+                    <th>Destino</th>
+                    <th>Valor/KG (R$)</th>
+                    <th>Distância (KM)</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-cargas"></tbody>
+        </table>
+    </div>
+
+</body>
+</html>
