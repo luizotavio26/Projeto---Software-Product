@@ -35,8 +35,8 @@ def le_cargas():
 @manifesto_cargas_blueprint.route('/cargas/<int:id_cargas>', methods =['GET'])
 def le_cargas_id(id_cargas):
     try:
-        aluno = manifesto_carga_model.read_cargas_id(id_cargas)
-        return jsonify(aluno), 200
+        carga = manifesto_carga_model.read_cargas_id(id_cargas)
+        return jsonify(carga), 200
     except CargaNaoEncontrada():
         return jsonify({'erro': 'Carga não encontrada'}), 404
     except Exception as e:

@@ -7,7 +7,7 @@ CORS(app)
 
 app.register_blueprint(manifesto_cargas_blueprint)
 
-@app.route("/")  # quando acessar http://localhost:5000/
+@app.route("/")  # quando acessar http://localhost:5036/
 def home():
     return render_template("manifesto_carga.html") 
 

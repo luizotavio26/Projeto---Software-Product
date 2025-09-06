@@ -77,14 +77,15 @@ def read_cargas_id(id_carga):
     carga = ManifestoCarga.query.get(id_carga)
 
     if not carga:
-        raise  CargaNaoEncontrada(f'Nenhuma informação encontrada sobre a carga especificada.')
-    return carga.to_dict()
+        return {'message':'Nenhuma carga encontrada.'}
+    else:
+        return carga.to_dict()
 
 
 def update_carga(id_carga, dados_atualizados):
     carga = ManifestoCarga.query.get(id_carga)
     if not carga:
-        raise CargaNaoEncontrada
+        return {'message':'Nenhuma carga encontrada.'}
     
     #data_nasc = dados_atualizados.get("data_nascimento")
     carga.tipo_carga = dados_atualizados["tipo_carga"]
@@ -99,7 +100,7 @@ def update_carga(id_carga, dados_atualizados):
 
     db.session.commit()
 
-    return {"message": "Informações sobre a carga atualizada com sucesso!"}
+    return {'message': "Informações sobre a carga atualizada com sucesso!"}
 
 def delete_carga_id(id_carga):
     carga = ManifestoCarga.query.get(id_carga)

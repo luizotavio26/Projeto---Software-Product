@@ -1,0 +1,27 @@
+
+services:
+  web:
+    build: .
+    ports:
+      - "5036:5036"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+      - DATABASE_URL=postgresql://banco_joao_user:zu6a9cux2GZBMS6GhE2OMf4s8lD8efgY@db:5432/banco_joao
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: banco_joao_user
+      POSTGRES_PASSWORD: zu6a9cux2GZBMS6GhE2OMf4s8lD8efgY
+      POSTGRES_DB: banco_joao
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
