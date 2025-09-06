@@ -9,7 +9,7 @@ Durante toda a construção, utilizaremos Docker para criar, implantar e executa
 
 
 ```
-👥 **Equipe**
+👥 Equipe
 
 Ana Beatriz
 
