@@ -79,11 +79,11 @@ Facilidade de implantação
 
 1. Manifesto de carga
 2. Cadastro de clientes
-3. Cadastro de veículos e motoristas
-4. Cálculo de frete, combustível, quilômetros e outros
-5. Controle de cargas (peso, tipo, valor)
+3. Cadastro de veículos
+4. Cadastros de motoristas
+5. Cálculo do valor de frete
 6. Emissão de relatórios e documentos
-7. Planejamento de Rotas (distâncias, avenidas, pedágios)
+7. Faturamento da empresa
 
 ------------------------------------------------------------
 
