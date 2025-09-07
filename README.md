@@ -29,6 +29,12 @@ Criar um sistema completo, com front-end, back-end e banco de dados, garantindo 
 
 --------------------------------------------------------------
 
+📌 **Diagrama de Deployment**
+
+![Imagem não reenderizada](URL da sua imagem)
+
+-----------------------------------------------------------
+
 🖥 **Front-End**
 
 O site será desenvolvido com as três tecnologias base da Web:
