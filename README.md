@@ -94,7 +94,7 @@ Facilidade de implantação
 1.  Clone o repositório
 
     ```bash
-    git clone [https://github.com/luizotavio26/projeto---software-product.git](https://github.com/luizotavio26/projeto---software-product.git)
+    git clone https://github.com/luizotavio26/projeto---software-product.git
     cd projeto---software-product
     ```
 
@@ -118,7 +118,7 @@ Facilidade de implantação
     python app.py
     ```
 
-    A aplicação estará disponível em: 📍 [http://localhost:5036](http://localhost:5036)
+    A aplicação estará disponível em: 📍 http://localhost:5036
     📝 **Observação:** O banco de dados é criado automaticamente na primeira execução.
 
 ---
@@ -128,7 +128,7 @@ Facilidade de implantação
 1.  Clone o repositório
 
     ```bash
-    git clone [https://github.com/luizotavio26/projeto---software-product.git](https://github.com/luizotavio26/projeto---software-product.git)
+    git clone https://github.com/luizotavio26/projeto---software-product.git
     cd projeto---software-product
     ```
 
