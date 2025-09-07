@@ -146,31 +146,3 @@ Facilidade de implantação
     ```bash
     docker-compose up --build
     ```
-
----
-
-📡 **Endpoints Principais**
-
-Cargas:
--   `GET /cargas` – Lista todas as cargas.
--   `GET /cargas/<id_cargas>` – Detalha uma carga por ID.
--   `POST /cargas` – Cria uma nova carga.
--   `PUT /cargas/<id_cargas>` – Altera uma carga por ID.
--   `DELETE /cargas/<id_cargas>` – Deleta uma carga por ID.
--   `DELETE /cargas` – Deleta todas as cargas.
-
----
-
-📑 **Exemplo de corpo JSON para criação de carga:**
-
-```json
-{
-  "tipo_carga": "string",
-  "peso_carga": 0.0,
-  "informacoes_cliente": "string",
-  "informacoes_motorista": "string",
-  "origem_carga": "string",
-  "destino_carga": "string",
-  "valor_kg": 0.0,
-  "distancia": 0.0
-}
