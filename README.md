@@ -70,16 +70,19 @@ Facilidade de implantação
 -----------------------------------------------------------
 
 ✅ **Funcionalidades previstas**
-
- Cadastro e gerenciamento de clientes
-
- Controle de estoque
-
- Monitoramento de pedidos
-
- Relatórios logísticos
-
- Integração entre front-end, back-end e banco
+ Manifesto de carga
+ 
+ Cadastro de Clientes
+ 
+ Cadastro de veículos
+ 
+ Cadastro de motoristas
+ 
+ Cálculo do valor de frete
+ 
+ Emissão de relatórios e documentos
+ 
+ Faturamento da empresa
 
 ------------------------------------------------------------
 
