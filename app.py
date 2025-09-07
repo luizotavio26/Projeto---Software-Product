@@ -1,5 +1,4 @@
 from config import app,db, render_template
-from flask_restx import Api
 from Controller.manifesto_carga_controller import manifesto_cargas_blueprint
 from flask_cors import CORS
 
@@ -7,7 +6,7 @@ CORS(app)
 
 app.register_blueprint(manifesto_cargas_blueprint)
 
-@app.route("/")  # quando acessar http://localhost:5036/
+@app.route("/")
 def home():
     return render_template("manifesto_carga.html") 
 

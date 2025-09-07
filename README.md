@@ -31,7 +31,7 @@ Criar um sistema completo, com front-end, back-end e banco de dados, garantindo 
 
 📌 **Diagrama de Deployment**
 
-![Imagem não reenderizada](URL da sua imagem)
+![Imagem não reenderizada](./images/Diagrama%20de%20Deployment.jpg)
 
 -----------------------------------------------------------
 
@@ -75,17 +75,15 @@ Facilidade de implantação
 
 -----------------------------------------------------------
 
-✅ **Funcionalidades previstas**
+✅ **Lista de Funcionalidades - em ordem por prioridade**
 
- Cadastro e gerenciamento de clientes
-
- Controle de estoque
-
- Monitoramento de pedidos
-
- Relatórios logísticos
-
- Integração entre front-end, back-end e banco
+1. Manifesto de carga
+2. Cadastro de clientes;
+3. Cadastro de veículos e motoristas;
+4. Cálculo de frete, combustível, quilômetros e outros;
+5. Controle de cargas (peso, tipo, valor);
+6. Emissão de relatórios e documentos;
+7. Planejamento de Rotas (distâncias, avenidas, pedágios);
 
 ------------------------------------------------------------
 

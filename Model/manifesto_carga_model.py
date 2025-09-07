@@ -1,4 +1,3 @@
-from datetime import datetime, date
 from config import db
 
 
@@ -14,8 +13,8 @@ class ManifestoCarga(db.Model):
     origem_carga = db.Column(db.String(200), nullable=False)
     destino_carga = db.Column(db.String(200), nullable=False)
     valor_frete = db.Column(db.Float, nullable=False)
-    valor_kg = db.Column(db.Float, nullable=False) # para o calculo do frete
-    distancia = db.Column(db.Float, nullable=False) # para o calculo do frete
+    valor_kg = db.Column(db.Float, nullable=False)
+    distancia = db.Column(db.Float, nullable=False)
 
     def __init__(self, tipo_carga, peso_carga, informacoes_motorista, informacoes_cliente, origem_carga,
                  destino_carga, valor_kg, distancia):
@@ -87,7 +86,6 @@ def update_carga(id_carga, dados_atualizados):
     if not carga:
         return {'message':'Nenhuma carga encontrada.'}
     
-    #data_nasc = dados_atualizados.get("data_nascimento")
     carga.tipo_carga = dados_atualizados["tipo_carga"]
     carga.peso_carga = dados_atualizados["peso_carga"]
     carga.informacoes_cliente = dados_atualizados["informacoes_cliente"]
@@ -111,7 +109,6 @@ def delete_carga_id(id_carga):
     return {"message":"Cargas deletadas com sucesso!"}, None
 
 
-# Verificar se essa função funciona corretamente
 def delete_todas_cargas():
     cargas = ManifestoCarga.query.all()
     for carga in cargas:

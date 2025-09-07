@@ -1,4 +1,4 @@
-const apiUrl = "http://127.0.0.1:5036/cargas"; // ajuste se necessário
+const apiUrl = "http://127.0.0.1:5036/cargas";
 
 async function cadastroCarga() {
     const carga = {
@@ -12,7 +12,7 @@ async function cadastroCarga() {
         distancia: parseFloat(document.getElementById("distancia").value) || 0
     };
 
-    console.log("Tentando cadastrar carga:", carga); // log para debug
+    console.log("Tentando cadastrar carga:", carga);
 
     try {
         const response = await fetch(apiUrl, {
