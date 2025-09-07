@@ -78,15 +78,99 @@ Facilidade de implantação
 ✅ **Lista de Funcionalidades - em ordem por prioridade**
 
 1. Manifesto de carga
-2. Cadastro de clientes;
-3. Cadastro de veículos e motoristas;
-4. Cálculo de frete, combustível, quilômetros e outros;
-5. Controle de cargas (peso, tipo, valor);
-6. Emissão de relatórios e documentos;
-7. Planejamento de Rotas (distâncias, avenidas, pedágios);
+2. Cadastro de clientes
+3. Cadastro de veículos e motoristas
+4. Cálculo de frete, combustível, quilômetros e outros
+5. Controle de cargas (peso, tipo, valor)
+6. Emissão de relatórios e documentos
+7. Planejamento de Rotas (distâncias, avenidas, pedágios)
 
 ------------------------------------------------------------
 
-🚀 **Como rodar o projeto (em breve)**
+🚀 **Como rodar o projeto**
 
-(Será atualizado conforme o desenvolvimento avançar)
+▶️ **Como Executar a API localmente**
+
+1.  Clone o repositório
+
+    ```bash
+    git clone [https://github.com/luizotavio26/projeto---software-product.git](https://github.com/luizotavio26/projeto---software-product.git)
+    cd projeto---software-product
+    ```
+
+2.  Crie um ambiente virtual (opcional, mas recomendado)
+
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # Linux/macOS
+    venv\Scripts\activate     # Windows
+    ```
+
+3.  Instale as dependências
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  Execute a API
+
+    ```bash
+    python app.py
+    ```
+
+    A aplicação estará disponível em: 📍 [http://localhost:5036](http://localhost:5036)
+    📝 **Observação:** O banco de dados é criado automaticamente na primeira execução.
+
+---
+
+🐳 **Como Executar a API com Docker**
+
+1.  Clone o repositório
+
+    ```bash
+    git clone [https://github.com/luizotavio26/projeto---software-product.git](https://github.com/luizotavio26/projeto---software-product.git)
+    cd projeto---software-product
+    ```
+
+2.  Construa a imagem Docker
+    ```bash
+    docker build -t manifesto-carga-api .
+    ```
+
+3.  Execute o container
+    ```bash
+    docker run -d -p 5036:5036 manifesto-carga-api
+    ```
+
+    **Ou, utilizando Docker Compose (Recomendado):**
+    ```bash
+    docker-compose up --build
+    ```
+
+---
+
+📡 **Endpoints Principais**
+
+Cargas:
+-   `GET /cargas` – Lista todas as cargas.
+-   `GET /cargas/<id_cargas>` – Detalha uma carga por ID.
+-   `POST /cargas` – Cria uma nova carga.
+-   `PUT /cargas/<id_cargas>` – Altera uma carga por ID.
+-   `DELETE /cargas/<id_cargas>` – Deleta uma carga por ID.
+-   `DELETE /cargas` – Deleta todas as cargas.
+
+---
+
+📑 **Exemplo de corpo JSON para criação de carga:**
+
+```json
+{
+  "tipo_carga": "string",
+  "peso_carga": 0.0,
+  "informacoes_cliente": "string",
+  "informacoes_motorista": "string",
+  "origem_carga": "string",
+  "destino_carga": "string",
+  "valor_kg": 0.0,
+  "distancia": 0.0
+}
