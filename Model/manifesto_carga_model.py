@@ -13,23 +13,23 @@ class ManifestoCarga(db.Model):
     origem_carga = db.Column(db.String(200), nullable=False)
     destino_carga = db.Column(db.String(200), nullable=False)
     valor_frete = db.Column(db.Float, nullable=False)
-    valor_kg = db.Column(db.Float, nullable=False)
+    valor_km = db.Column(db.Float, nullable=False)
     distancia = db.Column(db.Float, nullable=False)
 
     def __init__(self, tipo_carga, peso_carga, informacoes_motorista, informacoes_cliente, origem_carga,
-                 destino_carga, valor_kg, distancia):
+                 destino_carga, valor_km, distancia):
         self.tipo_carga = tipo_carga
         self.peso_carga = peso_carga
         self.informacoes_cliente = informacoes_cliente
         self.informacoes_motorista = informacoes_motorista
         self.origem_carga = origem_carga
         self.destino_carga = destino_carga
-        self.valor_kg = valor_kg
+        self.valor_km = valor_km
         self.distancia = distancia
         self.valor_frete = self.calcular_frete()
 
     def calcular_frete(self):
-        frete = self.valor_kg * self.distancia
+        frete = self.valor_km * self.distancia
         return (f"{frete:.2f}")
 
     def to_dict(self): 
@@ -42,7 +42,7 @@ class ManifestoCarga(db.Model):
         "origem_carga":self.origem_carga,
         "destino_carga":self.destino_carga,
         "valor_frete":self.valor_frete,
-        "valor_kg":self.valor_kg,
+        "valor_km":self.valor_km,
         "distancia":self.distancia}
 
 class CargaNaoEncontrada(Exception):
@@ -56,7 +56,7 @@ def create_carga(carga):
         informacoes_motorista = carga["informacoes_motorista"],
         origem_carga = carga["origem_carga"],
         destino_carga = carga["destino_carga"],
-        valor_kg = carga["valor_kg"],
+        valor_km = carga["valor_km"],
         distancia = carga["distancia"]
     )
 
@@ -92,7 +92,7 @@ def update_carga(id_carga, dados_atualizados):
     carga.informacoes_motorista = dados_atualizados["informacoes_motorista"]
     carga.origem_carga = dados_atualizados["origem_carga"]
     carga.destino_carga = dados_atualizados["destino_carga"]
-    carga.valor_kg = dados_atualizados["valor_kg"]
+    carga.valor_km = dados_atualizados["valor_km"]
     carga.distancia = dados_atualizados["distancia"]
     carga.valor_frete = carga.calcular_frete()
 

@@ -8,7 +8,7 @@ async function cadastroCarga() {
         informacoes_motorista: document.getElementById("informacoes_motorista").value,
         origem_carga: document.getElementById("origem_carga").value,
         destino_carga: document.getElementById("destino_carga").value,
-        valor_kg: parseFloat(document.getElementById("valor_kg").value) || 0,
+        valor_km: parseFloat(document.getElementById("valor_km").value) || 0,
         distancia: parseFloat(document.getElementById("distancia").value) || 0
     };
 
@@ -54,8 +54,9 @@ async function carregarCargas() {
                     <td>${carga.informacoes_motorista}</td>
                     <td>${carga.origem_carga}</td>
                     <td>${carga.destino_carga}</td>
-                    <td>${carga.valor_kg}</td>
+                    <td>${carga.valor_km}</td>
                     <td>${carga.distancia}</td>
+                    <td>${carga.valor_frete}</td>
                     <td>
                         <button class="btn-excluir" onclick="deletarCarga(${carga.id})">Excluir</button>
                     </td>
