@@ -15,7 +15,9 @@ class Usuarios(db.Model):
           cep = db.Column(db.String(50), nullable=True)
           telefone = db.Column(db.String(50), nullable=True)
           genero = db.Column(db.String(50), nullable=True)
+          
       
+
 
 def listarUsuarios():
     usuarios  = Usuarios.query.all()   
