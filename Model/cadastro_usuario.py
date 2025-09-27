@@ -24,8 +24,7 @@ def listarUsuarios():
     return [{"id": u.id,
              "nome": u.name ,
              "idade": u.idade, 
-             "email" : u.email, 
-             "senha" : u.senha , 
+             "email" : u.email,  
              "cidade" : u.cidade, 
              "UF": u.uf,
              "pais" : u.pais, 
@@ -34,6 +33,24 @@ def listarUsuarios():
              "Telefone" : u.telefone , 
              "genero": u.genero } 
             for u in usuarios]
+
+def listarUsuarioId(id_usuario):
+    u = Usuarios.query.get(id_usuario)
+    if u:
+        return {
+            "id": u.id,
+            "nome": u.name,
+            "idade": u.idade,
+            "email": u.email,
+            "cidade": u.cidade,
+            "UF": u.uf,
+            "pais": u.pais,
+            "cpf": u.cpf,
+            "CEP": u.cep,
+            "Telefone": u.telefone,
+            "genero": u.genero
+        }
+    return {"message": "Usuário não encontrado"}
 
 def cadastraUsuarioDB(dados):
      
@@ -59,7 +76,6 @@ def cadastraUsuarioDB(dados):
         "nome": novoUsuario.name,
         "idade": novoUsuario.idade,
         "email": novoUsuario.email,
-        "senha": novoUsuario.senha,
         "cidade": novoUsuario.cidade,
         "UF": novoUsuario.uf,
         "pais": novoUsuario.pais,
@@ -69,7 +85,34 @@ def cadastraUsuarioDB(dados):
         "genero": novoUsuario.genero
     }
 
-def deletarTudo():
-    db.session.query(Usuarios).delete()
-    db.session.commit()
-    return "Todos os usuários deletados"
+def atualizaUsuarioPorId(id_usuario, dados):
+    usuario = Usuarios.query.get(id_usuario)
+    
+    if usuario:
+        usuario.name = dados.get("name", usuario.name)
+        usuario.idade = dados.get("idade", usuario.idade)
+        usuario.email = dados.get("email", usuario.email)
+        usuario.senha = dados.get("senha", usuario.senha)
+        usuario.cidade = dados.get("cidade", usuario.cidade)
+        usuario.uf = dados.get("uf", usuario.uf)
+        usuario.pais = dados.get("pais", usuario.pais)
+        usuario.cpf = dados.get("cpf", usuario.cpf)
+        usuario.cep = dados.get("cep", usuario.cep)
+        usuario.telefone = dados.get("telefone", usuario.telefone)
+        usuario.genero = dados.get("genero", usuario.genero)
+        
+        db.session.commit()
+        return f"Usuário com ID {id_usuario} atualizado com sucesso."
+    
+    return f"Usuário com ID {id_usuario} não encontrado."
+
+
+def deletaUsuarioPorId(id_usuario):
+    usuario = Usuarios.query.get(id_usuario)
+    
+    if usuario:
+        db.session.delete(usuario)
+        db.session.commit()
+        return f"Usuário com ID {id_usuario} deletado com sucesso."
+    
+    return f"Usuário com ID {id_usuario} não encontrado."
