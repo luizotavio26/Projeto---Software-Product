@@ -1,14 +1,31 @@
 from config import app,db, render_template
 from Controller.manifesto_carga_controller import manifesto_cargas_blueprint
+from Controller.cadastro_usuario_controller import cadastro_usuarios
+from Controller.upload_controller import upload_bp
 from flask_cors import CORS
+import os
+from werkzeug.utils import secure_filename
 
 CORS(app)
 
 app.register_blueprint(manifesto_cargas_blueprint)
+app.register_blueprint(cadastro_usuarios)
+app.register_blueprint(upload_bp)
 
-@app.route("/")
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route("/upload")
+def pagina_upload():
+    return render_template("upload_doc.html")
+
+@app.route("/manifestoCargas")
 def home():
-    return render_template("manifesto_carga.html") 
+    return render_template("manifesto_carga.html")
+
+@app.route("/clientes")
+def home_clientes():
+    return render_template("cadastro_cliente.html")
 
 if __name__ == "__main__":
     with app.app_context():
