@@ -19,9 +19,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def pagina_upload():
     return render_template("upload_doc.html")
 
-@app.route("/")
+@app.route("/manifestocargas")
 def home():
     return render_template("manifesto_carga.html") 
+
+@app.route("/clientes")
+def home_clientes():
+    return render_template("cadastro_cliente.html")
 
 if __name__ == "__main__":
     with app.app_context():
