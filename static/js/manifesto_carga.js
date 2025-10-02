@@ -1,4 +1,5 @@
 const apiUrl = "http://127.0.0.1:5036/cargas";
+const usuariosApiUrl = "http://127.0.0.1:5036/usuarios";
 
 async function cadastroCarga() {
     const carga = {
@@ -69,6 +70,26 @@ async function carregarCargas() {
     }
 }
 
+async function carregarClientes() {
+    try {
+        const response = await fetch(usuariosApiUrl);
+        const data = await response.json();
+        const clientes = data.ListaUsuarios;
+
+        const select = document.getElementById("informacoes_cliente");
+        select.innerHTML = '<option value="">Selecione um cliente</option>';
+        
+        clientes.forEach(cliente => {
+            const option = document.createElement("option");
+            option.value = cliente.nome;
+            option.textContent = `${cliente.nome} (ID: ${cliente.id})`;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar clientes:", error);
+    }
+}
+
 async function deletarCarga(id) {
     if (!confirm("Tem certeza que deseja excluir esta carga?")) {
         return;
@@ -82,4 +103,7 @@ async function deletarCarga(id) {
     }
 }
 
-window.onload = carregarCargas;
+window.onload = function() {
+    carregarCargas();
+    carregarClientes();
+};

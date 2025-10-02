@@ -1,4 +1,5 @@
 from config import db
+<<<<<<< HEAD
 from flask import send_file, abort
 from io import BytesIO
 
@@ -42,3 +43,15 @@ def listar_arquivos_id(doc_id):
 def baixar_arquivo(doc_id):
     arquivo = Documentos.query.get(doc_id)
     return send_file(BytesIO(arquivo.dados), download_name=arquivo.nome, as_attachment=True)
+=======
+
+class Documento(db.Model):
+    __tablename__ = "Arquivos"
+    id = db.Column(db.Integer, primary_key=True)
+    arquivo = db.Column(db.LargeBinary, nullable=True)
+
+def anexar_arquivo(arquivo):
+    db.session.add(arquivo)
+    db.session.commit()
+    return {"message":"Arquivo anexado"}
+>>>>>>> bedc018fbe2e0c1a482aba2d5bb209e3a41f16e1
