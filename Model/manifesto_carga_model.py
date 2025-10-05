@@ -1,7 +1,5 @@
 from config import db
 
-
-
 class ManifestoCarga(db.Model):
     __tablename__ = "manifesto_carga"
 
@@ -16,6 +14,7 @@ class ManifestoCarga(db.Model):
     valor_km = db.Column(db.Float, nullable=False)
     distancia = db.Column(db.Float, nullable=False)
 
+
     def __init__(self, tipo_carga, peso_carga, informacoes_motorista, informacoes_cliente, origem_carga,
                  destino_carga, valor_km, distancia):
         self.tipo_carga = tipo_carga
@@ -28,9 +27,11 @@ class ManifestoCarga(db.Model):
         self.distancia = distancia
         self.valor_frete = self.calcular_frete()
 
+
     def calcular_frete(self):
         frete = self.valor_km * self.distancia
         return (f"{frete:.2f}")
+
 
     def to_dict(self): 
         return {
@@ -45,8 +46,10 @@ class ManifestoCarga(db.Model):
         "valor_km":self.valor_km,
         "distancia":self.distancia}
 
+
 class CargaNaoEncontrada(Exception):
     pass
+
 
 def create_carga(carga):
     nova_carga = ManifestoCarga(
@@ -65,7 +68,6 @@ def create_carga(carga):
     return nova_carga.to_dict(), None
 
     
-
 def read_todas_cargas():
     cargas = ManifestoCarga.query.all()
     print(cargas)
@@ -98,7 +100,8 @@ def update_carga(id_carga, dados_atualizados):
 
     db.session.commit()
 
-    return {'message': "Informações sobre a carga atualizada com sucesso!"}
+    return {'message': "Informações sobre a carga atualizada com sucesso!"}, None
+
 
 def delete_carga_id(id_carga):
     carga = ManifestoCarga.query.get(id_carga)

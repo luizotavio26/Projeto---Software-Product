@@ -6,8 +6,6 @@ upload_bp = Blueprint('upload_bp', __name__)
 
 app = upload_bp
 
-<<<<<<< HEAD
-@upload_bp.route("/upload", methods=["POST"])
 @upload_bp.route("/upload", methods=["POST"])
 def upload_file():
     try:
@@ -42,13 +40,4 @@ def listar(doc_id):
 @upload_bp.route("/download/<int:doc_id>", methods=["GET"])
 def download(doc_id):
     return baixar_arquivo(doc_id)
-=======
-@app.route("/upload", methods=["POST"])
-def upload_file():
-    if 'arquivo' not in request.files:
-        return jsonify({"erro": "Nenhum arquivo enviado"}), 400
 
-    file = request.files['arquivo']
-    file.save(f"uploads/{file.filename}")
-    return jsonify({"mensagem": "Upload realizado com sucesso"}),200
->>>>>>> bedc018fbe2e0c1a482aba2d5bb209e3a41f16e1

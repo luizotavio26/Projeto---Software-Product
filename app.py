@@ -16,6 +16,7 @@ app.register_blueprint(upload_bp)
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+
 @app.route("/upload")
 def pagina_upload():
     return render_template("upload_doc.html")
@@ -25,13 +26,11 @@ def pagina_upload():
 def home():
     return render_template("manifesto_carga.html")
 
-@app.route("/clientes")
-def home_clientes():
-    return render_template("cadastro_cliente.html")
 
 @app.route("/clientes")
 def home_clientes():
     return render_template("cadastro_cliente.html")
+
 
 if __name__ == "__main__":
     with app.app_context():

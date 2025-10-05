@@ -1,5 +1,5 @@
 const apiUrl = "http://127.0.0.1:5036/cargas";
-const usuariosApiUrl = "http://127.0.0.1:5036/usuarios";
+const usuariosApiUrl = "http://127.0.0.1:5036/clientes";
 
 async function cadastroCarga() {
     const carga = {

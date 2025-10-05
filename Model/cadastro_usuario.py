@@ -1,7 +1,7 @@
 from config import db
 
 class Usuarios(db.Model):
-<<<<<<< HEAD
+
     __tablename__ = "Usuarios"   
      
     id = db.Column(db.Integer, primary_key=True ,)
@@ -17,7 +17,7 @@ class Usuarios(db.Model):
     telefone = db.Column(db.String(50), nullable=True)
     genero = db.Column(db.String(50), nullable=True)
 
-    #documentos = db.relationship('Documentos', back_populates='Usuarios')
+
     def to_dict(self): 
         return {
                 "id": self.id,
@@ -32,33 +32,9 @@ class Usuarios(db.Model):
                 "Telefone" : self.telefone , 
                 "genero": self.genero } 
 
+
 class ClienteNaoEncontrado(Exception):
     pass
-
-def listarUsuarios():
-    usuarios  = Usuarios.query.all()   
-    return [usuario.to_dict() for usuario in usuarios], None
-
-
-
-def cadastraUsuarioDB(dados):
-=======
-          __tablename__ = "Usuarios"   
-     
-          id = db.Column(db.Integer, primary_key=True ,)
-          name = db.Column(db.String(50), nullable=True)
-          idade = db.Column(db.String(50), nullable=True)
-          email = db.Column(db.String(50), nullable=True)
-          senha = db.Column(db.String(50), nullable=True)
-          cidade = db.Column(db.String(50), nullable=True)
-          uf = db.Column(db.String(50), nullable=True)
-          pais = db.Column(db.String(50), nullable=True)
-          cpf = db.Column(db.String(50), nullable=True)
-          cep = db.Column(db.String(50), nullable=True)
-          telefone = db.Column(db.String(50), nullable=True)
-          genero = db.Column(db.String(50), nullable=True)
-          
-      
 
 
 def listarUsuarios():
@@ -76,6 +52,7 @@ def listarUsuarios():
              "genero": u.genero } 
             for u in usuarios]
 
+
 def listarUsuarioId(id_usuario):
     u = Usuarios.query.get(id_usuario)
     if u:
@@ -92,12 +69,11 @@ def listarUsuarioId(id_usuario):
             "Telefone": u.telefone,
             "genero": u.genero
         }
-    return {"message": "Usuário não encontrado"}
+    return {"message": "Usuário não encontrado"}, None
 
-def cadastraUsuarioDB(dados):
-     
->>>>>>> bedc018fbe2e0c1a482aba2d5bb209e3a41f16e1
-    novoUsuario = Usuarios(
+
+def cadastrarUsuarios(dados):
+    novo_usuario = Usuarios(
         name=dados.get("name"),
         idade=dados.get("idade"),
         email=dados.get("email"),
@@ -109,50 +85,15 @@ def cadastraUsuarioDB(dados):
         cep=dados.get("cep"),
         telefone=dados.get("telefone"),
         genero=dados.get("genero")
-<<<<<<< HEAD
-        )
-        
-    db.session.add(novoUsuario)
-    db.session.commit()
-    return novoUsuario.to_dict(), None
-    
-
-
-def delete_cliente_id(id_cliente):
-    cliente = Usuarios.query.get(id_cliente)
-    if not cliente:
-        return False  # Não encontrado
-    db.session.delete(cliente)
-    db.session.commit()
-    return True  # Deletado
-
-
-def deletarTudo():
-    db.session.query(Usuarios).delete()
-    db.session.commit()
-    return "Todos os usuários deletados"
-
-=======
     )
     
-    db.session.add(novoUsuario)
+    db.session.add(novo_usuario)
     db.session.commit()
     
-    return {
-        "id": novoUsuario.id,
-        "nome": novoUsuario.name,
-        "idade": novoUsuario.idade,
-        "email": novoUsuario.email,
-        "cidade": novoUsuario.cidade,
-        "UF": novoUsuario.uf,
-        "pais": novoUsuario.pais,
-        "cpf": novoUsuario.cpf,
-        "CEP": novoUsuario.cep,
-        "Telefone": novoUsuario.telefone,
-        "genero": novoUsuario.genero
-    }
+    return f"Usuário {novo_usuario.name} cadastrado com sucesso."
 
-def atualizaUsuarioPorId(id_usuario, dados):
+
+def atualizarUsuarioPorId(id_usuario, dados):
     usuario = Usuarios.query.get(id_usuario)
     
     if usuario:
@@ -174,7 +115,7 @@ def atualizaUsuarioPorId(id_usuario, dados):
     return f"Usuário com ID {id_usuario} não encontrado."
 
 
-def deletaUsuarioPorId(id_usuario):
+def deletarUsuarioPorId(id_usuario):
     usuario = Usuarios.query.get(id_usuario)
     
     if usuario:
@@ -183,4 +124,3 @@ def deletaUsuarioPorId(id_usuario):
         return f"Usuário com ID {id_usuario} deletado com sucesso."
     
     return f"Usuário com ID {id_usuario} não encontrado."
->>>>>>> bedc018fbe2e0c1a482aba2d5bb209e3a41f16e1
