@@ -12,11 +12,13 @@ class Documentos(db.Model):
     #user_id = db.Column(db.Integer, db.ForeignKey("Usuarios.id"), nullable=False)
     #user = db.relationship("Usuarios", back_populates="Arquivos") 
 
+
 def anexar_arquivo(arquivo):
     # criar condição para que o arquivo só seja acessado se tiver o id de usuario
     db.session.add(arquivo)
     db.session.commit()
     return {"message":"Arquivo anexado"}
+
 
 def listar_arquivos_id(doc_id):
     doc = Documentos.query.get(doc_id)
@@ -42,3 +44,4 @@ def listar_arquivos_id(doc_id):
 def baixar_arquivo(doc_id):
     arquivo = Documentos.query.get(doc_id)
     return send_file(BytesIO(arquivo.dados), download_name=arquivo.nome, as_attachment=True)
+

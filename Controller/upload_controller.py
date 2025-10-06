@@ -7,7 +7,6 @@ upload_bp = Blueprint('upload_bp', __name__)
 app = upload_bp
 
 @upload_bp.route("/upload", methods=["POST"])
-@upload_bp.route("/upload", methods=["POST"])
 def upload_file():
     try:
         arquivo = request.files.get("arquivo")
@@ -41,3 +40,4 @@ def listar(doc_id):
 @upload_bp.route("/download/<int:doc_id>", methods=["GET"])
 def download(doc_id):
     return baixar_arquivo(doc_id)
+
