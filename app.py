@@ -1,21 +1,20 @@
-from config import app,db, render_template
+from flask import render_template
+from config import app,db
 from Controller.manifesto_carga_controller import manifesto_cargas_blueprint
-from Controller.cadastro_usuario_controller import cadastro_usuarios
-
+from Controller.cadastro_usuario_controller import cadastro_usuarios_blueprint
 from Controller.upload_controller import upload_bp
 from flask_cors import CORS
 import os
-from werkzeug.utils import secure_filename
 
 CORS(app)
 
 app.register_blueprint(manifesto_cargas_blueprint)
-app.register_blueprint(cadastro_usuarios)
+app.register_blueprint(cadastro_usuarios_blueprint)
 app.register_blueprint(upload_bp)
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/upload")
 def pagina_upload():
@@ -23,12 +22,12 @@ def pagina_upload():
 
 
 @app.route("/manifestocargas")
-def home():
+def manifesto():
     return render_template("manifesto_carga.html")
 
 
 @app.route("/clientes")
-def home_clientes():
+def clientes():
     return render_template("cadastro_cliente.html")
 
 
