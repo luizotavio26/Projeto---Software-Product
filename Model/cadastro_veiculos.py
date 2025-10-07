@@ -5,15 +5,15 @@ class Veiculos(db.Model):
     __tablename__ = "Veiculos"   
      
     id = db.Column(db.Integer, primary_key=True ,)
-    placa = db.Column(db.String(50), nullable=True)
-    modelo = db.Column(db.String(50), nullable=True)
-    marca = db.Column(db.String(50), nullable=True)
-    renavan = db.Column(db.Integer(50), nullable=True)
-    chassi = db.Column(db.String(50), nullable=True)
-    cor = db.Column(db.String(50), nullable=True)
-    tipo = db.Column(db.String(50), nullable=True)
-    ano_modelo = db.Column(db.Integer(50), nullable=True)
-    ano_fabricacao = db.Column(db.Integer(50), nullable=True)
+    placa = db.Column(db.String(7), nullable=False)
+    modelo = db.Column(db.String(50), nullable=False)
+    marca = db.Column(db.String(50), nullable=False)
+    renavan = db.Column(db.String(11), nullable=False)
+    chassi = db.Column(db.String(17), nullable=False)
+    cor = db.Column(db.String(50), nullable=False)
+    tipo = db.Column(db.String(50), nullable=False)
+    ano_modelo = db.Column(db.String(4), nullable=False)
+    ano_fabricacao = db.Column(db.String(4), nullable=False)
 
 
     def to_dict(self): 
