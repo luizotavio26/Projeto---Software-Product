@@ -144,3 +144,17 @@ tbody tr:hover {
 td button {
     margin: 0 2px;
 }
+
+.textfield select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.textfield select:focus {
+    border-color: #2980b9;
+    outline: none;
+}
