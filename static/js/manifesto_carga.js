@@ -1,6 +1,9 @@
 const apiUrl = "http://127.0.0.1:5036/cargas";
 const usuariosApiUrl = "http://127.0.0.1:5036/clientes";
 const apiUrlMotoristas = "http://127.0.0.1:5036/motoristas";
+const apiUrlVeiculos = "http://127.0.0.1:5036/veiculos";
+
+let listaVeiculos = []; //gambiarra, corrigir amanhã
 
 async function cadastroCarga() {
     const carga = {
@@ -8,6 +11,7 @@ async function cadastroCarga() {
         peso_carga: parseFloat(document.getElementById("peso_carga").value) || 0,
         informacoes_cliente: document.getElementById("informacoes_cliente").value,
         informacoes_motorista: document.getElementById("informacoes_motorista").value,
+        informacoes_veiculo: document.getElementById("informacoes_veiculo").value,
         origem_carga: document.getElementById("origem_carga").value,
         destino_carga: document.getElementById("destino_carga").value,
         valor_km: parseFloat(document.getElementById("valor_km").value) || 0,
@@ -47,6 +51,8 @@ async function carregarCargas() {
         tabela.innerHTML = "";
 
         cargas.forEach(carga => {
+            const veiculo = listaVeiculos.find(v => v.id == carga.informacoes_veiculo);
+            const veiculoTexto = veiculo ? `${veiculo.placa} - ${veiculo.modelo} (${veiculo.marca})` : "";
             const row = `
                 <tr>
                     <td>${carga.id ?? ""}</td>
@@ -54,6 +60,7 @@ async function carregarCargas() {
                     <td>${carga.peso_carga}</td>
                     <td>${carga.informacoes_cliente}</td>
                     <td>${carga.informacoes_motorista}</td>
+                     <td>${veiculoTexto}</td>
                     <td>${carga.origem_carga}</td>
                     <td>${carga.destino_carga}</td>
                     <td>${carga.valor_km}</td>
@@ -114,6 +121,27 @@ async function carregarMotoristas() {
 }
 
 
+
+async function carregarVeiculos() {
+    try {
+        const resposta = await fetch(apiUrlVeiculos);
+        listaVeiculos = await resposta.json(); // salva na lista global
+
+        const select = document.getElementById("informacoes_veiculo");
+        select.innerHTML = '<option value="">Selecione um veículo</option>';
+
+        listaVeiculos.forEach(veiculo => {
+            const option = document.createElement("option");
+            option.value = veiculo.id; // salva o ID do veículo
+            option.textContent = `${veiculo.placa} - ${veiculo.modelo} (${veiculo.marca})`;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Erro ao carregar veículos:", error);
+    }
+}
+
+
 async function deletarCarga(id) {
     if (!confirm("Tem certeza que deseja excluir esta carga?")) {
         return;
@@ -131,4 +159,5 @@ window.onload = function () {
     carregarCargas();
     carregarClientes();
     carregarMotoristas();
+    carregarVeiculos();
 };

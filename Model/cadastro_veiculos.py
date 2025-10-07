@@ -36,33 +36,13 @@ class VeiculoNaoEncontrado(Exception):
 
 def getVeiculos():
     veiculos  = Veiculos.query.all()   
-    return [{"id": v.id,
-             "placa": v.placa ,
-             "modelo": v.modelo, 
-             "marca" : v.marca,  
-             "renavan" : v.renavan, 
-             "chassi": v.chassi,
-             "cor" : v.cor, 
-             "tipo" : v.tipo , 
-             "ano_modelo" : v.ano_modelo , 
-             "ano_fabricacao" : v.ano_fabricacao } 
-            for v in veiculos]
+    return [v.to_dict() for v in veiculos], None
 
 
 def getVeiculosId(id_veiculo):
-    v = Veiculos.query.get(id_veiculo)
-    if v:
-        return {
-            "id": v.id,
-            "placa": v.placa,
-            "modelo": v.modelo,
-            "marca": v.marca,
-            "renavan": v.renavan,
-            "chassi": v.chassi,
-            "cor": v.cor,
-            "tipo": v.tipo,
-            "ano_modelo": v.ano_modelo,
-            "ano_fabricacao": v.ano_fabricacao   }
+    veiculo = Veiculos.query.get(id_veiculo)
+    if veiculo:
+        return veiculo.to_dict()
     return {"message": "Veículo não encontrado"}, None
 
 

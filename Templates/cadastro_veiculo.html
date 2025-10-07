@@ -7,7 +7,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_veiculo.css') }}">
-    <script src="{{ url_for('static', filename='js/cadastro_veiculo.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/cadastro_veiculo.js') }}" defer></script>
 
 
 
@@ -16,35 +16,35 @@
     
     <div class="main-veiculo">
         <h1>Cadastro de Veículos</h1>
-        <form>
+        <form onsubmit="event.preventDefault(); cadastroVeiculo();">
             <div class="textfield">
-                <input type="text" id="placa" placeholder="Placa">
+                <input type="text" id="placa" placeholder="Placa" required>
             </div>
             <div class="textfield">
-                <input type="number" id="modelo_veiculo" placeholder="Modelo Veículo">
+                <input type="text" id="modelo_veiculo" placeholder="Modelo Veículo" required>
             </div>
             <div class="textfield">
-                <input type="text" id="marca_veiculo" placeholder="Marca do Veículo">
+                <input type="text" id="marca_veiculo" placeholder="Marca do Veículo" required>
             </div>
             <div class="textfield">
-                <input type="number" id="renavan" placeholder="Renavan">
+                <input type="number" id="renavan" placeholder="Renavan" required>
             </div>
             <div class="textfield">
-                <input type="text" id="chassi" placeholder="chassi">
+                <input type="text" id="chassi" placeholder="chassi" required>
             </div>
             <div class="textfield">
-                <input type="text" id="Cor" placeholder="Cor">
+                <input type="text" id="cor" placeholder="Cor" required>
             </div>
             <div class="textfield">
-                <input type="text" id="tipo" placeholder="Tipo de Veículo">
+                <input type="text" id="tipo" placeholder="Tipo de Veículo" required>
             </div>
             <div class="textfield">
-                <input type="date" id="ano_modelo" placeholder="Ano Modelo">
+                <input type="number" id="ano_modelo" placeholder="Ano Modelo" required>
             </div>
             <div class="textfield">
-                <input type="date" id="ano_fabricacao" placeholder="Ano de Fabricação">
+                <input type="number" id="ano_fabricacao" placeholder="Ano de Fabricação" required>
             </div>
-            <button class="btn-cadastro" type="button" onclick="cadastroveiculo()">Cadastrar veículo</button>
+            <button class="btn-cadastro" type="submit">Cadastrar veículo</button>
         </form>
     </div>
 
@@ -63,6 +63,7 @@
                     <th>Tipo</th>
                     <th>Ano Modelo</th>
                     <th>Ano Fabricação</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody id="tabela-veiculos"></tbody>

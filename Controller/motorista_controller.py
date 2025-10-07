@@ -5,7 +5,7 @@ from config import db
 
 motoristas_blueprint = Blueprint('motorista', __name__)
 
-# Create
+
 @motoristas_blueprint.route("/motoristas", methods=['POST'])
 def criar_motoristas():
     dados = request.get_json()
@@ -18,7 +18,7 @@ def criar_motoristas():
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
-# Read Tudo
+
 @motoristas_blueprint.route("/motoristas", methods=['GET'])
 def listar_motoristas():
     try:
@@ -27,7 +27,7 @@ def listar_motoristas():
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
 
-# Read por id
+
 @motoristas_blueprint.route("/motoristas/<int:id_motorista>", methods=['GET'])
 def le_motoristas_id(id_motorista):
     try:
@@ -38,7 +38,7 @@ def le_motoristas_id(id_motorista):
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
 
-# Update Cargas
+
 @motoristas_blueprint.route("/motoristas/<int:id_motorista>", methods=['PUT'])
 def atualizar_motoristas(id_motorista):
     dados = request.get_json()
@@ -50,6 +50,7 @@ def atualizar_motoristas(id_motorista):
             return jsonify({'erro': 'Motorista não encontrado'}), 404
     except Exception as e:
         return jsonify({'erro': str(e)}), 400
+
 
 @motoristas_blueprint.route("/motoristas/<int:id_motorista>", methods=['DELETE'])
 def apagar_motoristas_id(id_motorista):

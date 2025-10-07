@@ -8,16 +8,18 @@ cadastro_veiculos_blueprint = Blueprint('cadastro_veiculos', __name__)
 @cadastro_veiculos_blueprint.route("/veiculos", methods=['GET'])
 def listarVeiculos():
     try:
-        veiculos,erro = cadastro_veiculos.listarVeiculos()
+        veiculos,erro = cadastro_veiculos.getVeiculos()
         return jsonify(veiculos), 200
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({'erro': str(e)}), 500
     
 
 @cadastro_veiculos_blueprint.route("/veiculos/<int:id_veiculo>", methods=['GET'])
 def listarVeiculoId(id_veiculo):
     try:
-        veiculos = cadastro_veiculos.listarUsuarioId(id_veiculo)
+        veiculos = cadastro_veiculos.getVeiculosId(id_veiculo)
         if veiculos:
             return jsonify(veiculos), 200
         else:
@@ -27,27 +29,20 @@ def listarVeiculoId(id_veiculo):
 
 
 @cadastro_veiculos_blueprint.route("/veiculos", methods=['POST'])
-def cadastrarVeiculos():
-    dados = request.get_json(silent=True)   
-    r = cadastrarVeiculos(dados)
-    return jsonify({"message":"Veículo cadastrado com sucesso",
-                    "statusDB" : r}), 200
-
-
-@cadastro_veiculos_blueprint.route("/veiculos", methods=['GET'])
-def listar_cargas():
+def cadastrar_veiculo():
     try:
-        veiculos,erro = cadastro_veiculos.listarVeiculos()
-        return jsonify(veiculos), 200
+        dados = request.get_json(silent=True)
+        mensagem = cadastro_veiculos.postVeiculos(dados)
+        return jsonify({"message": mensagem}), 201
     except Exception as e:
-        return jsonify({'erro': str(e)}), 500
+        return jsonify({'erro': str(e)}), 400
 
 
-@cadastro_veiculos_blueprint.route("/veiculos/<int:id_veiculos>", methods=['PUT'])
-def atualizar_veiculos_id(id_veiculos):
+@cadastro_veiculos_blueprint.route("/veiculos/<int:id_veiculo>", methods=['PUT'])
+def atualizar_veiculos_id(id_veiculo):
     dados = request.get_json(silent=True)
     try:
-        atualizado = cadastro_veiculos.atualizarVeiculoPorId(id_veiculos, dados)
+        atualizado = cadastro_veiculos.putVeiculoPorId(id_veiculo, dados)
         if atualizado:
             return jsonify({'mensagem': 'Veículo atualizado com sucesso'}), 200
         else:
@@ -56,10 +51,10 @@ def atualizar_veiculos_id(id_veiculos):
         return jsonify({'erro': str(e)}), 400
 
 
-@cadastro_veiculos_blueprint.route("/veiculos/<int:id_veiculos>", methods=['DELETE'])
-def apagar_veiculos_id(id_veiculos):
+@cadastro_veiculos_blueprint.route("/veiculos/<int:id_veiculo>", methods=['DELETE'])
+def apagar_veiculos_id(id_veiculo):
     try:
-        deletado = cadastro_veiculos.deletarVeiculosPorId(id_veiculos)
+        deletado = cadastro_veiculos.deleteVeiculoPorId(id_veiculo)
         if deletado:
             return jsonify({'mensagem': 'Veículo deletado com sucesso'}), 200
         else:
