@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Motoristas</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_motorista.css') }}">
+    <script src="{{ url_for('static', filename='js/cadastro_motoristas.js') }}"></script>
+
+
+
+</head>
+<body>
+    
+    <div class="main-motoristas">
+        <h1>Cadastro de Motoristas</h1>
+        <form>
+            <div class="textfield">
+                <input type="text" id="nome" placeholder="Nome Completo">
+            </div>
+            <div class="textfield">
+                <input type="text" id="cpf" placeholder="CPF">
+            </div>
+            <div class="textfield">
+                <input type="text" id="rg" placeholder="RG">
+            </div>
+            <div class="textfield">
+                <input type="text" id="salario" placeholder="Salario">
+            </div>
+            <div class="textfield">
+                <input type="text" class="form-input" id="data_nascimento" placeholder="Data de Nascimento" onfocus="(this.type='date')"
+                        onblur="(this.type='text')" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="numero_cnh" placeholder="Número da CNH">
+            </div>
+            <div class="textfield">
+                <input type="text" id="categoria_cnh" placeholder="Categoria da CNH">
+            </div>
+            <div class="textfield">
+                <input type="text" class="form-input" id="validade_cnh" placeholder="Validade CNH" onfocus="(this.type='date')"
+                        onblur="(this.type='text')" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="telefone" placeholder="Telefone">
+            </div>
+            <div class="textfield">
+                <input type="text" id="email" placeholder="E-mail">
+            </div>
+            <div class="textfield">
+                <input type="text" id="cep" placeholder="CEP">
+            </div>
+            <div class="textfield">
+                <input type="text" id="endereco" placeholder="Endereço">
+            </div>
+            <div class="textfield">
+                <input type="text" id="cidade" placeholder="Cidade">
+            </div>
+            <div class="textfield">
+                <input type="text" id="uf" placeholder="UF">
+            </div>
+            <button class="btn-cadastro" type="button" onclick="cadastroMotorista()">Cadastrar motorista</button>
+        </form>
+    </div>
+
+    <div class="motorista">
+        <h2>Lista de Motoristas</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Numero CNH</th>
+                    <th>Validade CNH</th>
+                    <th>Categoria CNH</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-motoristas"></tbody>
+        </table>
+    </div>
+
+</body>
+</html>

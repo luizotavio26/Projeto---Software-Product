@@ -1,5 +1,6 @@
 const apiUrl = "http://127.0.0.1:5036/cargas";
 const usuariosApiUrl = "http://127.0.0.1:5036/clientes";
+const apiUrlMotoristas = "http://127.0.0.1:5036/motoristas";
 
 async function cadastroCarga() {
     const carga = {
@@ -78,7 +79,7 @@ async function carregarClientes() {
 
         const select = document.getElementById("informacoes_cliente");
         select.innerHTML = '<option value="">Selecione um cliente</option>';
-        
+
         clientes.forEach(cliente => {
             const option = document.createElement("option");
             option.value = cliente.razao_social;
@@ -87,6 +88,28 @@ async function carregarClientes() {
         });
     } catch (error) {
         console.error("Erro ao carregar clientes:", error);
+    }
+}
+
+async function carregarMotoristas() {
+    try {
+        const resposta = await fetch(apiUrlMotoristas);
+        const motoristas = await resposta.json();
+        const motorista_lista = Array.isArray(motoristas) ? motoristas : motoristas.ListaUsuarios;
+
+        const select = document.getElementById("informacoes_motorista");
+        select.innerHTML = '<option value="">Selecione um motoista</option>';
+
+        motorista_lista.forEach(motorista => {
+            const option = document.createElement("option");
+            option.value = motorista.cpf;
+            option.textContent = `${motorista.nome} (ID: ${motorista.id})`;
+            select.append(option)
+        })
+
+
+    } catch (error) {
+        console.error("Erro ao carregar motorista:", error);
     }
 }
 
@@ -104,7 +127,8 @@ async function deletarCarga(id) {
     }
 }
 
-window.onload = function() {
+window.onload = function () {
     carregarCargas();
     carregarClientes();
+    carregarMotoristas();
 };
