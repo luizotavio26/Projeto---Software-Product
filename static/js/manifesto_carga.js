@@ -74,21 +74,22 @@ async function carregarClientes() {
     try {
         const response = await fetch(usuariosApiUrl);
         const data = await response.json();
-        const clientes = data.ListaUsuarios;
+        const clientes = Array.isArray(data) ? data : data.ListaUsuarios;
 
         const select = document.getElementById("informacoes_cliente");
         select.innerHTML = '<option value="">Selecione um cliente</option>';
         
         clientes.forEach(cliente => {
             const option = document.createElement("option");
-            option.value = cliente.nome;
-            option.textContent = `${cliente.nome} (ID: ${cliente.id})`;
+            option.value = cliente.razao_social;
+            option.textContent = `${cliente.razao_social} (ID: ${cliente.id})`;
             select.appendChild(option);
         });
     } catch (error) {
         console.error("Erro ao carregar clientes:", error);
     }
 }
+
 
 async function deletarCarga(id) {
     if (!confirm("Tem certeza que deseja excluir esta carga?")) {
