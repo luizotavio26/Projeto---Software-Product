@@ -34,7 +34,7 @@ class VeiculoNaoEncontrado(Exception):
     pass
 
 
-def listarVeiculos():
+def getVeiculos():
     veiculos  = Veiculos.query.all()   
     return [{"id": v.id,
              "placa": v.placa ,
@@ -49,7 +49,7 @@ def listarVeiculos():
             for v in veiculos]
 
 
-def listarveiculosId(id_veiculo):
+def getVeiculosId(id_veiculo):
     v = Veiculos.query.get(id_veiculo)
     if v:
         return {
@@ -66,7 +66,7 @@ def listarveiculosId(id_veiculo):
     return {"message": "Veículo não encontrado"}, None
 
 
-def cadastrarVeiculos(dados):
+def postVeiculos(dados):
     novo_veiculo = Veiculos(
         placa=dados.get("placa"),
         modelo=dados.get("modelo"),
@@ -85,7 +85,7 @@ def cadastrarVeiculos(dados):
     return f"Veículo {novo_veiculo.modelo} cadastrado com sucesso."
 
 
-def atualizarVeiculoPorId(id_veiculo, dados):
+def putVeiculoPorId(id_veiculo, dados):
     veiculo = Veiculos.query.get(id_veiculo)
     
     if veiculo:
@@ -106,7 +106,7 @@ def atualizarVeiculoPorId(id_veiculo, dados):
     return f"Veículo com ID {id_veiculo} não encontrado."
 
 
-def deletarVeiculoPorId(id_veiculo):
+def deleteVeiculoPorId(id_veiculo):
     veiculo = Veiculos.query.get(id_veiculo)
     
     if veiculo:

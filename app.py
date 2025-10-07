@@ -2,7 +2,7 @@ from flask import render_template
 from config import app,db
 from Controller.manifesto_carga_controller import manifesto_cargas_blueprint
 from Controller.cadastro_cliente_controller import cadastro_clientes_blueprint
-from Controller.cadastro_veiculos_controller import cadastro_veiculos
+from Controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
 from flask_cors import CORS
 import os
 
@@ -10,12 +10,7 @@ CORS(app)
 
 app.register_blueprint(manifesto_cargas_blueprint)
 app.register_blueprint(cadastro_clientes_blueprint)
-app.register_blueprint(cadastro_veiculos)
-
-
-UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.register_blueprint(cadastro_veiculos_blueprint)
 
 
 @app.route("/manifesto")
@@ -26,6 +21,7 @@ def manifesto():
 @app.route("/cadastro")
 def cadastro():
     return render_template("cadastro_cliente.html")
+
 
 @app.route("/veiculo")
 def veiculo():

@@ -2,10 +2,10 @@ from flask import Blueprint, request, jsonify
 from Model import cadastro_veiculos
 from Model.cadastro_veiculos import *
 
-cadastro_veiculos = Blueprint('cadastro_veiculos', __name__)
+cadastro_veiculos_blueprint = Blueprint('cadastro_veiculos', __name__)
 
 
-@cadastro_veiculos.route("/veiculos", methods=['GET'])
+@cadastro_veiculos_blueprint.route("/veiculos", methods=['GET'])
 def listarVeiculos():
     try:
         veiculos,erro = cadastro_veiculos.listarVeiculos()
@@ -14,7 +14,7 @@ def listarVeiculos():
         return jsonify({'erro': str(e)}), 500
     
 
-@cadastro_veiculos.route("/veiculos/<int:id_veiculo>", methods=['GET'])
+@cadastro_veiculos_blueprint.route("/veiculos/<int:id_veiculo>", methods=['GET'])
 def listarVeiculoId(id_veiculo):
     try:
         veiculos = cadastro_veiculos.listarUsuarioId(id_veiculo)
@@ -26,7 +26,7 @@ def listarVeiculoId(id_veiculo):
         return jsonify({'erro': str(e)}), 500
 
 
-@cadastro_veiculos.route("/veiculos", methods=['POST'])
+@cadastro_veiculos_blueprint.route("/veiculos", methods=['POST'])
 def cadastrarVeiculos():
     dados = request.get_json(silent=True)   
     r = cadastrarVeiculos(dados)
@@ -34,7 +34,7 @@ def cadastrarVeiculos():
                     "statusDB" : r}), 200
 
 
-@cadastro_veiculos.route("/veiculos", methods=['GET'])
+@cadastro_veiculos_blueprint.route("/veiculos", methods=['GET'])
 def listar_cargas():
     try:
         veiculos,erro = cadastro_veiculos.listarVeiculos()
@@ -43,7 +43,7 @@ def listar_cargas():
         return jsonify({'erro': str(e)}), 500
 
 
-@cadastro_veiculos.route("/veiculos/<int:id_veiculos>", methods=['PUT'])
+@cadastro_veiculos_blueprint.route("/veiculos/<int:id_veiculos>", methods=['PUT'])
 def atualizar_veiculos_id(id_veiculos):
     dados = request.get_json(silent=True)
     try:
@@ -56,7 +56,7 @@ def atualizar_veiculos_id(id_veiculos):
         return jsonify({'erro': str(e)}), 400
 
 
-@cadastro_veiculos.route("/veiculos/<int:id_veiculos>", methods=['DELETE'])
+@cadastro_veiculos_blueprint.route("/veiculos/<int:id_veiculos>", methods=['DELETE'])
 def apagar_veiculos_id(id_veiculos):
     try:
         deletado = cadastro_veiculos.deletarVeiculosPorId(id_veiculos)
