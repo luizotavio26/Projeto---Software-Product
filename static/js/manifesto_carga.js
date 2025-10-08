@@ -3,7 +3,7 @@ const usuariosApiUrl = "http://127.0.0.1:5036/clientes";
 const apiUrlMotoristas = "http://127.0.0.1:5036/motoristas";
 const apiUrlVeiculos = "http://127.0.0.1:5036/veiculos";
 
-let listaVeiculos = []; //gambiarra, corrigir amanhã
+//let listaVeiculos = []; //gambiarra, corrigir amanhã
 
 async function cadastroCarga() {
     const carga = {
@@ -125,17 +125,26 @@ async function carregarMotoristas() {
 async function carregarVeiculos() {
     try {
         const resposta = await fetch(apiUrlVeiculos);
-        listaVeiculos = await resposta.json(); // salva na lista global
+        const veiculos = await resposta.json();
+        const veiculos_lista = Array.isArray(veiculos) ? veiculos : veiculos.ListaUsuarios;
 
         const select = document.getElementById("informacoes_veiculo");
         select.innerHTML = '<option value="">Selecione um veículo</option>';
 
-        listaVeiculos.forEach(veiculo => {
+        veiculos_lista.forEach(veiculo => {
             const option = document.createElement("option");
-            option.value = veiculo.id; // salva o ID do veículo
-            option.textContent = `${veiculo.placa} - ${veiculo.modelo} (${veiculo.marca})`;
-            select.appendChild(option);
-        });
+            option.value = veiculo.id;
+            option.textContent = `${veiculo.tipo} (ID: ${veiculo.id})`;
+            select.append(option)
+        })
+        console.log("RESPOSTA:" + resposta)
+
+        if (!resposta.ok) {
+            console.error("Erro ao buscar veículos:", resposta.status);
+            return;
+        }
+
+        
     } catch (error) {
         console.error("Erro ao carregar veículos:", error);
     }
