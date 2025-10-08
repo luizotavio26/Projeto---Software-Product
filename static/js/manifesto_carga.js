@@ -105,7 +105,7 @@ async function carregarMotoristas() {
         const motorista_lista = Array.isArray(motoristas) ? motoristas : motoristas.ListaUsuarios;
 
         const select = document.getElementById("informacoes_motorista");
-        select.innerHTML = '<option value="">Selecione um motoista</option>';
+        select.innerHTML = '<option value="">Selecione um motorista</option>';
 
         motorista_lista.forEach(motorista => {
             const option = document.createElement("option");
@@ -160,4 +160,5 @@ window.onload = function () {
     carregarClientes();
     carregarMotoristas();
     carregarVeiculos();
+
 };
