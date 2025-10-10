@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 class Clientes(db.Model):
 
-    __tablename__ = "clientes"   
+    __tablename__ = "Clientes"   
      
     id = db.Column(db.Integer, primary_key=True ,)
     cnpj = db.Column(db.String(14), nullable=False, unique=True)
@@ -21,6 +21,7 @@ class Clientes(db.Model):
     cidade = db.Column(db.String(100), nullable=False)
     estado = db.Column(db.String(2), nullable=False)
 
+    manifestos = db.relationship("ManifestoCarga", back_populates="cliente")
 
     def to_dict(self): 
         return {

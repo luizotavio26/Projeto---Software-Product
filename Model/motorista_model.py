@@ -1,5 +1,4 @@
 from config import db
-from datetime import datetime
 
 class Motoristas(db.Model):
     __tablename__ = "Motoristas"
@@ -9,10 +8,10 @@ class Motoristas(db.Model):
     cpf = db.Column(db.String(15), nullable=False)
     rg = db.Column(db.String(15), nullable=False)
     salario = db.Column(db.Float, nullable=False)
-    data_nascimento = db.Column(db.Date, nullable=False)
+    data_nascimento = db.Column(db.String(10), nullable=False)
     numero_cnh = db.Column(db.String(20), nullable=False)
     categoria_cnh = db.Column(db.String(10), nullable=False)
-    validade_cnh = db.Column(db.Date, nullable=False)
+    validade_cnh = db.Column(db.String(10), nullable=False)
     telefone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     endereco = db.Column(db.String(100), nullable=False)
@@ -20,9 +19,7 @@ class Motoristas(db.Model):
     uf = db.Column(db.String(50), nullable=False)
     cep = db.Column(db.String(50), nullable=False)
     
-    #validar após a criação da tabela e CRUD de veiculos
-    #veiculos = db.relationship("Veiculos", back_populates="motorista")
-
+    manifestos = db.relationship("ManifestoCarga", back_populates="motorista")
     
     def __init__(self,nome, cpf, rg, salario, data_nascimento, numero_cnh, categoria_cnh, validade_cnh, telefone, email, endereco, cidade, uf, cep):
         self.nome = nome
@@ -69,7 +66,7 @@ def create_motorista(motorista):
         cpf = motorista["cpf"], 
         rg = motorista["rg"],
         salario = motorista["salario"],
-        data_nascimento = datetime.strptime(motorista['data_nascimento'], "%Y-%m-%d").date(),
+        data_nascimento = motorista['data_nascimento'],
         numero_cnh = motorista["numero_cnh"],
         categoria_cnh = motorista["categoria_cnh"],
         validade_cnh = motorista["validade_cnh"], 

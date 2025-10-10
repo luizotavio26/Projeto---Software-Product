@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from Model import motorista_model
-from Model.motorista_model import *
+from model import motorista_model
+from model.motorista_model import *
 from config import db
 
 motoristas_blueprint = Blueprint('motorista', __name__)
@@ -33,7 +33,7 @@ def le_motoristas_id(id_motorista):
     try:
         motorista = motorista_model.read_motorista_id(id_motorista)
         return jsonify(motorista), 200
-    except MotoristaNaoEncontrado():
+    except MotoristaNaoEncontrado:
         return jsonify({"erro": "Motorista não encontrado"}), 404
     except Exception as e:
         return jsonify({'erro': str(e)}), 500

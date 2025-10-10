@@ -15,6 +15,7 @@ class Veiculos(db.Model):
     ano_modelo = db.Column(db.String(4), nullable=False)
     ano_fabricacao = db.Column(db.String(4), nullable=False)
 
+    manifestos = db.relationship("ManifestoCarga", back_populates="veiculo")
 
     def to_dict(self): 
         return {

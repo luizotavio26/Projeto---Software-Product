@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from Model import manifesto_carga_model
-from Model.manifesto_carga_model import CargaNaoEncontrada
+from model import manifesto_carga_model
+from model.manifesto_carga_model import CargaNaoEncontrada
 
 manifesto_cargas_blueprint = Blueprint('manifesto_carga', __name__)
 
@@ -36,7 +36,7 @@ def le_cargas_id(id_cargas):
     try:
         carga = manifesto_carga_model.read_cargas_id(id_cargas)
         return jsonify(carga), 200
-    except CargaNaoEncontrada():
+    except CargaNaoEncontrada:
         return jsonify({'erro': 'Carga não encontrada'}), 404
     except Exception as e:
         return jsonify({'erro': str(e)}), 500

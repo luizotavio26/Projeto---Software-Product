@@ -1,9 +1,9 @@
 from flask import render_template
 from config import app,db
-from Controller.manifesto_carga_controller import manifesto_cargas_blueprint
-from Controller.cadastro_cliente_controller import cadastro_clientes_blueprint
-from Controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
-from Controller.motorista_controller import motoristas_blueprint
+from controller.manifesto_carga_controller import manifesto_cargas_blueprint
+from controller.cadastro_cliente_controller import cadastro_clientes_blueprint
+from controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
+from controller.motorista_controller import motoristas_blueprint
 from flask_cors import CORS
 import os
 
@@ -15,7 +15,6 @@ app.register_blueprint(cadastro_veiculos_blueprint)
 app.register_blueprint(motoristas_blueprint)
 
 
-
 @app.route("/manifesto")
 def manifesto():
     return render_template("manifesto_carga.html")
@@ -23,7 +22,6 @@ def manifesto():
 @app.route("/cadastro")
 def cadastro():
     return render_template("cadastro_cliente.html")
-
 
 @app.route("/veiculo")
 def veiculo():
