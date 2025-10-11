@@ -1,5 +1,31 @@
 const apiUrl = "http://127.0.0.1:5036/motoristas";
 
+function preencherEndereco(){
+    const cep = document.getElementById("cep").value.replace(/\D/g, '');
+
+    if (cep.length !== 8){
+        return;
+    }
+
+
+    const url = `https://viacep.com.br/ws/${cep}/json/`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(dados => {
+            if (!dados.erro){
+                document.getElementById("endereco").value = dados.bairro;
+                document.getElementById("cidade").value = dados.localidade;
+                document.getElementById("uf").value = dados.uf;
+            } else {
+                alert("CEP não encontrado");
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao consultar ViaCEP", error)
+            alert("Erro ao consultar o CEP.")
+        })
+}
 async function cadastroMotorista() {
     const motorista = {
         nome: document.getElementById("nome").value,

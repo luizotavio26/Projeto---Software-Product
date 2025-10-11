@@ -1,7 +1,7 @@
 from config import db
-from model.cadastro_cliente_model import Clientes
-from model.cadastro_veiculos_model import Veiculos
-from model.motorista_model import Motoristas
+from Model.cadastro_cliente_model import Clientes
+from Model.cadastro_veiculos_model import Veiculos
+from Model.motorista_model import Motoristas
 
 class ManifestoCarga(db.Model):
     __tablename__ = "manifesto_carga"
