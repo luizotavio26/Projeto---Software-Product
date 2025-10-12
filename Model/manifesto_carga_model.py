@@ -1,4 +1,7 @@
 from config import db
+from Model.cadastro_cliente_model import Clientes
+from Model.cadastro_veiculos_model import Veiculos
+from Model.motorista_model import Motoristas
 
 class ManifestoCarga(db.Model):
     __tablename__ = "manifesto_carga"
@@ -6,21 +9,30 @@ class ManifestoCarga(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tipo_carga = db.Column(db.String(50), nullable=False)
     peso_carga = db.Column(db.Float, nullable=False)
-    informacoes_motorista = db.Column(db.String(200), nullable=False)
-    informacoes_cliente = db.Column(db.String(200), nullable=False)
+
+    motorista_id = db.Column(db.Integer, db.ForeignKey("Motoristas.id"), nullable=False)
+    cliente_id = db.Column(db.Integer, db.ForeignKey("Clientes.id"), nullable=False)
+    veiculo_id = db.Column(db.Integer, db.ForeignKey("Veiculos.id"), nullable=False)
+
     origem_carga = db.Column(db.String(200), nullable=False)
     destino_carga = db.Column(db.String(200), nullable=False)
     valor_frete = db.Column(db.Float, nullable=False)
     valor_km = db.Column(db.Float, nullable=False)
     distancia = db.Column(db.Float, nullable=False)
 
+    motorista = db.relationship("Motoristas", back_populates="manifestos")
+    cliente = db.relationship("Clientes", back_populates="manifestos")
+    veiculo = db.relationship("Veiculos", back_populates="manifestos")
 
-    def __init__(self, tipo_carga, peso_carga, informacoes_motorista, informacoes_cliente, origem_carga,
+
+
+    def __init__(self, tipo_carga, peso_carga, motorista_id, cliente_id, veiculo_id, origem_carga,
                  destino_carga, valor_km, distancia):
         self.tipo_carga = tipo_carga
         self.peso_carga = peso_carga
-        self.informacoes_cliente = informacoes_cliente
-        self.informacoes_motorista = informacoes_motorista
+        self.cliente_id = cliente_id
+        self.motorista_id = motorista_id
+        self.veiculo_id = veiculo_id
         self.origem_carga = origem_carga
         self.destino_carga = destino_carga
         self.valor_km = valor_km
@@ -38,8 +50,9 @@ class ManifestoCarga(db.Model):
         "id": self.id,
         "tipo_carga": self.tipo_carga,
         "peso_carga": self.peso_carga,
-        "informacoes_motorista": self.informacoes_motorista,
-        "informacoes_cliente": self.informacoes_cliente,
+        "motorista_id": self.motorista_id,
+        "cliente_id": self.cliente_id,
+        "veiculo_id": self.veiculo_id,
         "origem_carga":self.origem_carga,
         "destino_carga":self.destino_carga,
         "valor_frete":self.valor_frete,
@@ -52,20 +65,27 @@ class CargaNaoEncontrada(Exception):
 
 
 def create_carga(carga):
-    nova_carga = ManifestoCarga(
-        tipo_carga = carga["tipo_carga"],
-        peso_carga = carga["peso_carga"],
-        informacoes_cliente = carga["informacoes_cliente"],
-        informacoes_motorista = carga["informacoes_motorista"],
-        origem_carga = carga["origem_carga"],
-        destino_carga = carga["destino_carga"],
-        valor_km = carga["valor_km"],
-        distancia = carga["distancia"]
-    )
+    
+    try:
+        nova_carga = ManifestoCarga(
+            tipo_carga = carga["tipo_carga"],
+            peso_carga = carga["peso_carga"],
+            cliente_id = carga["cliente_id"],
+            motorista_id = carga["motorista_id"],
+            veiculo_id= carga["veiculo_id"],
+            origem_carga = carga["origem_carga"],
+            destino_carga = carga["destino_carga"],
+            valor_km = carga["valor_km"],
+            distancia = carga["distancia"]
+        )
 
-    db.session.add(nova_carga)
-    db.session.commit()
-    return nova_carga.to_dict(), None
+        db.session.add(nova_carga)
+        db.session.commit()
+        return nova_carga.to_dict(), None
+
+    except Exception as e:
+        db.session.rollback()
+        return None, str(e)
 
     
 def read_todas_cargas():
@@ -90,8 +110,9 @@ def update_carga(id_carga, dados_atualizados):
     
     carga.tipo_carga = dados_atualizados["tipo_carga"]
     carga.peso_carga = dados_atualizados["peso_carga"]
-    carga.informacoes_cliente = dados_atualizados["informacoes_cliente"]
-    carga.informacoes_motorista = dados_atualizados["informacoes_motorista"]
+    carga.cliente_id = dados_atualizados["cliente_id"]
+    carga.motorista_id = dados_atualizados["motorista_id"]
+    carga.veiculo_id = dados_atualizados["veiculo_id"]
     carga.origem_carga = dados_atualizados["origem_carga"]
     carga.destino_carga = dados_atualizados["destino_carga"]
     carga.valor_km = dados_atualizados["valor_km"]

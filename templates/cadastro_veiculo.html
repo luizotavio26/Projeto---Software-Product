@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Cadastro de Veículos</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_veiculo.css') }}">
+    <script src="{{ url_for('static', filename='js/cadastro_veiculo.js') }}" defer></script>
+
+
+
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Cadastro de Veículos</h1>
+        <form class="form-veiculo" onsubmit="event.preventDefault(); cadastroVeiculo();">
+            <input type="text" id="placa" placeholder="Placa" required>
+            <input type="text" id="modelo_veiculo" placeholder="Modelo Veículo" required>
+            <input type="text" id="marca_veiculo" placeholder="Marca do Veículo" required>
+            <input type="number" id="renavan" placeholder="Renavan" required>
+            <input type="text" id="chassi" placeholder="chassi" required>
+            <input type="text" id="cor" placeholder="Cor" required>
+            <input type="text" id="tipo" placeholder="Tipo de Veículo" required>            
+            <input type="number" id="ano_modelo" placeholder="Ano Modelo" required>
+            <input type="number" id="ano_fabricacao" placeholder="Ano de Fabricação" required>
+            <button class="btn-cadastro" type="submit">Cadastrar veículo</button>
+        </form>
+    </div>
+</br>
+
+    <div class="veiculo-lista">
+        <h2>Lista de Veículos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Placa</th>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Renavan</th>
+                    <th>Chassi</th>
+                    <th>Cor</th>
+                    <th>Tipo</th>
+                    <th>Ano Modelo</th>
+                    <th>Ano Fabricação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabela-veiculos"></tbody>
+        </table>
+    </div>
+
+</body>
+</html>

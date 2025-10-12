@@ -36,7 +36,7 @@ def le_cargas_id(id_cargas):
     try:
         carga = manifesto_carga_model.read_cargas_id(id_cargas)
         return jsonify(carga), 200
-    except CargaNaoEncontrada():
+    except CargaNaoEncontrada:
         return jsonify({'erro': 'Carga não encontrada'}), 404
     except Exception as e:
         return jsonify({'erro': str(e)}), 500

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Cadastro de Cliente</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_cliente.css') }}">
+    <script src="{{ url_for('static', filename='js/cadastro_cliente.js') }}"></script>
+
+
+
+</head>
+
+<body>
+
+    <div class="main-carga">
+        <h1>Cadastro de Cliente</h1>
+         <form>
+            <div class="textfield">
+                <input type="text" id="cnpj" placeholder="CNPJ (14 dígitos - sem pontuação)" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="razao_social" placeholder="Razão Social" required>
+            </div>
+            <div class="textfield">
+                <input type="email" id="email" placeholder="E-mail" required>
+            </div>
+            <div class="textfield">
+                <input type="password" id="senha" placeholder="Senha" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="telefone" placeholder="Telefone" required>
+            </div>
+            
+            <div class="textfield">
+                <input type="text" id="cep" placeholder="CEP" required onblur="preencherEndereco()">
+            </div>
+            <div class="textfield">
+                <input type="text" id="logradouro" placeholder="Logradouro" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="numero" placeholder="Número" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="complemento" placeholder="Complemento">
+            </div>
+            <div class="textfield">
+                <input type="text" id="bairro" placeholder="Bairro" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="cidade" placeholder="Cidade" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="estado" placeholder="Estado (UF)" required>
+            </div>
+
+            <button class="btn-cadastro" type="button" id="btn-salvar" 
+                    data-id="" onclick="handleCadastroOuEdicao()">
+                Cadastrar cliente
+            </button>
+        </form>
+    </div>
+
+    <div class="cargas-lista">
+        <h2>Lista de Clientes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>CNPJ</th> 
+                    <th>Razão Social</th>
+                    <th>E-mail</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Telefone</th>
+
+                    <th>CEP</th>
+                    <th>Logradouro</th>
+                    <th>Número</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Ações</th> 
+                </tr>
+            </thead>
+            <tbody id="tabela-clientes"></tbody>
+        </table>
+        <script src="cadastro_cliente.js"></script> 
+
+    </div>
+
+</body>
+
+</html>

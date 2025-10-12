@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset='UTF-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -12,8 +13,9 @@
 
 
 </head>
+
 <body>
-    
+
     <div class="main-carga">
         <h1>Cadastro de Cargas</h1>
         <form>
@@ -29,7 +31,14 @@
                 </select>
             </div>
             <div class="textfield">
-                <input type="text" id="informacoes_motorista" placeholder="Informações do motorista">
+                <select id="informacoes_motorista" class="form-control" required>
+                    <option value="">Selecione um Motorista</option>
+                </select>
+            </div>
+            <div class="textfield">
+                <select id="informacoes_veiculo" class="form-control" required>
+                    <option value="">Selecione um veículo</option>
+                </select>
             </div>
             <div class="textfield">
                 <input type="text" id="origem_carga" placeholder="Origem da carga">
@@ -57,6 +66,7 @@
                     <th>Peso (KG)</th>
                     <th>Cliente</th>
                     <th>Motorista</th>
+                    <th>Veículo</th> 
                     <th>Origem</th>
                     <th>Destino</th>
                     <th>Valor do KM</th>
@@ -70,4 +80,5 @@
     </div>
 
 </body>
+
 </html>
