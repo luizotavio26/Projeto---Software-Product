@@ -14,39 +14,22 @@
 </head>
 <body>
     
-    <div class="main-veiculo">
+    <div class="container">
         <h1>Cadastro de Veículos</h1>
-        <form onsubmit="event.preventDefault(); cadastroVeiculo();">
-            <div class="textfield">
-                <input type="text" id="placa" placeholder="Placa" required>
-            </div>
-            <div class="textfield">
-                <input type="text" id="modelo_veiculo" placeholder="Modelo Veículo" required>
-            </div>
-            <div class="textfield">
-                <input type="text" id="marca_veiculo" placeholder="Marca do Veículo" required>
-            </div>
-            <div class="textfield">
-                <input type="number" id="renavan" placeholder="Renavan" required>
-            </div>
-            <div class="textfield">
-                <input type="text" id="chassi" placeholder="chassi" required>
-            </div>
-            <div class="textfield">
-                <input type="text" id="cor" placeholder="Cor" required>
-            </div>
-            <div class="textfield">
-                <input type="text" id="tipo" placeholder="Tipo de Veículo" required>
-            </div>
-            <div class="textfield">
-                <input type="number" id="ano_modelo" placeholder="Ano Modelo" required>
-            </div>
-            <div class="textfield">
-                <input type="number" id="ano_fabricacao" placeholder="Ano de Fabricação" required>
-            </div>
+        <form class="form-veiculo" onsubmit="event.preventDefault(); cadastroVeiculo();">
+            <input type="text" id="placa" placeholder="Placa" required>
+            <input type="text" id="modelo_veiculo" placeholder="Modelo Veículo" required>
+            <input type="text" id="marca_veiculo" placeholder="Marca do Veículo" required>
+            <input type="number" id="renavan" placeholder="Renavan" required>
+            <input type="text" id="chassi" placeholder="chassi" required>
+            <input type="text" id="cor" placeholder="Cor" required>
+            <input type="text" id="tipo" placeholder="Tipo de Veículo" required>            
+            <input type="number" id="ano_modelo" placeholder="Ano Modelo" required>
+            <input type="number" id="ano_fabricacao" placeholder="Ano de Fabricação" required>
             <button class="btn-cadastro" type="submit">Cadastrar veículo</button>
         </form>
     </div>
+</br>
 
     <div class="veiculo-lista">
         <h2>Lista de Veículos</h2>

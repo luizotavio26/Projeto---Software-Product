@@ -13,57 +13,76 @@ body {
     padding: 20px;
 }
 
-.main-veiculo {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-    width: 400px;
-    margin-bottom: 40px;
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f7fa;
+  font-family: Arial, sans-serif;
 }
 
-.main-veiculo h1 {
+
+
+
+.container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  max-width: 700px; /* largura do quadro onde estão os campos do cadastro para ajustar em 2 ou 3 colunas, obs: 800px fica bom para 3 colunas*/
+  width: 100%;
+}
+
+.container h1 {
     text-align: center;
     margin-bottom: 20px;
     color: #2c3e50;
-    font-size: 22px;
+    font-size: 26px;
 }
 
-.textfield {
-    margin-bottom: 15px;
+.form-veiculo {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* quantidade de colunas no grid */
+  gap: 1rem;
 }
 
-.textfield input,
-.textfield select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: border-color 0.3s;
+.form-veiculo input {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
-.textfield input:focus,
-.textfield select:focus {
-    border-color: #2980b9;
-    outline: none;
+.form-veiculo button {
+  grid-column: span 2; /* tamanho do botão, troca para 3 para alterar para 3 colunas*/
+  padding: 0.8rem;
+  background: #2b7dbd;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
-.btn-cadastro {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #2980b9;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.3s;
+.form-veiculo button:hover {
+  background: #1f5c8a;
+  align-items: center;
 }
 
-.btn-cadastro:hover {
-    background-color: #1f6391;
+/* Responsivo - no celular fica 1 coluna */
+@media (max-width: 600px) {
+  .form-veiculo {
+    grid-template-columns: 1fr;
+  }
 }
+
+
+
+
+
 
 .veiculo-lista {
     background-color: #fff;
