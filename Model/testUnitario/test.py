@@ -1,0 +1,47 @@
+import unittest
+import requests
+from calculadora import somar
+import unittest
+from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError
+
+
+class Test(unittest.TestCase):
+    def test_somar_numeros_positivos(self):
+        resultado = somar(2, 3)
+        self.assertEqual(resultado, 5)  # Verifica se o resultado é 5
+
+    def test_somar_numeros_negativos(self):
+        resultado = somar(-2, -3)
+        self.assertEqual(resultado, -5)
+
+    def test_somar_zero(self):
+        resultado = somar(0, 10)
+        self.assertEqual(resultado, 10)
+        
+    def test_viacep(self):
+        cep = "01001000"
+        response = requests.get(f"https://viacep.com.br/ws/{cep}/json/")
+        
+        self.assertEqual(response.status_code, 200)  # Código HTTP 200 OK
+        data = response.json()
+        self.assertIn("logradouro", data)            # Campo deve existir
+        self.assertEqual(data["bairro"], "Sé") 
+     
+    def test_database_connection(self):
+        db_uri = "postgresql://software_product_user:zXFrTtfRy6axGTP214ljH8IpHSgaZ3Hb@dpg-d3km73a4d50c73ddhm50-a.oregon-postgres.render.com/software_product"
+        
+        try:
+            engine = create_engine(db_uri)
+            connection = engine.connect()
+            connection.close()
+            connected = True
+        except OperationalError:
+            connected = False
+        
+        self.assertTrue(connected, "Falha ao conectar ao banco de dados")
+     
+     
+
+if __name__ == '__main__':
+    unittest.main()

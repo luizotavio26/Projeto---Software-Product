@@ -22,6 +22,7 @@ def get_documento(id):
     else:
         return jsonify({"message": f"Documentos Blueprint funcionando! ID recebido: {id}"}), 200
 
+
     
 
 
