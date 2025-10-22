@@ -154,3 +154,119 @@ pdf.set_xy(50, 100)
 ```
 pdf.set_x(20)  pdf.set_y(30)
 ```
+
+- Move o cursor apenas no eixo X ou Y.
+
+### 16.pdf.ln(10)
+
+```
+pdf.ln(10)
+```
+
+- Pula uma linha de altura h (semelhante a \n no texto).
+
+## 📚 Cabeçalhos e Rodapés (personalizados)
+
+Você pode sobrescrever métodos dentro de uma classe filha:
+
+```
+class PDF(FPDF):
+    def header(self):
+        self.set_font('Arial', 'B', 12)
+        self.cell(0, 10, 'Cabeçalho do Documento', 0, 1, 'C')
+
+    def footer(self):
+        self.set_y(-15)
+        self.set_font('Arial', 'I', 8)
+        self.cell(0, 10, f'Página {self.page_no()}', 0, 0, 'C')
+
+pdf = PDF()
+pdf.add_page()
+```
+
+## 📊 Utilidades
+
+### 17.page_no()
+
+```
+pdf.cell(0, 10, f'Página {pdf.page_no()}')
+```
+
+- Retorna o número da página atual.
+
+### 18.set_margins(left, top, right=-1)
+
+```
+pdf.set_margins(15, 10, 15)
+```
+
+- Define margens esquerda, superior e direita.
+
+### 19.get_x() / get_y()
+
+```
+x = pdf.get_x()
+y = pdf.get_y()
+```
+
+- Retorna a posição atual do cursor.
+
+Exportação
+
+```
+pdf.output('meu_documento.pdf')
+```
+
+- Gera e salva o PDF.
+  - **name**: nome do arquivo
+  - **dest**:
+    - **'F'**: salva em arquivo (padrão)
+    - **'S'**: retorna como string
+    - **'B'**: retorna bytes
+    - **'L'**: abre inline no navegador
+    - **'D'**: força download
+
+⚙️ Exemplo Completo
+
+```
+from fpdf import FPDF
+
+pdf = FPDF()
+pdf.add_page()
+pdf.set_font("Arial", "B", 16)
+pdf.cell(0, 10, "Relatório de Faturamento", ln=True, align="C")
+
+pdf.set_font("Arial", size=12)
+pdf.cell(0, 10, "CNPJ: 12.345.678/0001-90", ln=True)
+pdf.multi_cell(0, 10, "Este é um exemplo de geração de PDF usando a biblioteca FPDF.\n"
+                      "Você pode adicionar texto, imagens, tabelas e muito mais.")
+
+pdf.output("exemplo.pdf")
+```
+
+🧠 Dica Fina
+
+Use multi_cell() para textos longos e cell() para layouts em tabela.
+Combine set_fill_color() e set_draw_color() para criar estilos personalizados.
+
+📘 Resumo Rápido de Métodos:
+
+| Método             | Função                              |
+| ------------------ | ----------------------------------- |
+| `add_page()`       | Adiciona nova página                |
+| `set_font()`       | Define a fonte                      |
+| `cell()`           | Cria uma célula de texto            |
+| `multi_cell()`     | Texto com quebra automática         |
+| `image()`          | Adiciona imagem                     |
+| `set_text_color()` | Muda cor do texto                   |
+| `set_fill_color()` | Cor de fundo                        |
+| `set_draw_color()` | Cor da borda                        |
+| `output()`         | Gera o arquivo PDF                  |
+| `page_no()`        | Retorna número da página            |
+| `set_xy()`         | Define posição atual                |
+| `ln()`             | Pula linha                          |
+| `alias_nb_pages()` | Cria marcador para total de páginas |
+
+✍️ Autor: João Pedro Silva Antunes
+📅 Data: Outubro de 2025
+🧰 Projeto: Geração de PDFs com Python (FPDF)
