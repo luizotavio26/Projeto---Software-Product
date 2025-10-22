@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from Model import manifesto_carga_model
-from Model.manifesto_carga_model import CargaNaoEncontrada
+from model import manifesto_carga_model
+from model.manifesto_carga_model import CargaNaoEncontrada
 
 manifesto_cargas_blueprint = Blueprint('manifesto_carga', __name__)
 
@@ -73,6 +73,6 @@ def deleta_cargas():
         deletado, erro = manifesto_carga_model.delete_todas_cargas()
         if erro:
             return jsonify({'erro': erro}), 400
-        return jsonify({'mensagem': 'Todos as cargas foram deletados com sucesso'}), 200
+        return jsonify({'mensagem': 'Todas as cargas foram deletadas com sucesso'}), 200
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
