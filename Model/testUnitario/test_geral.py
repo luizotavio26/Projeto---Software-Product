@@ -4,7 +4,13 @@ from calculadora import somar
 import unittest
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
+from test_cadastro_cliente import TestCadastroCliente
+from test_cadastro_veiculos import TestCadastroVeiculos
+from test_motorista_controle import TestMotoristaControle
+from test_manifesto_carga import TestManifestoCarga
 
+
+url = "http://127.0.0.1:5036"
 
 class Test(unittest.TestCase):
     def test_somar_numeros_positivos(self):
@@ -40,8 +46,6 @@ class Test(unittest.TestCase):
             connected = False
         
         self.assertTrue(connected, "Falha ao conectar ao banco de dados")
-     
-     
-
+        
 if __name__ == '__main__':
     unittest.main()
