@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from Model import cadastro_cliente_model
-from Model.cadastro_cliente_model import *
+from model import cadastro_cliente_model
+from model.cadastro_cliente_model import *
 
 cadastro_clientes_blueprint = Blueprint('cadastro_clientes', __name__)
 

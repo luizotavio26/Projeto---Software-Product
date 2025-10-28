@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
-from Model.documentos import documentos_model
-from Model.documentos.tests.test import download_pdf
-from Model.documentos.tests.test2 import *
-from Model.documentos.tests.test3 import *
+from model.documentos import documentos_model
+from model.documentos.tests.test import download_pdf
+from model.documentos.tests.test2 import *
+from model.documentos.tests.test3 import *
 
 
 documentos = Blueprint('documentos', __name__)

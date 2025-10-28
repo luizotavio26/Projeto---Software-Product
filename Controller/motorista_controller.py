@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from Model import motorista_model
-from Model.motorista_model import *
+from model import motorista_model
+from model.motorista_model import *
 from config import db
 
 motoristas_blueprint = Blueprint('motorista', __name__)

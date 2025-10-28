@@ -1,10 +1,10 @@
 from flask import render_template
 from config import app,db
-from Controller.manifesto_carga_controller import manifesto_cargas_blueprint
-from Controller.cadastro_cliente_controller import cadastro_clientes_blueprint
-from Controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
-from Controller.motorista_controller import motoristas_blueprint
-from Controller.documentos_controller import documentos as documentos_blueprint
+from controller.manifesto_carga_controller import manifesto_cargas_blueprint
+from controller.cadastro_cliente_controller import cadastro_clientes_blueprint
+from controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
+from controller.motorista_controller import motoristas_blueprint
+from controller.documentos_controller import documentos as documentos_blueprint
 from flask_cors import CORS
 import os
 

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from Model import manifesto_carga_model
-from Model.manifesto_carga_model import CargaNaoEncontrada
+from model import manifesto_carga_model
+from model.manifesto_carga_model import CargaNaoEncontrada
 
 manifesto_cargas_blueprint = Blueprint('manifesto_carga', __name__)
 
