@@ -8,7 +8,6 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/manifesto_carga.css') }}">
-    <script src="{{ url_for('static', filename='js/manifesto_carga.js') }}"></script>
 
 
 
@@ -20,7 +19,11 @@
         <h1>Cadastro de Cargas</h1>
         <form>
             <div class="textfield">
-                <input type="text" id="tipo_carga" placeholder="Tipo da carga">
+                <select id="tipo_carga" required>
+                    <option value="">Selecione o Tipo de Carga</option>
+                    <option value="seca">Carga Seca</option>
+                    <option value="refrigerada">Carga Refrigerada</option>
+                </select>
             </div>
             <div class="textfield">
                 <input type="number" id="peso_carga" placeholder="Peso da carga (KG)">
@@ -39,20 +42,23 @@
                 <select id="informacoes_veiculo" class="form-control" required>
                     <option value="">Selecione um veículo</option>
                 </select>
+            <div class="textfield">
+                <select id="origem_carga" class="form-control" required>
+                    <option value="">Selecione a Origem</option>
+                </select>
             </div>
             <div class="textfield">
-                <input type="text" id="origem_carga" placeholder="Origem da carga">
+                <select id="destino_carga" class="form-control" required>
+                    <option value="">Selecione o Destino</option>
+                </select>
             </div>
-            <div class="textfield">
-                <input type="text" id="destino_carga" placeholder="Destino da carga">
-            </div>
-            <div class="textfield">
-                <input type="number" id="valor_km" placeholder="Valor do KM">
-            </div>
-            <div class="textfield">
-                <input type="number" id="distancia" placeholder="Distância (KM)">
-            </div>
-            <button class="btn-cadastro" type="button" onclick="cadastroCarga()">Cadastrar carga</button>
+
+                <button class="btn-cadastro" type="button" 
+                        id="btn-salvar-carga" 
+                        data-id="" 
+                        onclick="handleCadastroOuEdicaoCarga()">
+                    Cadastrar carga
+                </button>        
         </form>
     </div>
 
@@ -78,6 +84,7 @@
             <tbody id="tabela-cargas"></tbody>
         </table>
     </div>
+    <script src="{{ url_for('static', filename='js/manifesto_carga.js') }}"></script>
 
 </body>
 
