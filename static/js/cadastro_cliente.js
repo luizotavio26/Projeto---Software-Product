@@ -2,10 +2,9 @@ const apiUrl = "http://127.0.0.1:5036/clientes";
 
 
 function preencherEndereco() {
-    const cep = document.getElementById("cep").value.replace(/\D/g, ''); // Limpa caracteres não numéricos
+    const cep = document.getElementById("cep").value.replace(/\D/g, '');
 
     if (cep.length !== 8) {
-        // Ignora se o CEP não tiver 8 dígitos
         return;
     }
 
@@ -15,13 +14,11 @@ function preencherEndereco() {
         .then(response => response.json())
         .then(dados => {
             if (!dados.erro) {
-                // Preenche os campos do formulário com os dados retornados
                 document.getElementById("logradouro").value = dados.logradouro;
                 document.getElementById("bairro").value = dados.bairro;
                 document.getElementById("cidade").value = dados.localidade;
                 document.getElementById("estado").value = dados.uf;
                 
-                // Foca no campo 'número' para que o usuário continue o preenchimento
                 document.getElementById("numero").focus(); 
             } else {
                 alert("CEP não encontrado.");
@@ -34,15 +31,11 @@ function preencherEndereco() {
         });
 }
 
-
-// --- FUNÇÃO CENTRAL: LIDA COM CADASTRO (POST) E EDIÇÃO (PUT) ---
 async function handleCadastroOuEdicao() {
     const btnSalvar = document.getElementById("btn-salvar");
     const id_cliente = btnSalvar.getAttribute('data-id');
 
-    // 1. Coleta os dados do formulário (restante do código aqui...)
     const dadosCliente = {
-        // ... (Dados de PJ, Endereço e Comuns) ...
         cnpj: document.getElementById("cnpj").value, 
         razao_social: document.getElementById("razao_social").value, 
         logradouro: document.getElementById("logradouro").value, 
@@ -58,7 +51,6 @@ async function handleCadastroOuEdicao() {
         estado: document.getElementById("estado").value 
     };
 
-    // 2. Define o MÉTODO e a URL (restante do código aqui...)
     const method = id_cliente ? "PUT" : "POST"; 
     const url = id_cliente ? `${apiUrl}/${id_cliente}` : apiUrl;
     const acao = id_cliente ? "atualizar" : "cadastrar";

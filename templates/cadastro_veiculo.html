@@ -23,10 +23,14 @@
             <input type="number" id="renavan" placeholder="Renavan" required>
             <input type="text" id="chassi" placeholder="chassi" required>
             <input type="text" id="cor" placeholder="Cor" required>
-            <input type="text" id="tipo" placeholder="Tipo de Veículo" required>            
+            <input type="text" id="tipo" placeholder="Tipo de Veículo" required>     
+            <input type="number" id="peso_maximo_kg" placeholder="Capacidade Máxima (kg)" required>       
             <input type="number" id="ano_modelo" placeholder="Ano Modelo" required>
             <input type="number" id="ano_fabricacao" placeholder="Ano de Fabricação" required>
-            <button class="btn-cadastro" type="submit">Cadastrar veículo</button>
+            <button class="btn-cadastro" type="button" id="btn-salvar" 
+                    data-id="" onclick="handleCadastroOuEdicaoVeiculo()">
+                Cadastrar veículo
+            </button>
         </form>
     </div>
 </br>
@@ -44,6 +48,7 @@
                     <th>Chassi</th>
                     <th>Cor</th>
                     <th>Tipo</th>
+                    <th>Capacidade (kg)</th>
                     <th>Ano Modelo</th>
                     <th>Ano Fabricação</th>
                     <th>Ações</th>

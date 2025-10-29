@@ -12,6 +12,7 @@ class Veiculos(db.Model):
     chassi = db.Column(db.String(17), nullable=False)
     cor = db.Column(db.String(50), nullable=False)
     tipo = db.Column(db.String(50), nullable=False)
+    peso_maximo_kg = db.Column(db.Integer, nullable=False)
     ano_modelo = db.Column(db.String(4), nullable=False)
     ano_fabricacao = db.Column(db.String(4), nullable=False)
 
@@ -27,6 +28,7 @@ class Veiculos(db.Model):
                 "chassi": self.chassi,
                 "cor" : self.cor, 
                 "tipo" : self.tipo , 
+                "peso_maximo_kg" : self.peso_maximo_kg ,
                 "ano_modelo" : self.ano_modelo , 
                 "ano_fabricacao" : self.ano_fabricacao } 
 
@@ -47,6 +49,14 @@ def getVeiculosId(id_veiculo):
     return {"message": "Veículo não encontrado"}, None
 
 
+def getVeiculosPorPeso(peso):
+    if peso <= 0:
+        veiculos = Veiculos.query.all()
+    else:
+        veiculos = Veiculos.query.filter(Veiculos.peso_maximo_kg >= peso).all()
+    return [v.to_dict() for v in veiculos], None
+
+
 def postVeiculos(dados):
     novo_veiculo = Veiculos(
         placa=dados.get("placa"),
@@ -56,6 +66,7 @@ def postVeiculos(dados):
         chassi=dados.get("chassi"),
         cor=dados.get("cor"),
         tipo=dados.get("tipo"),
+        peso_maximo_kg=dados.get("peso_maximo_kg"),
         ano_modelo=dados.get("ano_modelo"),
         ano_fabricacao=dados.get("ano_fabricacao")
     )
@@ -77,6 +88,7 @@ def putVeiculoPorId(id_veiculo, dados):
         veiculo.chassi = dados.get("chassi", veiculo.chassi)
         veiculo.cor = dados.get("cor", veiculo.cor)
         veiculo.tipo = dados.get("tipo", veiculo.tipo)
+        veiculo.peso_maximo_kg = dados.get("peso_maximo_kg", veiculo.peso_maximo_kg)
         veiculo.ano_modelo = dados.get("ano_modelo", veiculo.ano_modelo)
         veiculo.ano_fabricacao = dados.get("ano_fabricacao", veiculo.ano_fabricacao)
 
