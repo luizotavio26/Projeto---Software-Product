@@ -23,6 +23,20 @@ class Clientes(db.Model):
 
     manifestos = db.relationship("ManifestoCarga", back_populates="cliente")
 
+    def __init__(self, cnpj, razao_social, email, senha, telefone, cep, logradouro, numero, complemento, bairro, cidade, estado):
+        self.cnpj = cnpj
+        self.razao_social = razao_social
+        self.email = email
+        self.senha = senha
+        self.telefone = telefone
+        self.cep = cep
+        self.logradouro = logradouro
+        self.numero = numero
+        self.complemento = complemento
+        self.bairro = bairro
+        self.cidade = cidade
+        self.estado = estado
+
     def to_dict(self): 
         return {
                 "id": self.id,
@@ -67,8 +81,6 @@ def postClientes(dados):
                 return None, "CNPJ já cadastrado no sistema."
 
         novo_cliente = Clientes(
-            
-            
             cnpj = dados["cnpj"],
             razao_social = dados["razao_social"],
             email = dados["email"],
@@ -121,6 +133,7 @@ def putClientePorId(id_cliente, dados):
     cliente.complemento = dados.get("complemento", cliente.complemento)
     cliente.bairro = dados.get("bairro", cliente.bairro)
     cliente.cidade = dados.get("cidade", cliente.cidade)
+    cliente.estado = dados.get("estado", cliente.estado)
     
     db.session.commit()
     return {"message": "Usuário com ID {id_cliente} atualizado com sucesso."}
