@@ -1,7 +1,10 @@
 import unittest
 import requests
+import sys, os
+# adiciona o diretório raiz do projeto ao sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+from config import url
 
-url = "http://127.0.0.1:5036"
 
 class TestCadastroVeiculos(unittest.TestCase):
      
@@ -10,16 +13,7 @@ class TestCadastroVeiculos(unittest.TestCase):
          self.assertEqual(response.status_code, 200)
      
      def test_02_cadastrar_novo_veiculo(self):
-#              placa = db.Column(db.String(7), nullable=False)
-#     modelo = db.Column(db.String(50), nullable=False)
-#     marca = db.Column(db.String(50), nullable=False)
-#     renavan = db.Column(db.String(11), nullable=False)
-#     chassi = db.Column(db.String(17), nullable=False)
-#     cor = db.Column(db.String(50), nullable=False)
-#     tipo = db.Column(db.String(50), nullable=False)
-#     ano_modelo = db.Column(db.String(4), nullable=False)
-#     ano_fabricacao = db.Column(db.String(4), nullable=False)
-          
+
          payload = {
              "placa": "ABC1234",
              "modelo": "Modelo Teste",
@@ -29,7 +23,8 @@ class TestCadastroVeiculos(unittest.TestCase):
              "cor": "Azul",
              "tipo": "Carro",
              "ano_modelo": 2022,
-             "ano_fabricacao": 2021
+             "ano_fabricacao": 2021,
+             "peso_maximo_kg": 1000
          }
          response = requests.post(f"{url}/veiculos", json=payload)
          self.assertEqual(response.status_code, 201)
@@ -58,7 +53,8 @@ class TestCadastroVeiculos(unittest.TestCase):
                         "cor": "Vermelho",
                         "tipo": "Carro",
                         "ano_modelo": 2023,
-                        "ano_fabricacao": 2022
+                        "ano_fabricacao": 2022,
+                        "peso_maximo_kg": 1000
                     }
                     put_response = requests.put(f"{url}/veiculos/{id_veiculo}", json=payload)
           

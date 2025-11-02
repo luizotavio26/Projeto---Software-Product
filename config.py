@@ -11,4 +11,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://softwareproduct_xrs3_user:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+porta = app.config['PORT']
+host = app.config['HOST']
+
+if host == "0.0.0.0":
+    host = "localhost"
+
+url = f"http://{host}:{porta}"
+
+# url = "https://trajettoexpressfullstack.onrender.com"
+
 db = SQLAlchemy(app)
