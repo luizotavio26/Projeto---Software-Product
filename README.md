@@ -142,8 +142,3 @@ Facilidade de implantação
     docker run -d -p 5036:5036 manifesto-carga-api
     ```
 
-    **Ou, utilizando Docker Compose (Recomendado):**
-    ```bash
-    docker-compose up --build
-    ```
-
