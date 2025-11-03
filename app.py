@@ -19,7 +19,9 @@ app.register_blueprint(documentos_blueprint)
 app.register_blueprint(testes_blueprint)
 
 
-
+@app.route("/")
+def home():
+    return {"mensagem":"Bem-vindo(a) a Trajetto Express!"}
 @app.route("/manifesto")
 def manifesto():
     return render_template("manifesto_carga.html")
@@ -32,7 +34,6 @@ def cadastro():
 def veiculo():
     return render_template("cadastro_veiculo.html")
 
-@app.route("/")
 @app.route("/motorista")
 def motorista():
     return render_template("cadastro_motorista.html")
