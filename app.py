@@ -22,6 +22,7 @@ app.register_blueprint(testes_blueprint)
 @app.route("/")
 def home():
     return {"mensagem":"Bem-vindo(a) a Trajetto Express!"}
+    
 @app.route("/manifesto")
 def manifesto():
     return render_template("manifesto_carga.html")
