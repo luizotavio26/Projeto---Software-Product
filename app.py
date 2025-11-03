@@ -5,7 +5,7 @@ from controller.cadastro_cliente_controller import cadastro_clientes_blueprint
 from controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
 from controller.motorista_controller import motoristas_blueprint
 from controller.documentos_controller import documentos as documentos_blueprint
-from controller.execultar_testes_controller import testes_blueprint
+from controller.executar_testes_controller import testes_blueprint
 from flask_cors import CORS
 import os
 
