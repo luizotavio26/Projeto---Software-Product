@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
-from Model import cadastro_veiculos_model
-from Model.cadastro_veiculos_model import *
+from model import cadastro_veiculos_model
+from model.cadastro_veiculos_model import *
+import traceback
 
 cadastro_veiculos_blueprint = Blueprint('cadastro_veiculos', __name__)
 
@@ -11,7 +12,6 @@ def listarVeiculos():
         veiculos,erro = cadastro_veiculos_model.getVeiculos()
         return jsonify(veiculos), 200
     except Exception as e:
-        import traceback
         traceback.print_exc()
         return jsonify({'erro': str(e)}), 500
     
@@ -25,6 +25,18 @@ def listarVeiculoId(id_veiculo):
         else:
             return jsonify({'erro': 'Veiculo não encontrado'}), 404
     except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
+
+@cadastro_veiculos_blueprint.route("/veiculos/por_peso/<int:peso>", methods=['GET'])
+def listarVeiculosPorPeso(peso):
+    try:
+        veiculos, erro = cadastro_veiculos_model.getVeiculosPorPeso(peso)
+        if erro:
+             return jsonify({'erro': erro}), 500     
+        return jsonify(veiculos), 200
+    except Exception as e:
+        traceback.print_exc()
         return jsonify({'erro': str(e)}), 500
 
 

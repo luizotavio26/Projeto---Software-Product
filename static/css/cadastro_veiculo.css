@@ -31,7 +31,7 @@ body {
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
-  max-width: 700px; /* largura do quadro onde estão os campos do cadastro para ajustar em 2 ou 3 colunas, obs: 800px fica bom para 3 colunas*/
+  max-width: 700px;
   width: 100%;
 }
 
@@ -44,7 +44,7 @@ body {
 
 .form-veiculo {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* quantidade de colunas no grid */
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
@@ -56,7 +56,7 @@ body {
 }
 
 .form-veiculo button {
-  grid-column: span 2; /* tamanho do botão, troca para 3 para alterar para 3 colunas*/
+  grid-column: span 2; 
   padding: 0.8rem;
   background: #2b7dbd;
   color: white;
@@ -72,7 +72,6 @@ body {
   align-items: center;
 }
 
-/* Responsivo - no celular fica 1 coluna */
 @media (max-width: 600px) {
   .form-veiculo {
     grid-template-columns: 1fr;
@@ -162,4 +161,31 @@ tbody tr:hover {
 
 td button {
     margin: 0 2px;
+}
+
+.btn-editar, .btn-excluir {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-editar {
+    background-color: #f39c12; 
+}
+
+.btn-editar:hover {
+    background-color: #e67e22;
+}
+
+.btn-excluir {
+    background-color: #e74c3c;
+}
+
+.btn-excluir:hover {
+    background-color: #c0392b;
 }

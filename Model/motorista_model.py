@@ -14,14 +14,18 @@ class Motoristas(db.Model):
     validade_cnh = db.Column(db.String(10), nullable=False)
     telefone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    endereco = db.Column(db.String(100), nullable=False)
-    cidade = db.Column(db.String(50), nullable=False)
-    uf = db.Column(db.String(50), nullable=False)
-    cep = db.Column(db.String(50), nullable=False)
+
+    cep = db.Column(db.String(9), nullable=False)
+    logradouro = db.Column(db.String(100), nullable=False)
+    numero = db.Column(db.String(10), nullable=False)
+    complemento = db.Column(db.String(50), nullable=True)
+    bairro = db.Column(db.String(100), nullable=False)
+    cidade = db.Column(db.String(100), nullable=False)
+    estado = db.Column(db.String(2), nullable=False)
     
     manifestos = db.relationship("ManifestoCarga", back_populates="motorista")
     
-    def __init__(self,nome, cpf, rg, salario, data_nascimento, numero_cnh, categoria_cnh, validade_cnh, telefone, email, endereco, cidade, uf, cep):
+    def __init__(self,nome, cpf, rg, salario, data_nascimento, numero_cnh, categoria_cnh, validade_cnh, telefone, email, cep, logradouro, numero, complemento, bairro, cidade, estado):
         self.nome = nome
         self.cpf = cpf
         self.rg = rg
@@ -32,11 +36,14 @@ class Motoristas(db.Model):
         self.validade_cnh = validade_cnh
         self.telefone = telefone
         self.email = email
-        self.endereco = endereco
-        self.cidade = cidade
-        self.uf = uf
         self.cep = cep
-    
+        self.logradouro = logradouro
+        self.numero = numero
+        self.complemento = complemento
+        self.bairro = bairro
+        self.cidade = cidade
+        self.estado = estado
+        
 
     def to_dict(self): 
         return {
@@ -51,10 +58,14 @@ class Motoristas(db.Model):
                 "validade_cnh": self.validade_cnh,
                 "telefone" : self.telefone, 
                 "email": self.email,
-                "endereco" : self.endereco,
-                "cidade" : self.cidade, 
-                "uf": self.uf,
-                "cep": self.cep} 
+                "cep" : self.cep ,
+                "logradouro" : self.logradouro,
+                "numero" : self.numero,
+                "complemento" : self.complemento,
+                "bairro" : self.bairro,
+                "cidade" : self.cidade,
+                "estado" : self.estado} 
+
 
 class MotoristaNaoEncontrado(Exception):
     pass
@@ -72,19 +83,24 @@ def create_motorista(motorista):
         validade_cnh = motorista["validade_cnh"], 
         telefone = motorista["telefone"],
         email = motorista["email"],
-        endereco = motorista["endereco"],
-        cidade = motorista["cidade"], 
-        uf = motorista["uf"],
-        cep = motorista["cep"]
+        cep = motorista["cep"],
+        logradouro = motorista["logradouro"],
+        numero = motorista["numero"],
+        complemento = motorista["complemento"],
+        bairro = motorista["bairro"],
+        cidade = motorista["cidade"],
+        estado = motorista["estado"]
     )
 
     db.session.add(novo_motorista)
     db.session.commit()
     return novo_motorista.to_dict(), None
 
+
 def read_todos_motorista():
     motoristas  = Motoristas.query.all()   
     return [motorista.to_dict() for motorista in motoristas], None
+
 
 def read_motorista_id(id_motorista):
     motorista = Motoristas.query.get(id_motorista)
@@ -109,10 +125,13 @@ def update_motorista(id_motorista, dados_atualizados):
         motorista.validade_cnh = dados_atualizados["validade_cnh"]
         motorista.telefone = dados_atualizados["telefone"]
         motorista.email = dados_atualizados["email"]
-        motorista.endereco = dados_atualizados["endereco"]
-        motorista.cidade = dados_atualizados["cidade"]
-        motorista.uf = dados_atualizados["uf"]
         motorista.cep = dados_atualizados["cep"]
+        motorista.logradouro =  dados_atualizados["logradouro"]
+        motorista.numero = dados_atualizados["numero"]
+        motorista.complemento = dados_atualizados["complemento"]
+        motorista.bairro = dados_atualizados["bairro"]
+        motorista.cidade = dados_atualizados["cidade"]
+        motorista.estado = dados_atualizados["estado"]
 
         db.session.commit()
         return {"message": "Informações atualizadas com sucesso"}

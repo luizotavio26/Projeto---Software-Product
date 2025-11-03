@@ -1,7 +1,78 @@
 from config import db
-from Model.cadastro_cliente_model import Clientes
-from Model.cadastro_veiculos_model import Veiculos
-from Model.motorista_model import Motoristas
+from model.cadastro_cliente_model import Clientes
+from model.cadastro_veiculos_model import Veiculos
+from model.motorista_model import Motoristas
+
+FAIXAS_KM = [40, 60, 100, 130, 160, 200, 280, 400, 480, 550, 620, 700]
+
+PRECOS = {
+    "seca": {
+        # 
+        "van":   [441, 470, 613, 656, 713, 850, 911, 1032, 1195, 1636, 1808, 1908],
+        # 
+        "leve":  [583, 625, 740, 797, 869, 999, 1073, 1179, 1404, 1987, 2144, 2273],
+        # 
+        "toco":  [780, 838, 894, 1010, 1082, 1235, 1311, 1447, 1597, 2377, 2491, 2679],
+        # 
+        "truck": [971, 1044, 1197, 1280, 1400, 1571, 1662, 1863, 2171, 3142, 3215, 3571]
+    },
+    "refrigerada": {
+        # 
+        "van":   [509, 542, 678, 787, 854, 911, 1049, 1204, 1388, 1897, 2066, 2242],
+        # 
+        "leve":  [604, 658, 800, 948, 1044, 1148, 1247, 1374, 1544, 2148, 2344, 2588],
+        # 
+        "toco":  [854, 918, 989, 1200, 1301, 1417, 1516, 1657, 1856, 2710, 2845, 2957],
+        # 
+        "truck": [1065, 1141, 1280, 1410, 1628, 1862, 1920, 2153, 2328, 3393, 3608, 3956]
+    }
+}
+
+def get_tipo_veiculo(peso):
+    # 
+    if peso <= 1600:
+        return "van"
+    # 
+    elif peso <= 2500:
+        return "leve"
+    # 
+    elif peso <= 6800:
+        return "toco"
+    # 
+    elif peso <= 12000:
+        return "truck"
+    else:
+        return None
+
+
+def get_distancia_api(origem, destino):
+    """
+    *** FUNÇÃO DE SIMULAÇÃO ***
+    Aqui você deve implementar a chamada real a uma API como Google Maps Distance Matrix.
+    
+    PARA TESTE: Vamos simular uma distância com base no tamanho dos nomes das cidades
+    para forçar o uso de diferentes faixas da tabela.
+    """
+    print(f"SIMULANDO DISTÂNCIA para {origem} -> {destino}")
+    distancia_simulada = (len(origem) + len(destino)) * 5.3
+    
+    if distancia_simulada > 700:
+        distancia_simulada = 650 
+    
+    return round(distancia_simulada, 2)
+
+
+def get_valor_frete_tabelado(tipo_carga, tipo_veiculo, distancia):
+    if tipo_carga not in PRECOS or tipo_veiculo not in PRECOS[tipo_carga]:
+        return None
+
+    for index, limite_km in enumerate(FAIXAS_KM):
+        if distancia <= limite_km:
+            return PRECOS[tipo_carga][tipo_veiculo][index]
+    
+    return None
+
+
 
 class ManifestoCarga(db.Model):
     __tablename__ = "manifesto_carga"
@@ -27,7 +98,7 @@ class ManifestoCarga(db.Model):
 
 
     def __init__(self, tipo_carga, peso_carga, motorista_id, cliente_id, veiculo_id, origem_carga,
-                 destino_carga, valor_km, distancia):
+                 destino_carga, valor_km, distancia, valor_frete):
         self.tipo_carga = tipo_carga
         self.peso_carga = peso_carga
         self.cliente_id = cliente_id
@@ -37,27 +108,26 @@ class ManifestoCarga(db.Model):
         self.destino_carga = destino_carga
         self.valor_km = valor_km
         self.distancia = distancia
-        self.valor_frete = self.calcular_frete()
-
-
-    def calcular_frete(self):
-        frete = self.valor_km * self.distancia
-        return (f"{frete:.2f}")
+        self.valor_frete = valor_frete
 
 
     def to_dict(self): 
         return {
-        "id": self.id,
-        "tipo_carga": self.tipo_carga,
-        "peso_carga": self.peso_carga,
-        "motorista_id": self.motorista_id,
-        "cliente_id": self.cliente_id,
-        "veiculo_id": self.veiculo_id,
-        "origem_carga":self.origem_carga,
-        "destino_carga":self.destino_carga,
-        "valor_frete":self.valor_frete,
-        "valor_km":self.valor_km,
-        "distancia":self.distancia}
+            "id": self.id,
+            "tipo_carga": self.tipo_carga,
+            "peso_carga": f"{self.peso_carga} kg",
+
+            "cliente": self.cliente.razao_social if self.cliente else "Cliente não encontrado",
+            "motorista": self.motorista.nome if self.motorista else "Motorista não encontrado",
+            "veiculo": self.veiculo.placa if self.veiculo else "Veículo não encontrado", 
+
+            "origem_carga": self.origem_carga,
+            "destino_carga": self.destino_carga,
+            
+            "valor_frete": f"R$ {float(self.valor_frete):.2f}".replace(".", ","),
+            "valor_km": f"R$ {float(self.valor_km):.2f}".replace(".", ","),
+            "distancia": f"{self.distancia} km"
+        }
 
 
 class CargaNaoEncontrada(Exception):
@@ -65,24 +135,51 @@ class CargaNaoEncontrada(Exception):
 
 
 def create_carga(carga):
-    
     try:
+        tipo_carga = carga["tipo_carga"] 
+        origem = carga["origem_carga"]
+        destino = carga["destino_carga"]
+        
+        peso_carga_str = carga.get("peso_carga", 0) 
+        peso_carga = float(peso_carga_str)
+
+        distancia_calculada = get_distancia_api(origem, destino) 
+        
+        if distancia_calculada <= 0:
+             return None, f"Não foi possível calcular a distância entre {origem} e {destino}."
+
+        tipo_veiculo = get_tipo_veiculo(peso_carga)
+        if tipo_veiculo is None:
+            return None, f"Peso da carga ({peso_carga}kg) excede o limite da tabela (12000kg)."
+
+        valor_frete_tabelado = get_valor_frete_tabelado(tipo_carga, tipo_veiculo, distancia_calculada)
+        
+        if valor_frete_tabelado is None:
+            msg_erro = f"Valor não encontrado na tabela para: Carga {tipo_carga}, Veículo {tipo_veiculo} (peso {peso_carga}kg), Distância {distancia_calculada}km."
+            return None, msg_erro
+
+        valor_km_calculado = valor_frete_tabelado / distancia_calculada
+
         nova_carga = ManifestoCarga(
-            tipo_carga = carga["tipo_carga"],
-            peso_carga = carga["peso_carga"],
+            tipo_carga = tipo_carga,
+            peso_carga = peso_carga,
             cliente_id = carga["cliente_id"],
             motorista_id = carga["motorista_id"],
             veiculo_id= carga["veiculo_id"],
-            origem_carga = carga["origem_carga"],
-            destino_carga = carga["destino_carga"],
-            valor_km = carga["valor_km"],
-            distancia = carga["distancia"]
+            origem_carga = origem,
+            destino_carga = destino,
+            valor_km = round(valor_km_calculado, 2),  
+            distancia = round(distancia_calculada, 2), 
+            valor_frete = float(valor_frete_tabelado) 
         )
 
         db.session.add(nova_carga)
         db.session.commit()
         return nova_carga.to_dict(), None
 
+    except KeyError as e:
+        db.session.rollback()
+        return None, f"Dado obrigatório faltando: {str(e)}. Verifique o JSON enviado pelo frontend."
     except Exception as e:
         db.session.rollback()
         return None, str(e)
@@ -115,9 +212,13 @@ def update_carga(id_carga, dados_atualizados):
     carga.veiculo_id = dados_atualizados["veiculo_id"]
     carga.origem_carga = dados_atualizados["origem_carga"]
     carga.destino_carga = dados_atualizados["destino_carga"]
-    carga.valor_km = dados_atualizados["valor_km"]
-    carga.distancia = dados_atualizados["distancia"]
-    carga.valor_frete = carga.calcular_frete()
+
+    distancia_calculada = get_distancia_api(carga.origem_carga, carga.destino_carga)
+    tipo_veiculo = get_tipo_veiculo(carga.peso_carga)
+    valor_frete_tabelado = get_valor_frete_tabelado(carga.tipo_carga, tipo_veiculo, distancia_calculada)
+    carga.valor_frete = float(valor_frete_tabelado)
+    carga.valor_km = round(valor_frete_tabelado / distancia_calculada, 2)
+    carga.distancia = round(distancia_calculada, 2)
 
     db.session.commit()
 

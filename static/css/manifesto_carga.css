@@ -69,8 +69,8 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-    width: 95%;
-    max-width: 1400px; 
+    width: 100%;       
+    max-width: none; 
     overflow-x: auto; 
 }
 
@@ -83,7 +83,7 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 1200px;
+    min-width: 1600px; 
 }
 
 thead {
@@ -92,15 +92,15 @@ thead {
 }
 
 thead th {
-    padding: 8px 5px; 
+    padding: 12px 10px;  
     text-align: left;
-    font-size: 12px; 
+    font-size: 14px;  
 }
 
 tbody td {
-    padding: 8px 5px; 
+    padding: 12px 10px;
     border-bottom: 1px solid #ddd;
-    font-size: 12px;
+    font-size: 14px; 
     word-break: break-word; 
 }
 

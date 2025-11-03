@@ -7,7 +7,6 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro_motorista.css') }}">
-    <script src="{{ url_for('static', filename='js/cadastro_motoristas.js') }}"></script>
 
 
 
@@ -53,15 +52,29 @@
                 <input type="text" id="cep" placeholder="CEP" required onblur="preencherEndereco()">
             </div>
             <div class="textfield">
-                <input type="text" id="endereco" placeholder="Endereço">
+                <input type="text" id="logradouro" placeholder="Logradouro" required>
             </div>
             <div class="textfield">
-                <input type="text" id="cidade" placeholder="Cidade">
+                <input type="text" id="numero" placeholder="Número" required>
             </div>
             <div class="textfield">
-                <input type="text" id="uf" placeholder="UF">
+                <input type="text" id="complemento" placeholder="Complemento">
             </div>
-            <button class="btn-cadastro" type="button" onclick="cadastroMotorista()">Cadastrar motorista</button>
+            <div class="textfield">
+                <input type="text" id="bairro" placeholder="Bairro" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="cidade" placeholder="Cidade" required>
+            </div>
+            <div class="textfield">
+                <input type="text" id="estado" placeholder="Estado (UF)" required>
+            </div>
+                <button class="btn-cadastro" type="button" 
+                        id="btn-salvar-motorista" 
+                        data-id="" 
+                        onclick="handleCadastroOuEdicaoMotorista()">
+                    Cadastrar motorista
+                </button>        
         </form>
     </div>
 
@@ -72,17 +85,28 @@
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
+                    <th>CPF</th> 
+                    <th>RG</th> 
+                    <th>Salário</th> 
+                    <th>Nascimento</th>
                     <th>Numero CNH</th>
                     <th>Validade CNH</th>
                     <th>Categoria CNH</th>
                     <th>E-mail</th>
                     <th>Telefone</th>
+                    <th>CEP</th>
+                    <th>Logradouro</th>
+                    <th>Nº</th>
+                    <th>Complemento</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody id="tabela-motoristas"></tbody>
         </table>
     </div>
-
+    <script src="{{ url_for('static', filename='js/cadastro_motoristas.js') }}"></script>
 </body>
 </html>
