@@ -56,8 +56,8 @@ Flask → Microframework que oferece rapidez, escalabilidade e facilidade para c
 
 O banco será implementado com:
 
-MySQL → Armazenamento seguro e eficiente
-Suporte a APIs MySQL para melhor desempenho, segurança e integração padronizada
+PostgreSQL → Armazenamento seguro e eficiente
+Utilizando o armazenamento do remoto do Render, PostgreSQL
 
 
 🐳 **Containerização**
@@ -142,7 +142,3 @@ Facilidade de implantação
     docker run -d -p 5036:5036 manifesto-carga-api
     ```
 
-    **Ou, utilizando Docker Compose (Recomendado):**
-    ```bash
-    docker-compose up --build
-    ```

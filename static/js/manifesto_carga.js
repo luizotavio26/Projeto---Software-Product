@@ -4,6 +4,22 @@ const apiUrlMotoristas = "http://127.0.0.1:5036/motoristas";
 const apiUrlVeiculos = "http://127.0.0.1:5036/veiculos";
 
 
+function setSelectValue(selectId, id, label) {
+    const select = document.getElementById(selectId);
+    if (!id) return;
+
+    select.value = String(id);
+
+    if (select.value !== String(id) && label) {
+        const option = document.createElement("option");
+        option.value = String(id);
+        option.textContent = `${label} (ID: ${id})`;
+        select.appendChild(option);
+        select.value = String(id);
+    }
+}
+
+
 async function handleCadastroOuEdicaoCarga() {
     const btnSalvar = document.getElementById("btn-salvar-carga");
     const idCarga = btnSalvar.getAttribute('data-id');
@@ -67,15 +83,16 @@ async function carregarFormularioParaEdicaoCarga(id) {
             throw new Error('Carga não encontrada');
         }
         const carga = await response.json();
+        console.log("Carga recebida:", carga); 
 
         document.getElementById("tipo_carga").value = carga.tipo_carga;
         document.getElementById("peso_carga").value = carga.peso_carga;
         document.getElementById("origem_carga").value = carga.origem_carga;
         document.getElementById("destino_carga").value = carga.destino_carga;
         
-        document.getElementById("informacoes_cliente").value = carga.cliente_id;
-        document.getElementById("informacoes_motorista").value = carga.motorista_id;
-        document.getElementById("informacoes_veiculo").value = carga.veiculo_id;
+        document.getElementById("informacoes_cliente").value = String(carga.cliente_id);
+        document.getElementById("informacoes_motorista").value = String(carga.motorista_id);
+        document.getElementById("informacoes_veiculo").value = String(carga.veiculo_id);
 
         const btnSalvar = document.getElementById("btn-salvar-carga");
         btnSalvar.textContent = "Salvar Alterações";
@@ -139,7 +156,7 @@ try {
         if (Array.isArray(usuarios_lista)) {
             usuarios_lista.forEach(cliente => {
                 const option = document.createElement("option");
-                option.value = cliente.id;
+                option.value = String(cliente.id);
                 option.textContent = `${cliente.razao_social} (ID: ${cliente.id})`;
                 select.append(option);
             });
@@ -156,7 +173,6 @@ async function carregarMotoristas() {
         const resposta = await fetch(apiUrlMotoristas);
         const motoristas = await resposta.json();
 
-        // --- CORREÇÃO AQUI ---
         const motoristas_lista = motoristas;
 
         const select = document.getElementById("informacoes_motorista");
@@ -165,7 +181,7 @@ async function carregarMotoristas() {
         if (Array.isArray(motoristas_lista)) {
             motoristas_lista.forEach(motorista => {
                 const option = document.createElement("option");
-                option.value = motorista.id;
+                option.value = String(motorista.id);
                 option.textContent = `${motorista.nome} (ID: ${motorista.id})`;
                 select.append(option);
             });
@@ -192,7 +208,7 @@ async function carregarVeiculos() {
         if (Array.isArray(veiculos_lista)) {
             veiculos_lista.forEach(veiculo => {
                 const option = document.createElement("option");
-                option.value = veiculo.id;
+                option.value = String(veiculo.id);
                 option.textContent = `${veiculo.tipo} (ID: ${veiculo.id})`;
                 select.append(option);
             });
@@ -247,11 +263,11 @@ async function deletarCarga(id) {
     }
 }
 
-window.onload = function () {
+window.onload = async function () {
+    await carregarClientes();
+    await carregarMotoristas();
+    await carregarVeiculos();
+    await carregarCidadesSP();
     carregarCargas();
-    carregarClientes();
-    carregarMotoristas();
-    carregarVeiculos();
-    carregarCidadesSP();
 
 };

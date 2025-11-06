@@ -5,7 +5,7 @@ from controller.cadastro_cliente_controller import cadastro_clientes_blueprint
 from controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
 from controller.motorista_controller import motoristas_blueprint
 from controller.documentos_controller import documentos as documentos_blueprint
-from controller.execultar_testes_controller import testes_blueprint
+from controller.executar_testes_controller import testes_blueprint
 from flask_cors import CORS
 import os
 
@@ -19,7 +19,9 @@ app.register_blueprint(documentos_blueprint)
 app.register_blueprint(testes_blueprint)
 
 
-
+@app.route("/")
+def home():
+    return {"mensagem":"Bem-vindo(a) a Trajetto Express!"}
 @app.route("/manifesto")
 def manifesto():
     return render_template("manifesto_carga.html")
@@ -32,7 +34,6 @@ def cadastro():
 def veiculo():
     return render_template("cadastro_veiculo.html")
 
-@app.route("/")
 @app.route("/motorista")
 def motorista():
     return render_template("cadastro_motorista.html")
