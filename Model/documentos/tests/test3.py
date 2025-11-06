@@ -15,6 +15,7 @@ class RelatorioFaturamento(FPDF):
     def footer(self):
         self.set_y(-15)
         self.set_font("Arial", "I", 8)
+        self.cell(0, 10 , "Relatório gerado automaticamente pelo sistema.")
         self.cell(0, 10, f"Página {self.page_no()}", align="C")
 
 @app.route("/faturamento")

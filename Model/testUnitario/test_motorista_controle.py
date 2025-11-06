@@ -1,16 +1,27 @@
 import unittest
 import requests
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-from config import url
 
+url = "http://127.0.0.1:5036"
 
 class TestMotoristaControle(unittest.TestCase):
      def test_01_criar_motorista(self):
-
+     #              nome = motorista["nome"],
+     #    cpf = motorista["cpf"], 
+     #    rg = motorista["rg"],
+     #    salario = motorista["salario"],
+     #    data_nascimento = motorista['data_nascimento'],
+     #    numero_cnh = motorista["numero_cnh"],
+     #    categoria_cnh = motorista["categoria_cnh"],
+     #    validade_cnh = motorista["validade_cnh"], 
+     #    telefone = motorista["telefone"],
+     #    email = motorista["email"],
+     #    endereco = motorista["endereco"],
+     #    cidade = motorista["cidade"], 
+     #    uf = motorista["uf"],
+     #    cep = motorista["cep"]
      
           payload = {
-          "nome": "João Silva",
+          "nome": "João Silva",   
           "cpf": "12345678900",
           "rg": "MG1234567",
           "salario": 3000.00,
@@ -20,13 +31,10 @@ class TestMotoristaControle(unittest.TestCase):
           "validade_cnh": "2025-01-01",
           "telefone": "31999999999",
           "email": "joao.silva@example.com",
-          "cep": "01001000",
-          "logradouro": "Rua das Flores",
-          "numero": "123",
-          "complemento": "Casa",
-          "bairro": "Centro",
+          "endereco": "Rua das Flores, 123",
           "cidade": "São Paulo",
-          "estado": "SP"
+          "uf": "SP",
+          "cep": "01001000"
           }
           response = requests.post(f"{url}/motoristas", json=payload)
           self.assertEqual(response.status_code, 200)
