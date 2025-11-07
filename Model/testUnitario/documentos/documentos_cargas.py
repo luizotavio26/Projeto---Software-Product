@@ -36,17 +36,17 @@ def relatorioDeTodasCargas():
     pdf.ln(10)
 
     # Cabeçalho da tabela
-    pdf.set_font("Arial", "B", 8)
+    pdf.set_font("Arial", "B", 7)
     pdf.set_fill_color(200, 220, 255)
     colunas = ["Cliente", "Motorista", "Veículo", "Distância", "Origem", "Destino", "Valor KM", "Tipo de Carga"]
-    larguras = [30, 30, 25, 25, 35, 35, 20, 25]
+    larguras = [28, 28, 22,15, 30, 30, 15, 20]
 
     for titulo, largura in zip(colunas, larguras):
         pdf.cell(largura, 10, titulo, border=1, align="C", fill=True)
     pdf.ln()
 
     # Corpo da tabela
-    pdf.set_font("Arial", "", 8)
+    pdf.set_font("Arial", "", 7)
     try:
         response = requests.get(f"{url}/cargas")
         response.raise_for_status()
