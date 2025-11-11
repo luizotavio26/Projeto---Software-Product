@@ -1,5 +1,7 @@
 from config import db
 from sqlalchemy.exc import IntegrityError
+import jwt
+import datetime
 
 
 class Clientes(db.Model):
@@ -180,7 +182,7 @@ def verifica_senha_email(dados):
         )
             
             # retornando a mensagem de sucesso e o token
-           return (
+            return (
                {"message": "Login realizado com sucesso", 
                     "token": token, 
                     "success": True}
