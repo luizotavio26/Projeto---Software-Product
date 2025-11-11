@@ -69,3 +69,12 @@ def apagarTodosClientes():
         return jsonify(resposta), 200
     except Exception as e:
         return jsonify({'erro': str(e)}), 400
+
+@cadastro_clientes_blueprint.route("/clientes/login", methods=['POST'])
+def login():
+    dados = request.get_json()    
+    try:
+        response = cadastro_cliente_model.verifica_senha_email(dados)
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
