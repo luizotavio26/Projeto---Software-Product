@@ -61,20 +61,12 @@ def relatorioDeTodasCargas():
         for carga in cargas:
             # Busca os dados relacionados
             try:
-                cliente_id = carga["cliente_id"]
-                motorista_id = carga["motorista_id"]
-                veiculo_id = carga["veiculo_id"]
+                cliente_nome = carga["cliente"]
+                motorista_nome = carga["motorista"]
+                placa_veiculo = carga["veiculo"]
 
-                cliente = requests.get(f"{url}/clientes/{cliente_id}").json()
-                motorista = requests.get(f"{url}/motoristas/{motorista_id}").json()
-                veiculo = requests.get(f"{url}/veiculos/{veiculo_id}").json()
-
-                nome_cliente = cliente.get("razao_social", "N/A")
-                nome_motorista = motorista.get("nome", "N/A")
-                placa_veiculo = veiculo.get("placa", "N/A")
-
-                pdf.cell(larguras[0], 10, nome_cliente, border=1, align="C")
-                pdf.cell(larguras[1], 10, nome_motorista, border=1, align="C")
+                pdf.cell(larguras[0], 10, cliente_nome, border=1, align="C")
+                pdf.cell(larguras[1], 10, motorista_nome, border=1, align="C")
                 pdf.cell(larguras[2], 10, placa_veiculo, border=1, align="C")
                 pdf.cell(larguras[3], 10, str(carga.get("distancia", "")), border=1, align="C")
                 pdf.cell(larguras[4], 10, carga.get("origem_carga", ""), border=1, align="C")
