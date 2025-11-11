@@ -160,6 +160,7 @@ def deleteTodosClientes():
     db.session.commit()
     return {'message':"Usuários deletados com sucesso!"}
 
+SECRET_KEY = "teste"
 def verifica_senha_email(dados):
     #consultando o funcionario pelo email
     cliente = Clientes.query.filter_by(email=dados["email"]).first()
@@ -179,11 +180,7 @@ def verifica_senha_email(dados):
             {"email": dados["email"], "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
             SECRET_KEY,
             algorithm="HS256"
-        )
+            )
             
             # retornando a mensagem de sucesso e o token
-            return (
-               {"message": "Login realizado com sucesso", 
-                    "token": token, 
-                    "success": True}
-           )
+            return ({"message": "Login realizado com sucesso", "token": token,"success": True})
