@@ -142,17 +142,19 @@ def verificaSenhaEmail(dados):
             # retornando a mensagem de sucesso e o token
             return ({"message": "Login realizado com sucesso", "token": token,"success": True})
 
-def esqueciSenha(email_user):
-    #acessando dados do usuario pelo email passado pelo parametro
-    # não vamos usar nome de usuario para isso, só o email
-    usuario = Usuarios.query.filter_by(email=email_user).first()
+def esqueciSenha(dados):
+    usuario = Usuarios.query.filter_by(email=dados["email"]).first()
+    print(f"Dados user {usuario}")
 
-    # avaliando se o email realmente está no banco de dados
-    if usuario is None:
-        return {"message": "nenhum registro encontrado"}
+    if not usuario:
+        raise UsuarioNaoEncontrado
+    
+    usuario.senha = dados.get("senha", usuario.senha)
+    
+    
+    db.session.commit()
+    
+    return {"message": "senha alterada"}
 
-    # chamando a função que envia e-mail para redirecionar para a página de mudança de senha
-    emailSenhaEsquecida(usuario.nome_usuario, usuario.email)
-    return {"message": "e-mail para a troca de senha enviado, cheque sua caixa de e-mail"}
 
 

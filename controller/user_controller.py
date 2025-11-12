@@ -65,6 +65,12 @@ def login():
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
 
-@cadastro_usuario_blueprint.route("/usuario/mudancaSenha", methods=['POST'])
+@cadastro_usuario_blueprint.route("/usuario/mudancaSenha", methods=['PUT'])
 def mudarSenha():
-    return jsonify({"message": "redirecionar senha aqui"})
+    dados = request.get_json()
+    try:
+        response = user_model.esqueciSenha(dados)
+        return jsonify(response), 200
+    except Exception as e:
+        return({'erro': str(e)}), 500
+    
