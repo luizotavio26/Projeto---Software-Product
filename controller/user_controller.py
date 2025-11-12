@@ -13,10 +13,21 @@ def listarUsuarios():
         print(f"Erro ao listar usuarios: {e}") 
         return jsonify({'erro': str(e)}), 500
 
+@cadastro_usuario_blueprint.route("/usuario/<int:id_usuario>", methods=['GET'])
+def listarUsuarioId(id_usuario):
+    try:
+        usuario = user_model.getUsuarioId(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
 @cadastro_usuario_blueprint.route("/usuario", methods=['POST'])
 def cadastrarUsuarios():
     dados = request.get_json(silent=True)   
-    r, erro = user_model.postUsuarios(dados)
+    r, erro = user_model.postUsuario(dados)
     if erro:
         return jsonify({'erro': erro}), 400
         
@@ -39,7 +50,7 @@ def apagarUsuariosId(id_usuario):
     try:
         deletado = user_model.deleteUsuarioPorId(id_usuario)
         if deletado:
-            return jsonify({'mensagem': 'Usuario deletadO com sucesso'}), 200
+            return jsonify({'mensagem': 'Usuario deletado com sucesso'}), 200
         else:
             return jsonify({'erro': 'Usuario não encontrado'}), 404
     except Exception as e:
@@ -54,6 +65,6 @@ def login():
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
 
-@cadastro_usuario_blueprint.route("/usuario/mudancasenha", methods=['POST'])
+@cadastro_usuario_blueprint.route("/usuario/mudancaSenha", methods=['POST'])
 def mudarSenha():
     return jsonify({"message": "redirecionar senha aqui"})

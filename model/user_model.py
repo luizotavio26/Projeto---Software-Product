@@ -1,8 +1,8 @@
 from config import db
 from sqlalchemy.exc import IntegrityError
 import secrets
-import datetime
 from model.envioEmail.esqueciSenha import emailSenhaEsquecida
+
 class Usuarios(db.Model):
 
     __tablename__ = "Usuarios"   
@@ -32,7 +32,7 @@ class ErroValidacao(Exception):
     pass
 
 def getUsuarios():
-    usuario  = Usuarios.query.all()   
+    usuarios  = Usuarios.query.all()   
     return [usuario.to_dict() for usuario in usuarios]
 
 def getUsuarioId(id_usuario):
@@ -44,7 +44,7 @@ def getUsuarioId(id_usuario):
 
 def postUsuario(dados):
     try:
-        if usuarios.query.filter_by(email=dados.get('email')).first():
+        if Usuarios.query.filter_by(email=dados.get('email')).first():
                 return None, "E-mail já cadastrado no sistema."
 
         novo_usuario = Usuarios(
@@ -79,7 +79,7 @@ def putUsuarioPorId(id_usuario, dados):
     if not usuario:
         raise UsuarioNaoEncontrado
     
-    usuario.nome_usuario = dados.get("nome_usuario", usuario.cnpj)
+    usuario.nome_usuario = dados.get("nome_usuario", usuario.nome_usuario)
     usuario.email = dados.get("email", usuario.email)
     usuario.senha = dados.get("senha", usuario.senha)
     
@@ -148,7 +148,7 @@ def esqueciSenha(email_user):
     usuario = Usuarios.query.filter_by(email=email_user).first()
 
     # avaliando se o email realmente está no banco de dados
-    if usuario is none:
+    if usuario is None:
         return {"message": "nenhum registro encontrado"}
 
     # chamando a função que envia e-mail para redirecionar para a página de mudança de senha

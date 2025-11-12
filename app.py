@@ -7,6 +7,7 @@ from controller.motorista_controller import motoristas_blueprint
 from controller.documentos_controller import documentos as documentos_blueprint
 from controller.executar_testes_controller import testes_blueprint
 from controller.emai_controller import emailBuleprint
+
 from controller.user_controller import cadastro_usuario_blueprint
 from flask_cors import CORS
 import os
@@ -29,6 +30,7 @@ swagger = Swagger(app, template={
 app.register_blueprint(manifesto_cargas_blueprint)
 app.register_blueprint(cadastro_clientes_blueprint)
 app.register_blueprint(cadastro_veiculos_blueprint)
+app.register_blueprint(cadastro_usuario_blueprint)
 app.register_blueprint(motoristas_blueprint)
 app.register_blueprint(testes_blueprint)
 app.register_blueprint(documentos_blueprint)
