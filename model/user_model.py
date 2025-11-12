@@ -144,17 +144,15 @@ def verificaSenhaEmail(dados):
 
 def esqueciSenha(dados):
     usuario = Usuarios.query.filter_by(email=dados["email"]).first()
-    print(f"Dados user {usuario}")
 
     if not usuario:
         raise UsuarioNaoEncontrado
-    
+
     usuario.senha = dados.get("senha", usuario.senha)
-    
-    
     db.session.commit()
-    
-    return {"message": "senha alterada"}
+
+    return {"success": True, "message": "Senha alterada com sucesso"}
+
 
 
 
