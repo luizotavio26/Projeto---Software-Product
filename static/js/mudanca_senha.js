@@ -25,8 +25,8 @@ async function handleMudancaSenha() {
         if (data.success === true) {
             console.log('teste')
             alert("Senha alterada com sucesso")
-            
-            window.location.href = "http://127.0.0.1:5036/"
+
+            window.location.href = "http://localhost:3000/login"
             return;
 
         } else {
