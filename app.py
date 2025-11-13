@@ -40,7 +40,25 @@ app.register_blueprint(emailBuleprint)
 def mudanca_SENHA():
     return render_template("mudanca_senha.html")
 
+@app.route("/")
+def home():
+    return {"mensagem":"Bem-vindo(a) a Trajetto Express!"}
 
+@app.route("/manifesto")
+def manifesto():
+    return render_template("manifesto_carga.html")
+
+@app.route("/cadastro")
+def cadastro():
+    return render_template("cadastro_cliente.html")
+
+@app.route("/veiculo")
+def veiculo():
+    return render_template("cadastro_veiculo.html")
+
+@app.route("/motorista")
+def motorista():
+    return render_template("cadastro_motorista.html")
 
 if __name__ == "__main__":
     with app.app_context():
