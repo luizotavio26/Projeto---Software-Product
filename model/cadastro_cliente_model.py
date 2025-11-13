@@ -1,6 +1,5 @@
 from config import db
 from sqlalchemy.exc import IntegrityError
-import jwt
 import datetime
 
 

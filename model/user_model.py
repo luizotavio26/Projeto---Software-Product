@@ -2,6 +2,8 @@ from config import db
 from sqlalchemy.exc import IntegrityError
 import secrets
 from model.envioEmail.esqueciSenha import emailSenhaEsquecida
+import jwt
+import datetime
 
 class Usuarios(db.Model):
 
@@ -112,19 +114,18 @@ def secretKet():
 
 def verificaSenhaEmail(dados):
     #consultando o usuario pelo email e pelo nome de usuario
-    email_usuario = Usuarios.query.filter_by(email=dados["email"]).first()
-    usuario_nome = Usuarios.query.filter_by(email=dados["nome_usuario"]).first()
+    usuario = Usuarios.query.filter_by(email=dados["email"]).first()
 
     # gerando o SECRET_KEY
     SECRET_KEY = secretKet()
 
     #vendo se o email ou nome de usuario é valido
-    if email_usuario is None:
-        return {"message": "registro não encontrado, faça seu cadastro"}
-    
-    elif usuario_nome is None:
+    if usuario.email is None:
         return {"message": "registro não encontrado, faça seu cadastro"}
 
+    elif usuario.nome_usuario is None:
+        return {"message": "registro não encontrado"}
+    
     else:
         #vendo se senha está correta
         if dados["senha"] != usuario.senha:
