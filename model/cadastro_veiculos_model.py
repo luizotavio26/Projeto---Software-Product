@@ -16,6 +16,10 @@ class Veiculos(db.Model):
     ano_modelo = db.Column(db.String(4), nullable=False)
     ano_fabricacao = db.Column(db.String(4), nullable=False)
 
+    # chaves estrangeiras
+    usuario_id = db.Column(db.Integer, db.ForeignKey("Usuarios.id"), nullable=False)
+
+    usuario  = db.relationship("Usuarios", back_populates="veiculo")
     manifestos = db.relationship("ManifestoCarga", back_populates="veiculo")
 
     def to_dict(self): 

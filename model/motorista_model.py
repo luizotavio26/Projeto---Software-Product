@@ -23,6 +23,10 @@ class Motoristas(db.Model):
     cidade = db.Column(db.String(100), nullable=False)
     estado = db.Column(db.String(2), nullable=False)
     
+    # chaves estrangeiras
+    usuario_id = db.Column(db.Integer, db.ForeignKey("Usuarios.id"), nullable=False)
+
+    usuario = db.relationship("Usuarios", back_populates="motorista")
     manifestos = db.relationship("ManifestoCarga", back_populates="motorista")
     
     def __init__(self,nome, cpf, rg, salario, data_nascimento, numero_cnh, categoria_cnh, validade_cnh, telefone, email, cep, logradouro, numero, complemento, bairro, cidade, estado):

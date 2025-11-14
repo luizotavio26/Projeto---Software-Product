@@ -91,9 +91,12 @@ class ManifestoCarga(db.Model):
     valor_km = db.Column(db.Float, nullable=False)
     distancia = db.Column(db.Float, nullable=False)
 
+    
     motorista = db.relationship("Motoristas", back_populates="manifestos")
     cliente = db.relationship("Clientes", back_populates="manifestos")
     veiculo = db.relationship("Veiculos", back_populates="manifestos")
+    usuario_id = db.Column(db.Integer, db.ForeignKey("Usuarios.id"), nullable=False)
+    usuario  = db.relationship("Usuarios", back_populates="manifestos")
 
 
 

@@ -9,10 +9,18 @@ class Usuarios(db.Model):
 
     __tablename__ = "Usuarios"   
      
-    id = db.Column(db.Integer, primary_key=True ,)
+    id = db.Column(db.Integer, primary_key=True)
     nome_usuario = db.Column(db.String(100), nullable=False, unique=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
     senha = db.Column(db.String(50), nullable=False)
+
+    motorista = db.relationship("Motoristas", back_populates="usuario")
+    veiculo = db.relationship("Veiculos", back_populates="usuario")
+    cliente = db.relationship("Clientes", back_populates="usuario")
+    manifestos = db.relationship("ManifestoCarga", back_populates="usuario")
+    
+    
+    
 
     def __init__(self, nome_usuario, email, senha):
         self.nome_usuario = nome_usuario
