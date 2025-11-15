@@ -33,14 +33,6 @@ async function handleMudancaSenha() {
             alert(data.message || "ERRO AO REALIZAR TROCA DE SENHA");
 
         }
-
-
-
-
-
-
-
-
     } catch (error) {
         console.error("Erro ao realizar troca de senha:", error);
 

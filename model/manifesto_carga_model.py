@@ -101,7 +101,7 @@ class ManifestoCarga(db.Model):
 
 
     def __init__(self, tipo_carga, peso_carga, motorista_id, cliente_id, veiculo_id, origem_carga,
-                 destino_carga, valor_km, distancia, valor_frete):
+                 destino_carga, valor_km, distancia, valor_frete, usuario_id):
         self.tipo_carga = tipo_carga
         self.peso_carga = peso_carga
         self.cliente_id = cliente_id
@@ -112,11 +112,13 @@ class ManifestoCarga(db.Model):
         self.valor_km = valor_km
         self.distancia = distancia
         self.valor_frete = valor_frete
+        self.usuario_id = usuario_id
 
 
     def to_dict(self): 
         return {
             "id": self.id,
+            "usuario_id": self. usuario_id,
             "tipo_carga": self.tipo_carga,
             "peso_carga": f"{self.peso_carga} kg",
 
@@ -142,6 +144,7 @@ def create_carga(carga):
         tipo_carga = carga["tipo_carga"] 
         origem = carga["origem_carga"]
         destino = carga["destino_carga"]
+        usuario_id = carga["usuario_id"]
         
         peso_carga_str = carga.get("peso_carga", 0) 
         peso_carga = float(peso_carga_str)
@@ -166,6 +169,7 @@ def create_carga(carga):
         nova_carga = ManifestoCarga(
             tipo_carga = tipo_carga,
             peso_carga = peso_carga,
+            usuario_id = carga["usuario_id"],
             cliente_id = carga["cliente_id"],
             motorista_id = carga["motorista_id"],
             veiculo_id= carga["veiculo_id"],
@@ -215,6 +219,7 @@ def update_carga(id_carga, dados_atualizados):
     carga.veiculo_id = dados_atualizados["veiculo_id"]
     carga.origem_carga = dados_atualizados["origem_carga"]
     carga.destino_carga = dados_atualizados["destino_carga"]
+    carga.usuario_id = dados_atualizados["usuario_id"]
 
     distancia_calculada = get_distancia_api(carga.origem_carga, carga.destino_carga)
     tipo_veiculo = get_tipo_veiculo(carga.peso_carga)

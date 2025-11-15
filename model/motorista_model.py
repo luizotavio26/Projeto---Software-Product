@@ -29,7 +29,7 @@ class Motoristas(db.Model):
     usuario = db.relationship("Usuarios", back_populates="motorista")
     manifestos = db.relationship("ManifestoCarga", back_populates="motorista")
     
-    def __init__(self,nome, cpf, rg, salario, data_nascimento, numero_cnh, categoria_cnh, validade_cnh, telefone, email, cep, logradouro, numero, complemento, bairro, cidade, estado):
+    def __init__(self,nome, cpf, rg, salario, data_nascimento, numero_cnh, categoria_cnh, validade_cnh, telefone, email, cep, logradouro, numero, complemento, bairro, cidade, estado, usuario_id):
         self.nome = nome
         self.cpf = cpf
         self.rg = rg
@@ -47,7 +47,7 @@ class Motoristas(db.Model):
         self.bairro = bairro
         self.cidade = cidade
         self.estado = estado
-        
+        self.usuario_id = usuario_id
 
     def to_dict(self): 
         return {
@@ -68,7 +68,8 @@ class Motoristas(db.Model):
                 "complemento" : self.complemento,
                 "bairro" : self.bairro,
                 "cidade" : self.cidade,
-                "estado" : self.estado} 
+                "estado" : self.estado,
+                "usuario_id": self.usuario_id} 
 
 
 class MotoristaNaoEncontrado(Exception):
@@ -93,7 +94,8 @@ def create_motorista(motorista):
         complemento = motorista["complemento"],
         bairro = motorista["bairro"],
         cidade = motorista["cidade"],
-        estado = motorista["estado"]
+        estado = motorista["estado"],
+        usuario_id = motorista["usuario_id"]
     )
 
     db.session.add(novo_motorista)
@@ -136,6 +138,7 @@ def update_motorista(id_motorista, dados_atualizados):
         motorista.bairro = dados_atualizados["bairro"]
         motorista.cidade = dados_atualizados["cidade"]
         motorista.estado = dados_atualizados["estado"]
+        motorista.usuario_id = dados_atualizados["usuario_id"]
 
         db.session.commit()
         return {"message": "Informações atualizadas com sucesso"}

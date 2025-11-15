@@ -23,11 +23,10 @@ class Clientes(db.Model):
     estado = db.Column(db.String(2), nullable=False)
     # chaves estrangeiras
     usuario_id = db.Column(db.Integer, db.ForeignKey("Usuarios.id"), nullable=False)
-
     usuario  = db.relationship("Usuarios", back_populates="cliente")
     manifestos = db.relationship("ManifestoCarga", back_populates="cliente")
 
-    def __init__(self, cnpj, razao_social, email, senha, telefone, cep, logradouro, numero, complemento, bairro, cidade, estado):
+    def __init__(self, cnpj, razao_social, email, senha, telefone, cep, logradouro, numero, complemento, bairro, cidade, estado, usuario_id):
         self.cnpj = cnpj
         self.razao_social = razao_social
         self.email = email
@@ -40,6 +39,7 @@ class Clientes(db.Model):
         self.bairro = bairro
         self.cidade = cidade
         self.estado = estado
+        self.usuario_id = usuario_id
 
     def to_dict(self): 
         return {
@@ -55,7 +55,8 @@ class Clientes(db.Model):
                 "complemento" : self.complemento,
                 "bairro" : self.bairro,
                 "cidade" : self.cidade,
-                "estado" : self.estado}
+                "estado" : self.estado,
+                "usuario_id": self.usuario_id}
 
 
 class ClienteNaoEncontrado(Exception):
@@ -96,7 +97,9 @@ def postClientes(dados):
             complemento = dados["complemento"],
             bairro = dados["bairro"],
             cidade = dados["cidade"],
-            estado = dados["estado"]
+            estado = dados["estado"],
+            usuario_id = dados["usuario_id"]
+
         )
         
         db.session.add(novo_cliente)
@@ -138,6 +141,7 @@ def putClientePorId(id_cliente, dados):
     cliente.bairro = dados.get("bairro", cliente.bairro)
     cliente.cidade = dados.get("cidade", cliente.cidade)
     cliente.estado = dados.get("estado", cliente.estado)
+    cliente.usuario_id = dados.get("usuario_id", cliente.usuario_id)
     
     db.session.commit()
     return {"message": "Usuário com ID {id_cliente} atualizado com sucesso."}
