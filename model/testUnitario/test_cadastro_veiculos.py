@@ -24,7 +24,8 @@ class TestCadastroVeiculos(unittest.TestCase):
              "tipo": "Carro",
              "ano_modelo": 2022,
              "ano_fabricacao": 2021,
-             "peso_maximo_kg": 1000
+             "peso_maximo_kg": 1000,
+             "usuario_id": 1
          }
          response = requests.post(f"{url}/veiculos", json=payload)
          self.assertEqual(response.status_code, 201)
