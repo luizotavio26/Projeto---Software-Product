@@ -55,7 +55,11 @@ def getUsuarioId(id_usuario):
 def postUsuario(dados):
     try:
         if Usuarios.query.filter_by(email=dados.get('email')).first():
-                return None, "E-mail já cadastrado no sistema."
+            return None, "E-mail já cadastrado no sistema."
+        
+        if Usuarios.query.filter_by(nome_usuario=dados.get('nome_usuario')).first():
+            return None, "Nome de usuário não disponível"
+
 
         novo_usuario = Usuarios(
             email = dados["email"],
