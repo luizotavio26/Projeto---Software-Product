@@ -38,8 +38,8 @@ def relatorioDeTodasCargas():
     # Cabeçalho da tabela
     pdf.set_font("Arial", "B", 7)
     pdf.set_fill_color(200, 220, 255)
-    colunas = ["Cliente", "Motorista", "Veículo", "Distância", "Origem", "Destino", "Valor KM", "Tipo de Carga"]
-    larguras = [28, 28, 22,15, 30, 30, 15, 20]
+    colunas = [ "Motorista", "Veículo", "Distância", "Origem", "Destino", "Valor KM", "Tipo de Carga"]
+    larguras = [ 28, 22,15, 40, 45, 15, 20]
 
     for titulo, largura in zip(colunas, larguras):
         pdf.cell(largura, 10, titulo, border=1, align="C", fill=True)
@@ -61,18 +61,16 @@ def relatorioDeTodasCargas():
         for carga in cargas:
             # Busca os dados relacionados
             try:
-                cliente_nome = carga["cliente"]
                 motorista_nome = carga["motorista"]
                 placa_veiculo = carga["veiculo"]
 
-                pdf.cell(larguras[0], 10, cliente_nome, border=1, align="C")
-                pdf.cell(larguras[1], 10, motorista_nome, border=1, align="C")
-                pdf.cell(larguras[2], 10, placa_veiculo, border=1, align="C")
-                pdf.cell(larguras[3], 10, str(carga.get("distancia", "")), border=1, align="C")
-                pdf.cell(larguras[4], 10, carga.get("origem_carga", ""), border=1, align="C")
-                pdf.cell(larguras[5], 10, carga.get("destino_carga", ""), border=1, align="C")
-                pdf.cell(larguras[6], 10, str(carga.get("valor_km", "")), border=1, align="C")
-                pdf.cell(larguras[7], 10, carga.get("tipo_carga", ""), border=1, align="C")
+                pdf.cell(larguras[0], 10, motorista_nome, border=1, align="C")
+                pdf.cell(larguras[1], 10, placa_veiculo, border=1, align="C")
+                pdf.cell(larguras[2], 10, str(carga.get("distancia", "")), border=1, align="C")
+                pdf.cell(larguras[3], 10, carga.get("origem_carga", ""), border=1, align="C")
+                pdf.cell(larguras[4], 10, carga.get("destino_carga", ""), border=1, align="C")
+                pdf.cell(larguras[5], 10, str(carga.get("valor_km", "")), border=1, align="C")
+                pdf.cell(larguras[6], 10, carga.get("tipo_carga", ""), border=1, align="C")
                 pdf.ln()
 
             except Exception as e:
