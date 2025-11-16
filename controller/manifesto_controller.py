@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from model import manifesto_carga_model
-from model.manifesto_carga_model import CargaNaoEncontrada
+from model import manifesto_model
+from model.manifesto_model import CargaNaoEncontrada
 
 manifesto_cargas_blueprint = Blueprint('manifesto_carga', __name__)
 
@@ -14,7 +14,7 @@ def testa_conexao():
 def cria_cargas():
     dados = request.get_json()
     try:
-        novo_carga, erro = manifesto_carga_model.create_carga(dados)
+        novo_carga, erro = manifesto_model.create_carga(dados)
         if erro:
             return jsonify({'erro': erro}), 400
         return jsonify(novo_carga), 200
@@ -25,7 +25,7 @@ def cria_cargas():
 @manifesto_cargas_blueprint.route('/cargas', methods=['GET'])
 def le_cargas():
     try:
-        cargas,erro = manifesto_carga_model.read_todas_cargas()
+        cargas,erro = manifesto_model.read_todas_cargas()
         return jsonify(cargas), 200
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
@@ -34,7 +34,7 @@ def le_cargas():
 @manifesto_cargas_blueprint.route('/cargas/<int:id_cargas>', methods =['GET'])
 def le_cargas_id(id_cargas):
     try:
-        carga = manifesto_carga_model.read_cargas_id(id_cargas)
+        carga = manifesto_model.read_cargas_id(id_cargas)
         return jsonify(carga), 200
     except CargaNaoEncontrada:
         return jsonify({'erro': 'Carga não encontrada'}), 404
@@ -46,9 +46,9 @@ def le_cargas_id(id_cargas):
 def atualiza_cargas(id_cargas):
     dados = request.get_json()
     try:
-        atualizado = manifesto_carga_model.update_carga(id_cargas, dados)
+        atualizado = manifesto_model.update_carga(id_cargas, dados)
         if atualizado:
-            return jsonify(manifesto_carga_model.read_cargas_id(id_cargas)), 200
+            return jsonify(manifesto_model.read_cargas_id(id_cargas)), 200
         else:
             return jsonify({'erro': 'Carga não encontrada'}), 404
     except Exception as e:
@@ -58,7 +58,7 @@ def atualiza_cargas(id_cargas):
 @manifesto_cargas_blueprint.route('/cargas/<int:id_cargas>', methods = ['DELETE'])
 def deleta_cargas_id(id_cargas):
     try:
-        deletado = manifesto_carga_model.delete_carga_id(id_cargas)
+        deletado = manifesto_model.delete_carga_id(id_cargas)
         if deletado:
             return jsonify({'mensagem': 'Carga deletada com sucesso'}), 200
         else:
@@ -70,7 +70,7 @@ def deleta_cargas_id(id_cargas):
 @manifesto_cargas_blueprint.route('/cargas', methods = ['DELETE'])
 def deleta_cargas():
     try:
-        deletado, erro = manifesto_carga_model.delete_todas_cargas()
+        deletado, erro = manifesto_model.delete_todas_cargas()
         if erro:
             return jsonify({'erro': erro}), 400
         return jsonify({'mensagem': 'Todas as cargas foram deletadas com sucesso'}), 200

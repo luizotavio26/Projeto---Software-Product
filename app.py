@@ -1,12 +1,12 @@
 from flasgger import Swagger
 from config import app,db, render_template
-from controller.manifesto_carga_controller import manifesto_cargas_blueprint
-from controller.cadastro_cliente_controller import cadastro_clientes_blueprint
-from controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
+from controller.manifesto_controller import manifesto_cargas_blueprint
+from controller.cliente_controller import cadastro_clientes_blueprint
+from controller.veiculos_controller import cadastro_veiculos_blueprint
 from controller.motorista_controller import motoristas_blueprint
 from controller.documentos_controller import documentos as documentos_blueprint
-from controller.executar_testes_controller import testes_blueprint
-from controller.emai_controller import emailBuleprint
+from controller.testes_controller import testes_blueprint
+from controller.email_controller import emailBuleprint
 
 from controller.user_controller import cadastro_usuario_blueprint
 from flask_cors import CORS
