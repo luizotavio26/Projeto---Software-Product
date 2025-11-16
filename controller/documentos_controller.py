@@ -1,10 +1,5 @@
 from flask import Blueprint, request, jsonify
-from model.documentos.documentos_motorista import relatorioDeTodosMotoristas
-from model.documentos.documentos_veiculos import relatorioDeTodosVeiculos
-from model.documentos.documentos_cargas import relatorioDeTodasCargas
-from model.documentos.documentos_faturamento import relatorioEmpresa
-from model.documentos.relatorio_empresa import gerarRelatorioEmpresa
-
+from model.documentos.documentos import *
 
 documentos = Blueprint('documentos', __name__)
 

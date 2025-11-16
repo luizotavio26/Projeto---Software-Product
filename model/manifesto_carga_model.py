@@ -1,6 +1,6 @@
 from config import db
-from model.cadastro_cliente_model import Clientes
-from model.cadastro_veiculos_model import Veiculos
+from model.cliente_model import Clientes
+from model.veiculos_model import Veiculos
 from model.motorista_model import Motoristas
 
 FAIXAS_KM = [40, 60, 100, 130, 160, 200, 280, 400, 480, 550, 620, 700]
