@@ -42,9 +42,13 @@ O projeto foi desenvolvido utilizando Next.js, um framework moderno que combina 
 Principais tecnologias:
 
 Next.js – Framework React utilizado para criação de interfaces modernas, rotas otimizadas e renderização eficiente.
+
 React – Biblioteca para construção dos componentes da interface.
+
 HTML – Estrutura base das páginas (gerada através dos componentes React/Next).
+
 CSS – Estilização dos componentes e identidade visual do projeto.
+
 JavaScript – Lógica, interatividade e integração com APIs.
 
 
@@ -145,4 +149,5 @@ Facilidade de implantação
     ```bash
     docker run -d -p 5036:5036 manifesto-carga-api
     ```
+
 
