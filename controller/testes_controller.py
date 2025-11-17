@@ -3,10 +3,10 @@ import sys
 import os
 from io import StringIO
 import unittest
-from model.testUnitario.test_cadastro_cliente import *
-from model.testUnitario.test_cadastro_veiculos import *
-from model.testUnitario.test_motorista_controle import *
-from model.testUnitario.test_manifesto_carga import *
+from testUnitario.test_cadastro_cliente import *
+from testUnitario.test_cadastro_veiculos import *
+from testUnitario.test_motorista_controle import *
+from testUnitario.test_manifesto_carga import *
 
 def padronizar(Classe):
       # 1️⃣ Cria a suite apenas com os testes da classe TestCadastroCliente

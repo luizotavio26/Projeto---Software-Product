@@ -1,23 +1,44 @@
-from flask import render_template
-from config import app,db
-from controller.manifesto_carga_controller import manifesto_cargas_blueprint
-from controller.cadastro_cliente_controller import cadastro_clientes_blueprint
-from controller.cadastro_veiculos_controller import cadastro_veiculos_blueprint
+from flasgger import Swagger
+from config import app,db, render_template
+from controller.manifesto_controller import manifesto_cargas_blueprint
+from controller.cliente_controller import cadastro_clientes_blueprint
+from controller.veiculos_controller import cadastro_veiculos_blueprint
 from controller.motorista_controller import motoristas_blueprint
 from controller.documentos_controller import documentos as documentos_blueprint
-from controller.executar_testes_controller import testes_blueprint
+from controller.testes_controller import testes_blueprint
+from controller.email_controller import emailBuleprint
+
+from controller.user_controller import cadastro_usuario_blueprint
 from flask_cors import CORS
 import os
 
 CORS(app)
 
+swagger = Swagger(app, template={
+    "swagger": "2.0",
+    "info": {
+        "title": "API - Sistema de Manifesto de Carga",
+        "description": "Documentação da API de Manifestos, Clientes, Veículos e Motoristas",
+        "version": "1.0.0"
+    },
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+})
+
 app.register_blueprint(manifesto_cargas_blueprint)
 app.register_blueprint(cadastro_clientes_blueprint)
 app.register_blueprint(cadastro_veiculos_blueprint)
+app.register_blueprint(cadastro_usuario_blueprint)
 app.register_blueprint(motoristas_blueprint)
-app.register_blueprint(documentos_blueprint)
 app.register_blueprint(testes_blueprint)
+app.register_blueprint(documentos_blueprint)
+app.register_blueprint(emailBuleprint)
 
+@app.route("/mudaSenha")
+def mudanca_SENHA():
+    return render_template("mudanca_senha.html")
 
 @app.route("/")
 def home():
@@ -38,8 +59,6 @@ def veiculo():
 @app.route("/motorista")
 def motorista():
     return render_template("cadastro_motorista.html")
-
-
 
 if __name__ == "__main__":
     with app.app_context():

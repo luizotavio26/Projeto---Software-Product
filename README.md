@@ -37,11 +37,15 @@ Criar um sistema completo, com front-end, back-end e banco de dados, garantindo 
 
 🖥 **Front-End**
 
-O site será desenvolvido com as três tecnologias base da Web:
+O projeto foi desenvolvido utilizando Next.js, um framework moderno que combina o melhor do React com funcionalidades avançadas para desenvolvimento web.
 
-HTML → Estrutura das páginas
-CSS → Estilo e identidade visual
-JavaScript → Dinamismo e interatividade
+Principais tecnologias:
+
+Next.js – Framework React utilizado para criação de interfaces modernas, rotas otimizadas e renderização eficiente.
+React – Biblioteca para construção dos componentes da interface.
+HTML – Estrutura base das páginas (gerada através dos componentes React/Next).
+CSS – Estilização dos componentes e identidade visual do projeto.
+JavaScript – Lógica, interatividade e integração com APIs.
 
 
 ⚙️ **Back-End**
@@ -94,8 +98,8 @@ Facilidade de implantação
 1.  Clone o repositório
 
     ```bash
-    git clone https://github.com/luizotavio26/projeto---software-product.git
-    cd projeto---software-product
+    git clone https://github.com/luizotavio26/TrajettoAPI.git
+    cd TrajettoAPI
     ```
 
 2.  Crie um ambiente virtual (opcional, mas recomendado)
@@ -128,8 +132,8 @@ Facilidade de implantação
 1.  Clone o repositório
 
     ```bash
-    git clone https://github.com/luizotavio26/projeto---software-product.git
-    cd projeto---software-product
+    git clone https://github.com/luizotavio26/TrajettoAPI.git
+    cd TrajettoAPI
     ```
 
 2.  Construa a imagem Docker

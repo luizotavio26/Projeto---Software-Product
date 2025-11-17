@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -7,12 +7,15 @@ app.config['HOST'] = '0.0.0.0'
 app.config['PORT'] = 5036
 app.config['DEBUG'] = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://softwareproduct_xrs3_user:WJsq91vv1YGPOsx9xsmZLxAPwuHzrdW9@dpg-d414ksruibrs73cubnr0-a.oregon-postgres.render.com/softwareproduct_xrs3"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://teste_t2tl_user:ApbeKIlHYqnhGizRKEayIpZsQ8IkurY0@dpg-d4cdk4bipnbc739de8d0-a.oregon-postgres.render.com/teste_t2tl"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 porta = app.config['PORT']
 host = app.config['HOST']
+
+# para o token
+app.config["SECRET_KEY"] = "trajetto_express"
 
 if host == "0.0.0.0":
     host = "localhost"

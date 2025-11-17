@@ -16,6 +16,9 @@ class Veiculos(db.Model):
     ano_modelo = db.Column(db.String(4), nullable=False)
     ano_fabricacao = db.Column(db.String(4), nullable=False)
 
+    # chaves estrangeiras
+    usuario_id = db.Column(db.Integer, db.ForeignKey("Usuarios.id"), nullable=False)
+    usuario  = db.relationship("Usuarios", back_populates="veiculo")
     manifestos = db.relationship("ManifestoCarga", back_populates="veiculo")
 
     def to_dict(self): 
@@ -27,10 +30,11 @@ class Veiculos(db.Model):
                 "renavan" : self.renavan, 
                 "chassi": self.chassi,
                 "cor" : self.cor, 
-                "tipo" : self.tipo , 
+                "tipo" : self.tipo, 
                 "peso_maximo_kg" : self.peso_maximo_kg ,
                 "ano_modelo" : self.ano_modelo , 
-                "ano_fabricacao" : self.ano_fabricacao } 
+                "ano_fabricacao" : self.ano_fabricacao,
+                "usuario_id": self.usuario_id } 
 
 
 class VeiculoNaoEncontrado(Exception):
@@ -68,7 +72,8 @@ def postVeiculos(dados):
         tipo=dados.get("tipo"),
         peso_maximo_kg=dados.get("peso_maximo_kg"),
         ano_modelo=dados.get("ano_modelo"),
-        ano_fabricacao=dados.get("ano_fabricacao")
+        ano_fabricacao=dados.get("ano_fabricacao"),
+        usuario_id=dados.get("usuario_id")
     )
     
     db.session.add(novo_veiculo)
@@ -91,6 +96,7 @@ def putVeiculoPorId(id_veiculo, dados):
         veiculo.peso_maximo_kg = dados.get("peso_maximo_kg", veiculo.peso_maximo_kg)
         veiculo.ano_modelo = dados.get("ano_modelo", veiculo.ano_modelo)
         veiculo.ano_fabricacao = dados.get("ano_fabricacao", veiculo.ano_fabricacao)
+        veiculo.usuario_id = dados.get("usuario_id", veiculo.usuario_id)
 
         
         db.session.commit()
