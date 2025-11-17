@@ -74,3 +74,14 @@ def mudarSenha():
     except Exception as e:
         return({'erro': str(e)}), 500
     
+@cadastro_usuario_blueprint.route("/dashboard/cargasCadastradas/<int:id_usuario>", methods=['GET'])
+def cargas_cadastradas(id_usuario):
+    try:
+        usuario = user_model.cargasCadastradas(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
