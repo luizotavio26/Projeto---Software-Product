@@ -14,6 +14,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 porta = app.config['PORT']
 host = app.config['HOST']
 
+# para o token
+app.config["SECRET_KEY"] = "trajetto_express"
+
 if host == "0.0.0.0":
     host = "localhost"
 

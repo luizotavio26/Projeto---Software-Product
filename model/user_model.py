@@ -4,6 +4,7 @@ import secrets
 from model.envioEmail.esqueciSenha import emailSenhaEsquecida
 import jwt
 import datetime
+from model.manifesto_model import ManifestoCarga
 
 class Usuarios(db.Model):
 
@@ -118,18 +119,12 @@ def deleteTodosUsuario():
     db.session.commit()
     return {'message':"Usuários deletados com sucesso!"}
 
-def secretKet():
-    # essa biblioteca vai gerar uma sequencia de 16 digitos 0-9 e a-z.
-    # o numero passado como parametro vai ser multiplicado por 2 -> 2*8 = 16
-    secret_key = secrets.token_hex(8)
-    return secret_key
-
 def verificaSenhaEmail(dados):
     #consultando o usuario pelo email e pelo nome de usuario
     usuario = Usuarios.query.filter_by(email=dados["email"]).first()
 
-    # gerando o SECRET_KEY
-    SECRET_KEY = secretKet()
+    # SECRET_KEY
+    SECRET_KEY = "trajetto_express"
 
     #vendo se o email ou nome de usuario é valido
     if usuario.email is None:
@@ -147,7 +142,10 @@ def verificaSenhaEmail(dados):
         else:
             #Gerando o token
             token = jwt.encode(
-            {"email": dados["email"], "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
+            {"email": usuario.email, 
+            "nome_usuario": usuario.nome_usuario,
+            "id_usuario": usuario.id,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
             SECRET_KEY,
             algorithm="HS256"
             )
@@ -166,6 +164,12 @@ def esqueciSenha(dados):
 
     return {"success": True, "message": "Senha alterada com sucesso"}
 
+# ---------------------------------------------------------------------------------------------------
+# ROTAS PARA O DASHBOARD
+# ---------------------------------------------------------------------------------------------------
 
+def cargasCadastradas(usuario_id):
+    quantidade_cargas = ManifestoCarga.query.filter_by(usuario_id=usuario_id).count()
+    return ({"Cargas": quantidade_cargas})
 
 
