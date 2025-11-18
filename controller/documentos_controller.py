@@ -28,17 +28,3 @@ def relatorio_cargas():
         return relatorioDeTodasCargas(), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-@documentos.route("/relatorio/faturamento", methods=['GET'])
-def relatorio_faturamento():
-    try:
-        return relatorioEmpresa(), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    
-@documentos.route("/relatorio/empresa", methods=['GET'])
-def relatorio_empresa():
-    try:
-        return gerarRelatorioEmpresa(),200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
