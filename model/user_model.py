@@ -5,6 +5,9 @@ from model.envioEmail.esqueciSenha import emailSenhaEsquecida
 import jwt
 import datetime
 from model.manifesto_model import ManifestoCarga
+from model.motorista_model import Motoristas
+from model.cliente_model import Clientes
+from model.veiculos_model import Veiculos
 
 class Usuarios(db.Model):
 
@@ -172,4 +175,15 @@ def cargasCadastradas(usuario_id):
     quantidade_cargas = ManifestoCarga.query.filter_by(usuario_id=usuario_id).count()
     return ({"Cargas": quantidade_cargas})
 
+def motoristasCadastrados(usuario_id):
+    quantidade_motoristas = Motoristas.query.filter_by(usuario_id=usuario_id).count()
+    return ({"Motoristas": quantidade_motoristas})
+
+def clientesCadastrados(usuario_id):
+    quantidade_clientes = Clientes.query.filter_by(usuario_id=usuario_id).count()
+    return ({"Clientes": quantidade_clientes})
+
+def veiculosCadastrados(usuario_id):
+    quantidade_veiculos = Veiculos.query.filter_by(usuario_id=usuario_id).count()
+    return ({"Veiculos": quantidade_veiculos})
 
