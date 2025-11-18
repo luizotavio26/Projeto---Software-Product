@@ -1,7 +1,6 @@
 from config import db
 from sqlalchemy.exc import IntegrityError
 import secrets
-from model.envioEmail.esqueciSenha import emailSenhaEsquecida
 import jwt
 import datetime
 from model.manifesto_model import ManifestoCarga
