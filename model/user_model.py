@@ -1,4 +1,5 @@
 from config import db
+from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 import secrets
 import jwt
@@ -186,3 +187,27 @@ def veiculosCadastrados(usuario_id):
     quantidade_veiculos = Veiculos.query.filter_by(usuario_id=usuario_id).count()
     return ({"Veiculos": quantidade_veiculos})
 
+def totaisCargas(usuario_id):
+    cargas = ManifestoCarga.query.filter_by(usuario_id=usuario_id).all()
+
+    total_frete = 0
+    total_km = 0
+
+    for c in cargas:
+        # Tratando valor_frete
+        if c.valor_frete:
+            if isinstance(c.valor_frete, str):
+                valor = c.valor_frete.replace("R$ ", "").replace(".", "").replace(",", ".")
+                total_frete += float(valor)
+            else:  # já é float ou int
+                total_frete += c.valor_frete
+
+        # Tratando distancia
+        if c.distancia:
+            if isinstance(c.distancia, str):
+                valor = c.distancia.replace(" km", "").replace(",", ".")
+                total_km += float(valor)
+            else:  # já é float ou int
+                total_km += c.distancia
+
+    return {"TotalFrete": total_frete, "TotalKM": total_km}

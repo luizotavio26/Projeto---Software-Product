@@ -118,3 +118,11 @@ def veiculos_cadastradas(id_usuario):
             return jsonify({'erro': 'Usuário não encontrado'}), 404
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
+
+@cadastro_usuario_blueprint.route("/dashboard/totaisCargas/<int:id_usuario>", methods=["GET"])
+def totais_cargas(id_usuario):
+    try:
+        totais = user_model.totaisCargas(id_usuario)
+        return jsonify(totais), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
