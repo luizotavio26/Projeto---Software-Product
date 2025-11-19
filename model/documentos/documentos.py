@@ -11,12 +11,10 @@ import json
 # Garante que o Python ache o diretório raiz do projeto
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-
 def decode_jwt(token: str):
     try:
         header, payload, signature = token.split('.')
 
-        # Função que completa o padding do Base64
         def pad(b):
             return b + '=' * (-len(b) % 4)
 
@@ -31,16 +29,21 @@ def decode_jwt(token: str):
     except Exception as e:
         return {"error": str(e)}
 
+def visualizarToken(token):
+    print(json.dumps(token, indent=4))
+
+def pegaID(token):
+    id_usuario = token["payload"]["id_usuario"]
+    return id_usuario
+
 
 def visualizarToken(token):
     print(json.dumps(token, indent=4))
 
-token = input("")
-visualizarToken(decode_jwt(token))
 #--------------------------------------------------------------------------------------------------
 # DOCUMENTOS DAS CARGAS
 #--------------------------------------------------------------------------------------------------
-def relatorioDeTodasCargas():
+def relatorioDeTodasCargas(token):
     class RelatorioDeTodasCargas(FPDF):
         def header(self):
             """Cabeçalho"""
@@ -78,9 +81,12 @@ def relatorioDeTodasCargas():
     # Corpo da tabela
     pdf.set_font("Arial", "", 7)
     try:
-        response = requests.get(f"{url}/cargas")
+        dados = decode_jwt(token)
+        id_usuario = pegaID(dados)
+        response = requests.get(f"{url}/cargas/cargasCadastradas/{id_usuario}")
         response.raise_for_status()
-        cargas = response.json()
+        dados = response.json()
+        cargas = dados.get("Cargas", [])
     except requests.RequestException as e:
         pdf.cell(0, 10, f"Erro ao obter cargas: {e}", ln=True)
         cargas = []
@@ -120,7 +126,7 @@ def relatorioDeTodasCargas():
 #--------------------------------------------------------------------------------------------------
 # DOCUMENTOS DOS MOTORISTAS - RELATÓRIO
 #--------------------------------------------------------------------------------------------------
-def relatorioDeTodosMotoristas():
+def relatorioDeTodosMotoristas(token):
     class RelatorioMotoristas(FPDF):
         # Cabeçalho
         def header(self):
@@ -157,8 +163,11 @@ def relatorioDeTodosMotoristas():
 
     # Dados dos motoristas
     pdf.set_font("Arial", "", 8)
-    response = requests.get(f"{url}/motoristas")
-    motoristas = response.json()
+    dados = decode_jwt(token)
+    id_usuario = pegaID(dados)
+    response = requests.get(f"{url}/cargas/motoristasCadastrados/{id_usuario}")
+    data = response.json()
+    motoristas = data.get("Motoristas", [])
     salario_total = 0
 
     for motorista in motoristas:
@@ -190,7 +199,7 @@ def relatorioDeTodosMotoristas():
 #--------------------------------------------------------------------------------------------------
 # DOCUMENTOS DOS VEÍCULOS - RELATÓRIO
 #--------------------------------------------------------------------------------------------------
-def relatorioDeTodosVeiculos():
+def relatorioDeTodosVeiculos(token):
     class RelatorioVeiculos(FPDF):
         def header(self):
             """Cabeçalho do PDF"""
@@ -229,9 +238,15 @@ def relatorioDeTodosVeiculos():
     # Corpo da tabela
     pdf.set_font("Arial", "", 10)
     try:
-        response = requests.get(f"{url}/veiculos")
+        dados = decode_jwt(token)
+        id_usuario = pegaID(dados)
+        response = requests.get(f"{url}/cargas/veiculosCadastrados/{id_usuario}")
+        # response = requests.get(f"{url}/cargas/veiculosCadastrados/1")
         response.raise_for_status()
-        veiculos = response.json()
+        data = response.json()
+        # Ajuste: pegar a lista dentro de "Veiculos"
+        veiculos = data.get("Veiculos", [])
+        
     except requests.RequestException as e:
         pdf.cell(0, 10, f"Erro ao obter dados: {e}", ln=True)
         veiculos = []
