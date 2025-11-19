@@ -76,3 +76,52 @@ def deleta_cargas():
         return jsonify({'mensagem': 'Todas as cargas foram deletadas com sucesso'}), 200
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
+    
+
+# -------------------------------------------------------------------
+@manifesto_cargas_blueprint.route("/cargas/cargasCadastradas/<int:id_usuario>", methods=['GET'])
+def cargas_cadastradas(id_usuario):
+    try:
+        usuario = manifesto_model.cargasCadastradas(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
+
+@manifesto_cargas_blueprint.route("/cargas/motoristasCadastrados/<int:id_usuario>", methods=['GET'])
+def motoristas_cadastradas(id_usuario):
+    try:
+        usuario = manifesto_model.motoristasCadastrados(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
+
+@manifesto_cargas_blueprint.route("/cargas/clientesCadastrados/<int:id_usuario>", methods=['GET'])
+def clientes_cadastradas(id_usuario):
+    try:
+        usuario = manifesto_model.clientesCadastrados(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
+
+@manifesto_cargas_blueprint.route("/cargas/veiculosCadastrados/<int:id_usuario>", methods=['GET'])
+def veiculos_cadastradas(id_usuario):
+    try:
+        usuario = manifesto_model.veiculosCadastrados(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
