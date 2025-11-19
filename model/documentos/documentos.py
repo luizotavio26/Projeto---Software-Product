@@ -5,10 +5,38 @@ from fpdf import FPDF
 from flask import make_response
 from datetime import datetime
 from config import url
+import base64
+import json
 
 # Garante que o Python ache o diretório raiz do projeto
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
+
+def decode_jwt(token: str):
+    try:
+        header, payload, signature = token.split('.')
+
+        # Função que completa o padding do Base64
+        def pad(b):
+            return b + '=' * (-len(b) % 4)
+
+        header_decoded = json.loads(base64.urlsafe_b64decode(pad(header)))
+        payload_decoded = json.loads(base64.urlsafe_b64decode(pad(payload)))
+
+        return {
+            "header": header_decoded,
+            "payload": payload_decoded,
+            "signature": signature
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+
+def visualizarToken(token):
+    print(json.dumps(token, indent=4))
+
+token = input("")
+visualizarToken(decode_jwt(token))
 #--------------------------------------------------------------------------------------------------
 # DOCUMENTOS DAS CARGAS
 #--------------------------------------------------------------------------------------------------
