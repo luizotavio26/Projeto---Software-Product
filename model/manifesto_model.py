@@ -311,7 +311,7 @@ def motoristasCadastrados(usuario_id):
         for m in motoristas
     ]
 
-    return {"Motoristas": lista_motoristas}
+    return lista_motoristas
 
 
 def clientesCadastrados(usuario_id):
@@ -337,7 +337,7 @@ def clientesCadastrados(usuario_id):
         for c in clientes
     ]
 
-    return {"Clientes": lista_clientes}
+    return lista_clientes
 
 
 def veiculosCadastrados(usuario_id):
@@ -362,6 +362,6 @@ def veiculosCadastrados(usuario_id):
         for v in veiculos
     ]
 
-    return {"Veiculos": lista_veiculos}
+    return lista_veiculos
 
 

@@ -20,7 +20,8 @@ class Clientes(db.Model):
     bairro = db.Column(db.String(100), nullable=False)
     cidade = db.Column(db.String(100), nullable=False)
     estado = db.Column(db.String(2), nullable=False)
-    # chaves estrangeiras
+
+
     usuario_id = db.Column(db.Integer, db.ForeignKey("Usuarios.id"), nullable=False)
     usuario  = db.relationship("Usuarios", back_populates="cliente")
     manifestos = db.relationship("ManifestoCarga", back_populates="cliente")
