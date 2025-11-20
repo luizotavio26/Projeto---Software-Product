@@ -85,8 +85,9 @@ def relatorioDeTodasCargas(token):
         id_usuario = pegaID(dados)
         response = requests.get(f"{url}/cargas/cargasCadastradas/{id_usuario}")
         response.raise_for_status()
-        dados = response.json()
-        cargas = dados.get("Cargas", [])
+        response = response.json()
+        # dados = response.json()
+        # cargas = dados.get("Cargas", [])
     except requests.RequestException as e:
         pdf.cell(0, 10, f"Erro ao obter cargas: {e}", ln=True)
         cargas = []
@@ -166,8 +167,9 @@ def relatorioDeTodosMotoristas(token):
     dados = decode_jwt(token)
     id_usuario = pegaID(dados)
     response = requests.get(f"{url}/cargas/motoristasCadastrados/{id_usuario}")
-    data = response.json()
-    motoristas = data.get("Motoristas", [])
+    motoristas = response.json()
+    # data = response.json()
+    # motoristas = data.get("Motoristas", [])
     salario_total = 0
 
     for motorista in motoristas:
@@ -243,9 +245,10 @@ def relatorioDeTodosVeiculos(token):
         response = requests.get(f"{url}/cargas/veiculosCadastrados/{id_usuario}")
         # response = requests.get(f"{url}/cargas/veiculosCadastrados/1")
         response.raise_for_status()
-        data = response.json()
-        # Ajuste: pegar a lista dentro de "Veiculos"
-        veiculos = data.get("Veiculos", [])
+        veiculos = response.json()
+        # data = response.json()
+        # # Ajuste: pegar a lista dentro de "Veiculos"
+        # veiculos = data.get("Veiculos", [])
         
     except requests.RequestException as e:
         pdf.cell(0, 10, f"Erro ao obter dados: {e}", ln=True)
