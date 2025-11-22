@@ -114,3 +114,4 @@ def deleteVeiculoPorId(id_veiculo):
         return f"veículo com ID {id_veiculo} deletado com sucesso."
     
     return f"Veículo com ID {id_veiculo} não encontrado."
+

@@ -115,24 +115,31 @@ class ManifestoCarga(db.Model):
         self.usuario_id = usuario_id
 
 
-    def to_dict(self): 
+    def to_dict(self):
         return {
             "id": self.id,
-            "usuario_id": self. usuario_id,
-            "tipo_carga": self.tipo_carga,
-            "peso_carga": f"{self.peso_carga} kg",
+            "usuario_id": self.usuario_id,
 
-            "cliente": self.cliente.razao_social if self.cliente else "Cliente não encontrado",
-            "motorista": self.motorista.nome if self.motorista else "Motorista não encontrado",
-            "veiculo": self.veiculo.placa if self.veiculo else "Veículo não encontrado", 
+            "tipo_carga": self.tipo_carga,
+            "peso_carga": self.peso_carga,
+
+            "cliente_id": self.cliente_id,
+            "cliente": self.cliente.razao_social if self.cliente else None,
+
+            "motorista_id": self.motorista_id,
+            "motorista": self.motorista.nome if self.motorista else None,
+
+            "veiculo_id": self.veiculo_id,
+            "veiculo": self.veiculo.placa if self.veiculo else None,
 
             "origem_carga": self.origem_carga,
             "destino_carga": self.destino_carga,
-            
-            "valor_frete": f"R$ {float(self.valor_frete):.2f}".replace(".", ","),
-            "valor_km": f"R$ {float(self.valor_km):.2f}".replace(".", ","),
-            "distancia": f"{self.distancia} km"
+
+            "valor_frete": self.valor_frete,
+            "valor_km": self.valor_km,
+            "distancia": self.distancia
         }
+
 
 
 class CargaNaoEncontrada(Exception):
@@ -248,3 +255,120 @@ def delete_todas_cargas():
         db.session.delete(carga)
     db.session.commit()
     return {'message':"Cargas deletadas com sucesso!"}, None
+
+
+def cargasCadastradas(usuario_id):
+    cargas = ManifestoCarga.query.filter_by(usuario_id=usuario_id).all()
+
+    lista_cargas = [
+        {
+            "id": c.id,
+            "usuario_id": c.usuario_id,
+
+            "tipo_carga": c.tipo_carga,
+            "peso_carga": c.peso_carga,
+
+            "cliente_id": c.cliente_id,
+            "cliente": c.cliente.razao_social if c.cliente else None,
+
+            "motorista_id": c.motorista_id,
+            "motorista": c.motorista.nome if c.motorista else None,
+
+            "veiculo_id": c.veiculo_id,
+            "veiculo": c.veiculo.placa if c.veiculo else None,
+
+            "origem_carga": c.origem_carga,
+            "destino_carga": c.destino_carga,
+
+            "valor_frete": c.valor_frete,
+            "valor_km": c.valor_km,
+            "distancia": c.distancia,
+        }
+        for c in cargas
+    ]
+
+    return {"Cargas": lista_cargas}
+
+
+def motoristasCadastrados(usuario_id):
+    motoristas = Motoristas.query.filter_by(usuario_id=usuario_id).all()
+
+    lista_motoristas = [
+        {
+            "id": m.id,
+            "usuario_id": m.usuario_id,
+            "nome": m.nome,
+            "cpf": m.cpf,
+            "rg": m.rg,
+            "salario": m.salario,
+            "data_nascimento": m.data_nascimento,
+            "numero_cnh": m.numero_cnh,
+            "categoria_cnh": m.categoria_cnh,
+            "validade_cnh": m.validade_cnh,
+            "telefone": m.telefone,
+            "email": m.email,
+            "cep": m.cep,
+            "logradouro": m.logradouro,
+            "numero": m.numero,
+            "complemento": m.complemento,
+            "bairro": m.bairro,
+            "cidade": m.cidade,
+            "estado": m.estado
+        }
+        for m in motoristas
+    ]
+
+    return lista_motoristas
+
+
+def clientesCadastrados(usuario_id):
+    clientes = Clientes.query.filter_by(usuario_id=usuario_id).all()
+
+
+    lista_clientes = [
+        {
+            "id": c.id,
+            "usuario_id": c.usuario_id,
+            "cnpj": c.cnpj,
+            "razao_social": c.razao_social,
+            "email": c.email,
+            "telefone": c.telefone,
+            "cep": c.cep,
+            "logradouro": c.logradouro,
+            "numero": c.numero,
+            "complemento": c.complemento,
+            "bairro": c.bairro,
+            "cidade": c.cidade,
+            "estado": c.estado
+        }
+        for c in clientes
+    ]
+
+    return lista_clientes
+
+
+def veiculosCadastrados(usuario_id):
+    veiculos = Veiculos.query.filter_by(usuario_id=usuario_id).all()
+
+
+    lista_veiculos = [
+        {
+            "id": v.id,
+            "usuario_id": v.usuario_id,
+            "placa": v.placa,
+            "modelo": v.modelo,
+            "marca": v.marca,
+            "renavan": v.renavan,
+            "chassi": v.chassi,
+            "cor": v.cor,
+            "tipo": v.tipo,
+            "peso_maximo_kg": v.peso_maximo_kg,
+            "ano_modelo": v.ano_modelo,
+            "ano_fabricacao": v.ano_fabricacao
+        }
+        for v in veiculos
+    ]
+
+    return lista_veiculos
+
+

@@ -10,35 +10,24 @@ def test():
 
 @documentos.route("/relatorio/motoristas", methods=['GET'])
 def relatorio_motoristas():
+    dados = request.args.get('token')
     try:
-        return relatorioDeTodosMotoristas(), 200
+        return relatorioDeTodosMotoristas(token=dados), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 @documentos.route("/relatorio/veiculos", methods=['GET'])
 def relatorio_veiculos():
+    dados = request.args.get('token')
     try:
-        return relatorioDeTodosVeiculos(), 200
+        return relatorioDeTodosVeiculos(token=dados), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
 @documentos.route("/relatorio/cargas", methods=['GET'])
 def relatorio_cargas():
+    dados = request.args.get('token')
     try:
-        return relatorioDeTodasCargas(), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-@documentos.route("/relatorio/faturamento", methods=['GET'])
-def relatorio_faturamento():
-    try:
-        return relatorioEmpresa(), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    
-@documentos.route("/relatorio/empresa", methods=['GET'])
-def relatorio_empresa():
-    try:
-        return gerarRelatorioEmpresa(),200
+        return relatorioDeTodasCargas(token=dados), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

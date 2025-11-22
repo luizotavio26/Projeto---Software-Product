@@ -11,7 +11,6 @@ class Clientes(db.Model):
     cnpj = db.Column(db.String(14), nullable=False, unique=True)
     razao_social = db.Column(db.String(100), nullable=False, unique=True)
     email = db.Column(db.String(100), nullable=False, unique=True)
-    senha = db.Column(db.String(128), nullable=False)
     telefone = db.Column(db.String(20), nullable=False, unique=True)
     
     cep = db.Column(db.String(9), nullable=False)
@@ -21,16 +20,16 @@ class Clientes(db.Model):
     bairro = db.Column(db.String(100), nullable=False)
     cidade = db.Column(db.String(100), nullable=False)
     estado = db.Column(db.String(2), nullable=False)
-    # chaves estrangeiras
+
+
     usuario_id = db.Column(db.Integer, db.ForeignKey("Usuarios.id"), nullable=False)
     usuario  = db.relationship("Usuarios", back_populates="cliente")
     manifestos = db.relationship("ManifestoCarga", back_populates="cliente")
 
-    def __init__(self, cnpj, razao_social, email, senha, telefone, cep, logradouro, numero, complemento, bairro, cidade, estado, usuario_id):
+    def __init__(self, cnpj, razao_social, email, telefone, cep, logradouro, numero, complemento, bairro, cidade, estado, usuario_id):
         self.cnpj = cnpj
         self.razao_social = razao_social
         self.email = email
-        self.senha = senha
         self.telefone = telefone
         self.cep = cep
         self.logradouro = logradouro
@@ -47,7 +46,6 @@ class Clientes(db.Model):
                 "cnpj": self.cnpj ,
                 "razao_social": self.razao_social,
                 "email" : self.email,
-                "senha" : self.senha,
                 "telefone" : self.telefone,
                 "cep" : self.cep ,
                 "logradouro" : self.logradouro,
@@ -89,7 +87,6 @@ def postClientes(dados):
             cnpj = dados["cnpj"],
             razao_social = dados["razao_social"],
             email = dados["email"],
-            senha = dados["senha"],
             telefone = dados["telefone"],
             cep = dados["cep"],
             logradouro = dados["logradouro"],
@@ -132,7 +129,6 @@ def putClientePorId(id_cliente, dados):
     cliente.cnpj = dados.get("cnpj", cliente.cnpj)
     cliente.razao_social = dados.get("razao_social", cliente.razao_social)
     cliente.email = dados.get("email", cliente.email)
-    cliente.senha = dados.get("senha", cliente.senha)
     cliente.telefone = dados.get("telefone", cliente.telefone)
     cliente.cep = dados.get("cep", cliente.cep)
     cliente.logradouro = dados.get("logradouro", cliente.logradouro)

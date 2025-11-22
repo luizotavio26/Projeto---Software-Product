@@ -5,14 +5,29 @@ from controller.cliente_controller import cadastro_clientes_blueprint
 from controller.veiculos_controller import cadastro_veiculos_blueprint
 from controller.motorista_controller import motoristas_blueprint
 from controller.documentos_controller import documentos as documentos_blueprint
-from controller.testes_controller import testes_blueprint
-from controller.email_controller import emailBuleprint
-
 from controller.user_controller import cadastro_usuario_blueprint
 from flask_cors import CORS
 import os
+from flask import make_response
 
-CORS(app)
+
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    supports_credentials=True,
+    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"]
+)
+
+
+
+@app.after_request
+def aplicar_cors(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    return response
+
 
 swagger = Swagger(app, template={
     "swagger": "2.0",
@@ -32,9 +47,7 @@ app.register_blueprint(cadastro_clientes_blueprint)
 app.register_blueprint(cadastro_veiculos_blueprint)
 app.register_blueprint(cadastro_usuario_blueprint)
 app.register_blueprint(motoristas_blueprint)
-app.register_blueprint(testes_blueprint)
 app.register_blueprint(documentos_blueprint)
-app.register_blueprint(emailBuleprint)
 
 @app.route("/mudaSenha")
 def mudanca_SENHA():

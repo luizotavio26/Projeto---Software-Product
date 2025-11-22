@@ -73,7 +73,8 @@ def mudarSenha():
         return jsonify(response), 200
     except Exception as e:
         return({'erro': str(e)}), 500
-    
+
+# --------------------------------- DASHBOARD ----------------------------------
 @cadastro_usuario_blueprint.route("/dashboard/cargasCadastradas/<int:id_usuario>", methods=['GET'])
 def cargas_cadastradas(id_usuario):
     try:
@@ -85,3 +86,43 @@ def cargas_cadastradas(id_usuario):
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
 
+@cadastro_usuario_blueprint.route("/dashboard/motoristasCadastrados/<int:id_usuario>", methods=['GET'])
+def motoristas_cadastradas(id_usuario):
+    try:
+        usuario = user_model.motoristasCadastrados(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
+@cadastro_usuario_blueprint.route("/dashboard/clientesCadastrados/<int:id_usuario>", methods=['GET'])
+def clientes_cadastradas(id_usuario):
+    try:
+        usuario = user_model.clientesCadastrados(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
+@cadastro_usuario_blueprint.route("/dashboard/veiculosCadastrados/<int:id_usuario>", methods=['GET'])
+def veiculos_cadastradas(id_usuario):
+    try:
+        usuario = user_model.veiculosCadastrados(id_usuario)
+        if usuario:
+            return jsonify(usuario), 200
+        else:
+            return jsonify({'erro': 'Usuário não encontrado'}), 404
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+
+@cadastro_usuario_blueprint.route("/dashboard/totaisCargas/<int:id_usuario>", methods=["GET"])
+def totais_cargas(id_usuario):
+    try:
+        totais = user_model.totaisCargas(id_usuario)
+        return jsonify(totais), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500

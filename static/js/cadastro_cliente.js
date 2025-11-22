@@ -44,7 +44,7 @@ async function handleCadastroOuEdicao() {
         bairro: document.getElementById("bairro").value, 
         
         email: document.getElementById("email").value,
-        senha: document.getElementById("senha").value,
+     
         telefone: document.getElementById("telefone").value,
         cep: document.getElementById("cep").value,
         cidade: document.getElementById("cidade").value,
@@ -95,7 +95,7 @@ async function carregarFormularioParaEdicao(id_cliente) {
         document.getElementById("cnpj").value = cliente.cnpj;
         document.getElementById("razao_social").value = cliente.razao_social;
         document.getElementById("email").value = cliente.email;
-        document.getElementById("senha").value = cliente.senha;
+       
         document.getElementById("telefone").value = cliente.telefone;
         document.getElementById("cep").value = cliente.cep;
         document.getElementById("logradouro").value = cliente.logradouro;

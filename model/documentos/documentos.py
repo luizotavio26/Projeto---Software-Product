@@ -5,14 +5,45 @@ from fpdf import FPDF
 from flask import make_response
 from datetime import datetime
 from config import url
+import base64
+import json
 
 # Garante que o Python ache o diretório raiz do projeto
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
+def decode_jwt(token: str):
+    try:
+        header, payload, signature = token.split('.')
+
+        def pad(b):
+            return b + '=' * (-len(b) % 4)
+
+        header_decoded = json.loads(base64.urlsafe_b64decode(pad(header)))
+        payload_decoded = json.loads(base64.urlsafe_b64decode(pad(payload)))
+
+        return {
+            "header": header_decoded,
+            "payload": payload_decoded,
+            "signature": signature
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+def visualizarToken(token):
+    print(json.dumps(token, indent=4))
+
+def pegaID(token):
+    id_usuario = token["payload"]["id_usuario"]
+    return id_usuario
+
+
+def visualizarToken(token):
+    print(json.dumps(token, indent=4))
+
 #--------------------------------------------------------------------------------------------------
 # DOCUMENTOS DAS CARGAS
 #--------------------------------------------------------------------------------------------------
-def relatorioDeTodasCargas():
+def relatorioDeTodasCargas(token):
     class RelatorioDeTodasCargas(FPDF):
         def header(self):
             """Cabeçalho"""
@@ -50,9 +81,13 @@ def relatorioDeTodasCargas():
     # Corpo da tabela
     pdf.set_font("Arial", "", 7)
     try:
-        response = requests.get(f"{url}/cargas")
+        dados = decode_jwt(token)
+        id_usuario = pegaID(dados)
+        response = requests.get(f"{url}/cargas/cargasCadastradas/{id_usuario}")
         response.raise_for_status()
-        cargas = response.json()
+        response = response.json()
+        # dados = response.json()
+        # cargas = dados.get("Cargas", [])
     except requests.RequestException as e:
         pdf.cell(0, 10, f"Erro ao obter cargas: {e}", ln=True)
         cargas = []
@@ -87,92 +122,12 @@ def relatorioDeTodasCargas():
     response.headers["Content-Disposition"] = "attachment; filename=relatorio_de_cargas.pdf"
     return response
 
-#--------------------------------------------------------------------------------------------------
-# DOCUMENTOS DAS EMPRESAS - FATURAMENTO
-#--------------------------------------------------------------------------------------------------
-def relatorioEmpresa():
-     class RelatorioCliente(FPDF):
-     # Cabeçalho
-          def header(self):
-               self.set_font("Arial", "B", 16)
-               self.cell(0, 10, "Relatório de Faturamento e Gastos", ln=True, align="C")
-               self.ln(5)
 
-          # Rodapé
-          def footer(self):
-               self.set_y(-15)
-               self.set_font("Arial", "I", 8)
-               self.cell(0, 10, "Relatório gerado automaticamente pelo sistema.")
-               self.cell(0, 10, f"Página {self.page_no()}", align="C")
-
-     # -------------------------------
-     # DADOS DE EXEMPLO
-     # -------------------------------
-     dados = [
-     {"mes": "Janeiro",   "faturamento": 125000.00, "gastos": 83000.00},
-     {"mes": "Fevereiro", "faturamento": 98000.00,  "gastos": 72000.00},
-     {"mes": "Março",     "faturamento": 140000.00, "gastos": 91000.00},
-     {"mes": "Abril",     "faturamento": 117000.00, "gastos": 95000.00},
-     ]
-
-     # Cálculos de totais
-     total_faturamento = sum(d["faturamento"] for d in dados)
-     total_gastos = sum(d["gastos"] for d in dados)
-     lucro_total = total_faturamento - total_gastos
-
-     # -------------------------------
-     # GERAÇÃO DO PDF
-     # -------------------------------
-     pdf = RelatorioCliente()
-     pdf.add_page()
-     pdf.set_font("Arial", "", 12)
-
-     pdf.ln(5)
-     pdf.cell(0, 10, f"Data de geração: {datetime.now().strftime('%d/%m/%Y %H:%M')}", ln=True)
-     pdf.ln(5)
-     pdf.cell(0, 10, "Relatório de Faturamento e Gastos da Companhia", ln=True, align="C")
-     pdf.ln(10)
-
-     # Cabeçalho da tabela
-     pdf.set_font("Arial", "B", 11)
-     pdf.set_fill_color(200, 220, 255)
-     pdf.cell(50, 10, "Mês", border=1, align="C", fill=True)
-     pdf.cell(60, 10, "Faturamento (R$)", border=1, align="C", fill=True)
-     pdf.cell(60, 10, "Gastos (R$)", border=1, align="C", fill=True)
-     pdf.ln()
-
-     # Linhas da tabela
-     pdf.set_font("Arial", "B", 11)
-     for item in dados:
-          pdf.cell(50, 10, item["mes"], border=1, align="C")
-          pdf.cell(60, 10, f"{item['faturamento']:,.2f}", border=1, align="R")
-          pdf.cell(60, 10, f"{item['gastos']:,.2f}", border=1, align="R")
-          pdf.ln()
-
-          # Totais
-          pdf.set_font("Arial", "B", 11)
-          pdf.cell(50, 10, "Totais", border=1, align="C", fill=True)
-          pdf.cell(60, 10, f"{total_faturamento:,.2f}", border=1, align="R", fill=True)
-          pdf.cell(60, 10, f"{total_gastos:,.2f}", border=1, align="R", fill=True)
-          pdf.ln(10)
-
-          # Lucro
-          pdf.set_font("Arial", "B", 12)
-          pdf.cell(0, 10, f"Lucro total: R$ {lucro_total:,.2f}", ln=True, align="C")
-
-     # Gera o PDF em memória
-     pdf_bytes = pdf.output(dest="S").encode("latin1")
-
-     # Retorna o PDF para download
-     response = make_response(pdf_bytes)
-     response.headers["Content-Type"] = "application/pdf"
-     response.headers["Content-Disposition"] = "attachment; filename=relatorio_Faturamento_Gastos.pdf"
-     return response
-
+   
 #--------------------------------------------------------------------------------------------------
 # DOCUMENTOS DOS MOTORISTAS - RELATÓRIO
 #--------------------------------------------------------------------------------------------------
-def relatorioDeTodosMotoristas():
+def relatorioDeTodosMotoristas(token):
     class RelatorioMotoristas(FPDF):
         # Cabeçalho
         def header(self):
@@ -209,8 +164,12 @@ def relatorioDeTodosMotoristas():
 
     # Dados dos motoristas
     pdf.set_font("Arial", "", 8)
-    response = requests.get(f"{url}/motoristas")
+    dados = decode_jwt(token)
+    id_usuario = pegaID(dados)
+    response = requests.get(f"{url}/cargas/motoristasCadastrados/{id_usuario}")
     motoristas = response.json()
+    # data = response.json()
+    # motoristas = data.get("Motoristas", [])
     salario_total = 0
 
     for motorista in motoristas:
@@ -242,7 +201,7 @@ def relatorioDeTodosMotoristas():
 #--------------------------------------------------------------------------------------------------
 # DOCUMENTOS DOS VEÍCULOS - RELATÓRIO
 #--------------------------------------------------------------------------------------------------
-def relatorioDeTodosVeiculos():
+def relatorioDeTodosVeiculos(token):
     class RelatorioVeiculos(FPDF):
         def header(self):
             """Cabeçalho do PDF"""
@@ -281,9 +240,16 @@ def relatorioDeTodosVeiculos():
     # Corpo da tabela
     pdf.set_font("Arial", "", 10)
     try:
-        response = requests.get(f"{url}/veiculos")
+        dados = decode_jwt(token)
+        id_usuario = pegaID(dados)
+        response = requests.get(f"{url}/cargas/veiculosCadastrados/{id_usuario}")
+        # response = requests.get(f"{url}/cargas/veiculosCadastrados/1")
         response.raise_for_status()
         veiculos = response.json()
+        # data = response.json()
+        # # Ajuste: pegar a lista dentro de "Veiculos"
+        # veiculos = data.get("Veiculos", [])
+        
     except requests.RequestException as e:
         pdf.cell(0, 10, f"Erro ao obter dados: {e}", ln=True)
         veiculos = []
@@ -309,88 +275,7 @@ def relatorioDeTodosVeiculos():
     response.headers["Content-Disposition"] = "attachment; filename=relatorio_veiculos.pdf"
     return response
 
-#--------------------------------------------------------------------------------------------------
-# DOCUMENTOS DA EMPRESA  - RELATÓRIO
-#--------------------------------------------------------------------------------------------------
-def gerarRelatorioEmpresa():
-    class RelatorioEmpresa(FPDF):
-        # Cabeçalho do PDF
-        def header(self):
-            self.set_font("Arial", "B", 16)
-            self.cell(0, 10, "Relatório Financeiro da Empresa", ln=True, align="C")
-            self.ln(5)
 
-        # Rodapé do PDF
-        def footer(self):
-            self.set_y(-15)
-            self.set_font("Arial", "I", 8)
-            self.cell(0, 10, "Gerado automaticamente pelo sistema TrajettoExpress.", align="L")
-            self.cell(0, 10, f"Página {self.page_no()}", align="R")
-
-    # -------------------------------
-    # DADOS DE EXEMPLO
-    # -------------------------------
-    dados = [
-        {"mes": "Janeiro", "faturamento": 120000.00, "gastos": 85000.00},
-        {"mes": "Fevereiro", "faturamento": 98000.00, "gastos": 72000.00},
-        {"mes": "Março", "faturamento": 134000.00, "gastos": 93000.00},
-        {"mes": "Abril", "faturamento": 142000.00, "gastos": 87000.00},
-        {"mes": "Maio", "faturamento": 150000.00, "gastos": 91000.00},
-    ]
-
-    total_faturamento = sum(item["faturamento"] for item in dados)
-    total_gastos = sum(item["gastos"] for item in dados)
-    lucro_total = total_faturamento - total_gastos
-
-    # -------------------------------
-    # GERAÇÃO DO PDF
-    # -------------------------------
-    pdf = RelatorioEmpresa()
-    pdf.add_page()
-    pdf.set_font("Arial", "", 12)
-
-    pdf.cell(0, 10, f"Data de geração: {datetime.now().strftime('%d/%m/%Y %H:%M')}", ln=True)
-    pdf.ln(5)
-    pdf.cell(0, 10, "Resumo de desempenho financeiro por mês", ln=True, align="C")
-    pdf.ln(10)
-
-    # Cabeçalho da tabela
-    pdf.set_font("Arial", "B", 11)
-    pdf.set_fill_color(200, 220, 255)
-    pdf.cell(50, 10, "Mês", border=1, align="C", fill=True)
-    pdf.cell(60, 10, "Faturamento (R$)", border=1, align="C", fill=True)
-    pdf.cell(60, 10, "Gastos (R$)", border=1, align="C", fill=True)
-    pdf.ln()
-
-    # Linhas da tabela
-    pdf.set_font("Arial", "", 11)
-    for item in dados:
-        pdf.cell(50, 10, item["mes"], border=1, align="C")
-        pdf.cell(60, 10, f"{item['faturamento']:,.2f}", border=1, align="R")
-        pdf.cell(60, 10, f"{item['gastos']:,.2f}", border=1, align="R")
-        pdf.ln()
-
-    # Totais
-    pdf.set_font("Arial", "B", 11)
-    pdf.cell(50, 10, "Totais", border=1, align="C", fill=True)
-    pdf.cell(60, 10, f"{total_faturamento:,.2f}", border=1, align="R", fill=True)
-    pdf.cell(60, 10, f"{total_gastos:,.2f}", border=1, align="R", fill=True)
-    pdf.ln(10)
-
-    # Lucro total
-    pdf.set_font("Arial", "B", 13)
-    pdf.cell(0, 10, f"Lucro Total: R$ {lucro_total:,.2f}", ln=True, align="C")
-
-    # -------------------------------
-    # EXPORTAÇÃO E RETORNO
-    # -------------------------------
-    pdf_bytes = pdf.output(dest="S").encode("latin1")
-
-    response = make_response(pdf_bytes)
-    response.headers["Content-Type"] = "application/pdf"
-    response.headers["Content-Disposition"] = "attachment; filename=relatorio_empresa.pdf"
-
-    return response
 
 
 
