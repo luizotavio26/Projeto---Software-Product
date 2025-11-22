@@ -115,24 +115,31 @@ class ManifestoCarga(db.Model):
         self.usuario_id = usuario_id
 
 
-    def to_dict(self): 
+    def to_dict(self):
         return {
             "id": self.id,
-            "usuario_id": self. usuario_id,
-            "tipo_carga": self.tipo_carga,
-            "peso_carga": f"{self.peso_carga} kg",
+            "usuario_id": self.usuario_id,
 
-            "cliente": self.cliente.razao_social if self.cliente else "Cliente não encontrado",
-            "motorista": self.motorista.nome if self.motorista else "Motorista não encontrado",
-            "veiculo": self.veiculo.placa if self.veiculo else "Veículo não encontrado", 
+            "tipo_carga": self.tipo_carga,
+            "peso_carga": self.peso_carga,
+
+            "cliente_id": self.cliente_id,
+            "cliente": self.cliente.razao_social if self.cliente else None,
+
+            "motorista_id": self.motorista_id,
+            "motorista": self.motorista.nome if self.motorista else None,
+
+            "veiculo_id": self.veiculo_id,
+            "veiculo": self.veiculo.placa if self.veiculo else None,
 
             "origem_carga": self.origem_carga,
             "destino_carga": self.destino_carga,
-            
-            "valor_frete": f"R$ {float(self.valor_frete):.2f}".replace(".", ","),
-            "valor_km": f"R$ {float(self.valor_km):.2f}".replace(".", ","),
-            "distancia": f"{self.distancia} km"
+
+            "valor_frete": self.valor_frete,
+            "valor_km": self.valor_km,
+            "distancia": self.distancia
         }
+
 
 
 class CargaNaoEncontrada(Exception):

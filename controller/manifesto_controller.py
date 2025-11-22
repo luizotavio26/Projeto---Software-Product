@@ -45,15 +45,21 @@ def le_cargas_id(id_cargas):
 @manifesto_cargas_blueprint.route('/cargas/<int:id_cargas>', methods=['PUT'])
 def atualiza_cargas(id_cargas):
     dados = request.get_json()
+
     try:
-        atualizado = manifesto_model.update_carga(id_cargas, dados)
-        if atualizado:
-            return jsonify(manifesto_model.read_cargas_id(id_cargas)), 200
-        else:
-            return jsonify({'erro': 'Carga não encontrada'}), 404
+        mensagem, erro = manifesto_model.update_carga(id_cargas, dados)
+
+        if erro:
+            return jsonify({'erro': erro}), 400
+
+        return jsonify(mensagem), 200
+
+    except CargaNaoEncontrada:
+        return jsonify({'erro': 'Carga não encontrada'}), 404
+
     except Exception as e:
-        return jsonify({'erro': str(e)}), 400
-                
+        return jsonify({'erro': str(e)}), 500
+
 
 @manifesto_cargas_blueprint.route('/cargas/<int:id_cargas>', methods = ['DELETE'])
 def deleta_cargas_id(id_cargas):
