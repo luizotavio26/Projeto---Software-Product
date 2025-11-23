@@ -81,7 +81,8 @@ def relatorioDeTodasCargas(token):
         id_usuario = pegaID(dados)
         response = requests.get(f"{url}/cargas/cargasCadastradas/{id_usuario}")
         response.raise_for_status()
-        response = response.json()
+        dados = response.json()
+        cargas = dados.get("Cargas", [])
     except requests.RequestException as e:
         pdf.cell(0, 10, f"Erro ao obter cargas: {e}", ln=True)
         cargas = []
