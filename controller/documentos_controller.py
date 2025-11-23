@@ -31,3 +31,12 @@ def relatorio_cargas():
         return relatorioDeTodasCargas(token=dados), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@documentos.route("/relatorio/clientes", methods=['GET'])
+def relatorio_clientes():
+    dados = request.args.get('token')
+    try:
+        return relatorioDeTodosClientes(token=dados), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
