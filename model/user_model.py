@@ -8,6 +8,7 @@ from model.manifesto_model import ManifestoCarga
 from model.motorista_model import Motoristas
 from model.cliente_model import Clientes
 from model.veiculos_model import Veiculos
+from math import floor
 
 class Usuarios(db.Model):
 
@@ -211,3 +212,103 @@ def totaisCargas(usuario_id):
                 total_km += c.distancia
 
     return {"TotalFrete": total_frete, "TotalKM": total_km}
+
+#funções pro calculo de faturamento
+valor_diesel = 6.06
+consumo_medio = 2.5
+pedagio_base = 3.5
+
+
+def parse_moeda(valor):
+    if isinstance(valor, str):
+        valor = (
+            valor.replace("R$ ", "")
+            .replace(".", "")
+            .replace(",", ".")
+        )
+    return float(valor)
+
+
+def parse_km(valor):
+    if isinstance(valor, str):
+        valor = (
+            valor.replace(" km", "")
+            .replace(",", ".")
+        )
+    return float(valor)
+
+
+def calcular_pedagio(km):
+    if km <= 60:
+        return 0.0
+    extra = km - 60
+    return floor(extra / 15) * pedagio_base
+
+def faturamento(usuario_id):
+    cargas = ManifestoCarga.query.filter_by(usuario_id=usuario_id).all()
+    motoristas = Motoristas.query.filter_by(usuario_id=usuario_id).all()
+
+    total_km = 0.0
+    total_combustivel = 0.0
+    total_pedagios = 0.0
+    total_bruto = 0.0
+    total_salarios = 0.0
+
+    # ------------------------------------------------------
+    # SOMATÓRIO DE SALÁRIOS (equivalente ao reduce JS)
+    # ------------------------------------------------------
+    for m in motoristas:
+        if m.salario:
+            try:
+                salario = parse_moeda(m.salario)
+                total_salarios += salario
+            except:
+                pass
+
+    # ------------------------------------------------------
+    # PROCESSAMENTO DAS CARGAS (equivalente ao map/filter JS)
+    # ------------------------------------------------------
+    dados_faturamento = []
+
+    for c in cargas:
+        # validar existencia dos campos
+        if not (c.valor_frete and c.distancia):
+            continue
+
+        km = parse_km(c.distancia)
+        valor_frete = parse_moeda(c.valor_frete)
+
+        # cálculos equivalentes ao JavaScript
+        litros = km / consumo_medio
+        combustivel = litros * valor_diesel
+        pedagios = calcular_pedagio(km)
+
+        liquido_sem_salario = valor_frete - combustivel - pedagios
+
+        # acumula totais globais
+        total_km += km
+        total_combustivel += combustivel
+        total_pedagios += pedagios
+        total_bruto += valor_frete
+
+        dados_faturamento.append({
+            "nome": c.destino_carga,
+            "bruto": valor_frete,
+            "liquido": liquido_sem_salario
+        })
+
+    # ------------------------------------------------------
+    # TOTAL LÍQUIDO FINAL (igual ao JS)
+    # ------------------------------------------------------
+    total_liquido = total_bruto - total_combustivel - total_pedagios - total_salarios
+
+    return {
+        "total_km": total_km,
+        "total_combustivel": total_combustivel,
+        "total_pedagios": total_pedagios,
+        "total_bruto": total_bruto,
+        "total_salarios": total_salarios,
+        "total_liquido": total_liquido,
+        "detalhado": dados_faturamento
+    }
+

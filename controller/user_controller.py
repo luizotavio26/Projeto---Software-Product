@@ -126,3 +126,11 @@ def totais_cargas(id_usuario):
         return jsonify(totais), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@cadastro_usuario_blueprint.route("/dashboard/faturamento/<int:id_usuario>", methods=["GET"])
+def faturamento(id_usuario):
+    try:
+        faturamento = user_model.faturamento(id_usuario)
+        return jsonify(faturamento), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
