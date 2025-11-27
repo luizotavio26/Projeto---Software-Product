@@ -86,8 +86,10 @@ Facilidade de implantação
 3. Cadastro de veículos
 4. Cadastros de motoristas
 5. Cálculo do valor de frete
-6. Emissão de relatórios e documentos
+6. Emissão de relatórios
 7. Faturamento da empresa
+8. Cadastro de usuário
+9. Login de usuário
 
 ------------------------------------------------------------
 
