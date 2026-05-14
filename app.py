@@ -6,6 +6,7 @@ from controller.veiculos_controller import cadastro_veiculos_blueprint
 from controller.motorista_controller import motoristas_blueprint
 from controller.documentos_controller import documentos as documentos_blueprint
 from controller.user_controller import cadastro_usuario_blueprint
+from controller.admin_controller import admin_blueprint
 from flask_cors import CORS
 import os
 from flask import make_response
@@ -13,21 +14,6 @@ from flask import make_response
 
 CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 
-# CORS(
-#     app,
-#     resources={r"/*": {"origins": "*"}},
-#     supports_credentials=True,
-#     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-#     allow_headers=["Content-Type", "Authorization"]
-# )
-
-
-# @app.after_request
-# def aplicar_cors(response):
-#     response.headers["Access-Control-Allow-Origin"] = "*"
-#     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
-#     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-#     return response
 
 
 swagger = Swagger(app, template={
@@ -49,6 +35,7 @@ app.register_blueprint(cadastro_veiculos_blueprint)
 app.register_blueprint(cadastro_usuario_blueprint)
 app.register_blueprint(motoristas_blueprint)
 app.register_blueprint(documentos_blueprint)
+app.register_blueprint(admin_blueprint)
 
 @app.route("/mudaSenha")
 def mudanca_SENHA():
@@ -58,25 +45,6 @@ def mudanca_SENHA():
 def home():
     return {"mensagem":"Bem-vindo(a) a Trajetto Express!"}
 
-@app.route("/manifesto")
-def manifesto():
-    return render_template("manifesto_carga.html")
-
-@app.route("/cadastro")
-def cadastro():
-    return render_template("cadastro_cliente.html")
-
-@app.route("/veiculo")
-def veiculo():
-    return render_template("cadastro_veiculo.html")
-
-@app.route("/motorista")
-def motorista():
-    return render_template("cadastro_motorista.html")
-
-@app.route("/admin")
-def motorista():
-    return render_template("admin.html")
 
 if __name__ == "__main__":
     with app.app_context():
