@@ -29,10 +29,11 @@ class Administradores(db.Model):
     '''
     
     
-    def __init__(self, nome_usuario, email, senha):
+    def __init__(self, nome_usuario, email, senha, isAdmin):
         self.nome_usuario = nome_usuario
         self.email = email
         self.senha = senha
+        self.isAdmin = isAdmin
 
 
     def to_dict(self): 
@@ -99,6 +100,7 @@ def postAdmin(dados):
             email = dados["email"],
             senha = dados["senha"],
             nome_usuario = dados["nome_usuario"],
+            isAdmin=True
         )
         
         db.session.add(novo_admin)
@@ -184,157 +186,5 @@ def getUsuarios():
 def getVeiculos():
     veiculos  = Veiculos.query.all()   
     return [v.to_dict() for v in veiculos], None 
-
-
-# -------------------------
-# ROTAS PARA O DASHBOARD
-# -------------------------
-
-def cargasCadastradas():
-    quantidade_cargas = ManifestoCarga.query.filter_by().count()
-    return ({"Cargas Totais": quantidade_cargas})
-
-def motoristasCadastrados():
-    quantidade_motoristas = Motoristas.query.filter_by().count()
-    return ({"Motoristas Totais": quantidade_motoristas})
-
-def clientesCadastrados():
-    quantidade_clientes = Clientes.query.filter_by().count()
-    return ({"Clientes Totais": quantidade_clientes})
-
-def veiculosCadastrados():
-    quantidade_veiculos = Veiculos.query.filter_by().count()
-    return ({"Veiculos Totais": quantidade_veiculos})
-
-"""
-#Acho que isso pode ser visto depois, para pedir o valor cobrado por todos os fretes
-
-def totaisCargas():
-    cargas = ManifestoCarga.query.filter_by().all()
-
-    total_frete = 0
-    total_km = 0
-
-    for c in cargas:
-        # Tratando valor_frete
-        if c.valor_frete:
-            if isinstance(c.valor_frete, str):
-                valor = c.valor_frete.replace("R$ ", "").replace(".", "").replace(",", ".")
-                total_frete += float(valor)
-            else:  # já é float ou int
-                total_frete += c.valor_frete
-
-        # Tratando distancia
-        if c.distancia:
-            if isinstance(c.distancia, str):
-                valor = c.distancia.replace(" km", "").replace(",", ".")
-                total_km += float(valor)
-            else:  # já é float ou int
-                total_km += c.distancia
-
-    return {"TotalFrete": total_frete, "TotalKM": total_km}
-
-
-#funções pro calculo de faturamento
-valor_diesel = 6.06
-consumo_medio = 2.5
-pedagio_base = 3.5
-
-
-def parse_moeda(valor):
-    if isinstance(valor, str):
-        valor = (
-            valor.replace("R$ ", "")
-            .replace(".", "")
-            .replace(",", ".")
-        )
-    return float(valor)
-
-
-def parse_km(valor):
-    if isinstance(valor, str):
-        valor = (
-            valor.replace(" km", "")
-            .replace(",", ".")
-        )
-    return float(valor)
-
-
-def calcular_pedagio(km):
-    if km <= 60:
-        return 0.0
-    extra = km - 60
-    return floor(extra / 15) * pedagio_base
-
-def faturamento(usuario_id):
-    cargas = ManifestoCarga.query.filter_by(usuario_id=usuario_id).all()
-    motoristas = Motoristas.query.filter_by(usuario_id=usuario_id).all()
-
-    total_km = 0.0
-    total_combustivel = 0.0
-    total_pedagios = 0.0
-    total_bruto = 0.0
-    total_salarios = 0.0
-
-    # ------------------------------------------------------
-    # SOMATÓRIO DE SALÁRIOS (equivalente ao reduce JS)
-    # ------------------------------------------------------
-    for m in motoristas:
-        if m.salario:
-            try:
-                salario = parse_moeda(m.salario)
-                total_salarios += salario
-            except:
-                pass
-
-    # ------------------------------------------------------
-    # PROCESSAMENTO DAS CARGAS (equivalente ao map/filter JS)
-    # ------------------------------------------------------
-    dados_faturamento = []
-
-    for c in cargas:
-        # validar existencia dos campos
-        if not (c.valor_frete and c.distancia):
-            continue
-
-        km = parse_km(c.distancia)
-        valor_frete = parse_moeda(c.valor_frete)
-
-        # cálculos equivalentes ao JavaScript
-        litros = km / consumo_medio
-        combustivel = litros * valor_diesel
-        pedagios = calcular_pedagio(km)
-
-        liquido_sem_salario = valor_frete - combustivel - pedagios
-
-        # acumula totais globais
-        total_km += km
-        total_combustivel += combustivel
-        total_pedagios += pedagios
-        total_bruto += valor_frete
-
-        dados_faturamento.append({
-            "nome": c.destino_carga,
-            "bruto": valor_frete,
-            "liquido": liquido_sem_salario
-        })
-
-    # ------------------------------------------------------
-    # TOTAL LÍQUIDO FINAL (igual ao JS)
-    # ------------------------------------------------------
-    total_liquido = total_bruto - total_combustivel - total_pedagios - total_salarios
-
-    return {
-        "total_km": total_km,
-        "total_combustivel": total_combustivel,
-        "total_pedagios": total_pedagios,
-        "total_bruto": total_bruto,
-        "total_salarios": total_salarios,
-        "total_liquido": total_liquido,
-        "detalhado": dados_faturamento
-    }
-
-"""
-
 
 

@@ -18,7 +18,7 @@ otp_cache = {}
 @admin_blueprint.route("/admin", methods=['GET'])
 def listarAdmins():
     try:
-        admins = admin_model.getAdmins()
+        admins = admin_model.getAdmin()
         return jsonify(admins), 200
     except Exception as e:
         print(f"Erro ao listar admins: {e}") 
