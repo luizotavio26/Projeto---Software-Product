@@ -129,28 +129,38 @@ def verificaSenhaEmail(dados):
     # SECRET_KEY
     SECRET_KEY = "ytskryo"
 
-    if admin.email is None:
-        return {"message": "registro não encontrado, faça seu cadastro"}
+# verifica se o admin existe
+    if not admin:
+        return {
+            "message": "registro não encontrado",
+            "success": False
+        }
 
-    elif admin.nome_usuario is None:
-        return {"message": "registro não encontrado"}
-    
-    else:
-        if dados["senha"] != admin.senha:
-            return {"message": "senha invalida"}
+    # verifica senha
+    if dados["senha"] != admin.senha:
+        return {
+            "message": "senha inválida",
+            "success": False
+        }
 
-        else:
-            token = jwt.encode(
-            {"email": admin.email, 
+    # gera token
+    token = jwt.encode(
+        {
+            "email": admin.email,
             "nome_usuario": admin.nome_usuario,
             "id_usuario": admin.id,
-            "isAdmin":True,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
-            SECRET_KEY,
-            algorithm="HS256"
-            )
-            
-            return ({"message": "Login realizado com sucesso", "token": token,"success": True})
+            "isAdmin": True,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+        },
+        SECRET_KEY,
+        algorithm="HS256"
+    )
+
+    return {
+        "message": "Login realizado com sucesso",
+        "token": token,
+        "success": True
+    }
 
 def esqueciSenha(dados):
     admin = Administradores.query.filter_by(email=dados["email"]).first()

@@ -12,8 +12,7 @@ import os
 from flask import make_response
 
 
-CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
-
+CORS(app)
 
 
 swagger = Swagger(app, template={
@@ -37,9 +36,6 @@ app.register_blueprint(motoristas_blueprint)
 app.register_blueprint(documentos_blueprint)
 app.register_blueprint(admin_blueprint)
 
-@app.route("/mudaSenha")
-def mudanca_SENHA():
-    return render_template("mudanca_senha.html")
 
 @app.route("/")
 def home():

@@ -16,14 +16,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 porta = app.config['PORT']
 host = app.config['HOST']
 
-# CORS(app, resources={
-#     r"/*": {
-#         "origins": [
-#             "http://localhost:3000",
-#             "https://SEU-FRONT.vercel.app"
-#         ]
-#     }
-# })
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -41,7 +33,6 @@ if host == "0.0.0.0":
     host = "localhost"
 
 url = f"http://{host}:{porta}"
-
 
 
 db = SQLAlchemy(app)
