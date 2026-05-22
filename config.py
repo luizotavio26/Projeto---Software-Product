@@ -10,21 +10,13 @@ app.config['HOST'] = '0.0.0.0'
 app.config['PORT'] = 5036
 app.config['DEBUG'] = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://db_trajetto_user:jJgjxrNt83kvrHjNqHobmA3485RO93qj@dpg-d6sk87aa214c73c2pbh0-a.oregon-postgres.render.com/db_trajetto"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://trajetto_e29t_user:JHSE8jRaGAWFmUCydqLzHCoPvApdgDLP@dpg-d85pg6rbc2fs73f1vngg-a.oregon-postgres.render.com/trajetto_e29t"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 porta = app.config['PORT']
 host = app.config['HOST']
 
-CORS(app, resources={
-    r"/*": {
-        "origins": [
-            "http://localhost:3000",
-            "https://SEU-FRONT.vercel.app"
-        ]
-    }
-})
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
@@ -42,7 +34,6 @@ if host == "0.0.0.0":
     host = "localhost"
 
 url = f"http://{host}:{porta}"
-
 
 
 db = SQLAlchemy(app)

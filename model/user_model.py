@@ -47,9 +47,7 @@ class UsuarioNaoEncontrado(Exception):
 class ErroValidacao(Exception):
     pass
 
-def getUsuarios():
-    usuarios  = Usuarios.query.all()   
-    return [usuario.to_dict() for usuario in usuarios]
+
 
 def getUsuarioId(id_usuario):
     usuario = Usuarios.query.get(id_usuario)
@@ -57,41 +55,6 @@ def getUsuarioId(id_usuario):
         raise UsuarioNaoEncontrado
     
     return usuario.to_dict()
-
-def postUsuario(dados):
-    try:
-        if Usuarios.query.filter_by(email=dados.get('email')).first():
-            return None, "E-mail já cadastrado no sistema."
-        
-        if Usuarios.query.filter_by(nome_usuario=dados.get('nome_usuario')).first():
-            return None, "Nome de usuário não disponível"
-
-
-        novo_usuario = Usuarios(
-            email = dados["email"],
-            senha = dados["senha"],
-            nome_usuario = dados["nome_usuario"],
-        )
-        
-        db.session.add(novo_usuario)
-        db.session.commit()
-        
-        return novo_usuario.id, None
-    
-    except IntegrityError as e:
-        db.session.rollback()
-        
-        if 'usuarios_email_key' in str(e):
-            return None, "Erro: E-mail já cadastrado no sistema."
-
-        if "usuarios_nome_usuario_key" in str(e):
-            return None, "Erro: Nome de Usuário ja existe no sistema."
-
-        return None, "Erro de integridade dos dados."
-        
-    except Exception as e:
-        db.session.rollback()
-        return None, f"Erro interno ao cadastrar: {str(e)}"
 
 def putUsuarioPorId(id_usuario, dados):
     usuario = Usuarios.query.get(id_usuario)
@@ -124,14 +87,50 @@ def deleteTodosUsuario():
     db.session.commit()
     return {'message':"Usuários deletados com sucesso!"}
 
+#----------------------------------------------------------------------------
+# CADASTRO E LOGIN DE USUÁRIO COM TOKEN
+#----------------------------------------------------------------------------
+def postUsuario(dados):
+    try:
+        if Usuarios.query.filter_by(email=dados.get('email')).first():
+            return None, "E-mail já cadastrado no sistema."
+        
+        if Usuarios.query.filter_by(nome_usuario=dados.get('nome_usuario')).first():
+            return None, "Nome de usuário não disponível"
+
+        novo_usuario = Usuarios(
+            email = dados["email"],
+            senha = dados["senha"],
+            nome_usuario = dados["nome_usuario"],
+        )
+        
+        db.session.add(novo_usuario)
+        db.session.commit()
+        
+        return novo_usuario.id, None
+    
+    except IntegrityError as e:
+        db.session.rollback()
+        
+        if 'usuarios_email_key' in str(e):
+            return None, "Erro: E-mail já cadastrado no sistema."
+
+        if "usuarios_nome_usuario_key" in str(e):
+            return None, "Erro: Nome de Usuário ja existe no sistema."
+
+        return None, "Erro de integridade dos dados."
+        
+    except Exception as e:
+        db.session.rollback()
+        return None, f"Erro interno ao cadastrar: {str(e)}"
+
 def verificaSenhaEmail(dados):
-    #consultando o usuario pelo email e pelo nome de usuario
     usuario = Usuarios.query.filter_by(email=dados["email"]).first()
 
     # SECRET_KEY
-    SECRET_KEY = "trajetto_express"
+#    SECRET_KEY = "trajetto_express"
+    SECRET_KEY = "ytskryo"
 
-    #vendo se o email ou nome de usuario é valido
     if usuario.email is None:
         return {"message": "registro não encontrado, faça seu cadastro"}
 
@@ -139,13 +138,10 @@ def verificaSenhaEmail(dados):
         return {"message": "registro não encontrado"}
     
     else:
-        #vendo se senha está correta
         if dados["senha"] != usuario.senha:
             return {"message": "senha invalida"}
 
-        # se tudo estiver certo, vamos gerar o token para o login
         else:
-            #Gerando o token
             token = jwt.encode(
             {"email": usuario.email, 
             "nome_usuario": usuario.nome_usuario,
@@ -154,8 +150,7 @@ def verificaSenhaEmail(dados):
             SECRET_KEY,
             algorithm="HS256"
             )
-            
-            # retornando a mensagem de sucesso e o token
+
             return ({"message": "Login realizado com sucesso", "token": token,"success": True})
 
 def esqueciSenha(dados):
