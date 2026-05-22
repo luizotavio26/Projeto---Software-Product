@@ -12,7 +12,12 @@ import os
 from flask import make_response
 
 
-CORS(app)
+CORS(
+    app,
+    resources={r"/*": {"origins": "*"}},
+    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"]
+)
 
 
 swagger = Swagger(app, template={
