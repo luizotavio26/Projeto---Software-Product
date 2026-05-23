@@ -56,6 +56,13 @@ def getUsuarioId(id_usuario):
     
     return usuario.to_dict()
 
+
+def getUsuarios():
+    usuarios = Usuarios.query.all()
+
+    return [usuario.to_dict() for usuario in usuarios]
+    
+
 def putUsuarioPorId(id_usuario, dados):
     usuario = Usuarios.query.get(id_usuario)
 

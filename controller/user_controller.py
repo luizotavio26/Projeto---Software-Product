@@ -26,6 +26,16 @@ def listarUsuarioId(id_usuario):
         return jsonify({'erro': str(e)}), 500
 
 
+
+@cadastro_usuario_blueprint.route("/usuario", methods=['GET'])
+def listarUsuarios():
+    try:
+        usuarios = user_model.getUsuarios()
+        return jsonify(usuarios), 200
+
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 500
+        
 # =========================
 # GERAR OTP
 # =========================
