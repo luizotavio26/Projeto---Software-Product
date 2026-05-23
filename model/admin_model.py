@@ -8,6 +8,7 @@ from model.manifesto_model import ManifestoCarga
 from model.motorista_model import Motoristas
 from model.cliente_model import Clientes
 from model.veiculos_model import Veiculos
+from model.user_model import Usuarios
 from math import floor
 
 #Classe admin
@@ -189,8 +190,12 @@ def read_todos_motorista():
     motoristas  = Motoristas.query.all()   
     return [motorista.to_dict() for motorista in motoristas], None
 
+# def getUsuarios():
+#     usuarios  = usuarios.query.all()   
+#     return [usuario.to_dict() for usuario in usuarios]
+
 def getUsuarios():
-    usuarios  = usuarios.query.all()   
+    usuarios = Usuarios.query.all()
     return [usuario.to_dict() for usuario in usuarios]
 
 def getVeiculos():
