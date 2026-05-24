@@ -203,3 +203,33 @@ def getVeiculos():
     return [v.to_dict() for v in veiculos], None 
 
 
+
+
+
+# DASHBOARD ADMIN - Totais do sistema
+
+def totalCargasSistema():
+    total = ManifestoCarga.query.count()
+    return {
+        "Cargas": total
+    }
+
+def totalClientesSistema():
+    total = Clientes.query.count()
+    return {
+        "Clientes": total
+    }
+
+def totalMotoristasSistema():
+    total = Motoristas.query.count()
+    return {
+        "Motoristas": total
+    }
+
+def totalVeiculosSistema():
+    total = Veiculos.query.count()
+    return {
+        "Veiculos": total
+    }
+
+
