@@ -137,7 +137,10 @@ class ManifestoCarga(db.Model):
 
             "valor_frete": self.valor_frete,
             "valor_km": self.valor_km,
-            "distancia": self.distancia
+            "distancia": self.distancia,
+
+            # Usuário para referenciar carga, veiculo, motorista e cliente em listagem ADM
+            "usuario_nome": self.usuario.nome_usuario if self.usuario else None
         }
 
 

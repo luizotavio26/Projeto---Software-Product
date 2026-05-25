@@ -34,7 +34,10 @@ class Veiculos(db.Model):
                 "peso_maximo_kg" : self.peso_maximo_kg ,
                 "ano_modelo" : self.ano_modelo , 
                 "ano_fabricacao" : self.ano_fabricacao,
-                "usuario_id": self.usuario_id } 
+                "usuario_id": self.usuario_id,
+                 # Usuário para referenciar carga, veiculo, motorista e cliente em listagem ADM
+                "usuario_nome": self.usuario.nome_usuario if self.usuario else None
+                } 
 
 
 class VeiculoNaoEncontrado(Exception):
