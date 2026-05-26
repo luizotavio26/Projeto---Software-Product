@@ -8,6 +8,7 @@ from model.manifesto_model import ManifestoCarga
 from model.motorista_model import Motoristas
 from model.cliente_model import Clientes
 from model.veiculos_model import Veiculos
+from model.user_model import Usuarios
 from math import floor
 
 #Classe admin
@@ -189,12 +190,46 @@ def read_todos_motorista():
     motoristas  = Motoristas.query.all()   
     return [motorista.to_dict() for motorista in motoristas], None
 
+# def getUsuarios():
+#     usuarios  = usuarios.query.all()   
+#     return [usuario.to_dict() for usuario in usuarios]
+
 def getUsuarios():
-    usuarios  = usuarios.query.all()   
+    usuarios = Usuarios.query.all()
     return [usuario.to_dict() for usuario in usuarios]
 
 def getVeiculos():
     veiculos  = Veiculos.query.all()   
     return [v.to_dict() for v in veiculos], None 
+
+
+
+
+
+# DASHBOARD ADMIN - Totais do sistema
+
+def totalCargasSistema():
+    total = ManifestoCarga.query.count()
+    return {
+        "Cargas": total
+    }
+
+def totalClientesSistema():
+    total = Clientes.query.count()
+    return {
+        "Clientes": total
+    }
+
+def totalMotoristasSistema():
+    total = Motoristas.query.count()
+    return {
+        "Motoristas": total
+    }
+
+def totalVeiculosSistema():
+    total = Veiculos.query.count()
+    return {
+        "Veiculos": total
+    }
 
 

@@ -69,7 +69,10 @@ class Motoristas(db.Model):
                 "bairro" : self.bairro,
                 "cidade" : self.cidade,
                 "estado" : self.estado,
-                "usuario_id": self.usuario_id} 
+                "usuario_id": self.usuario_id,
+                # Usuário para referenciar carga, veiculo, motorista e cliente em listagem ADM
+                "usuario_nome": self.usuario.nome_usuario if self.usuario else None
+                } 
 
 
 class MotoristaNaoEncontrado(Exception):

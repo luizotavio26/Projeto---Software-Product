@@ -268,3 +268,43 @@ def faturamento(id_admin):
         return jsonify(faturamento), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+
+
+# DASHBOARD ADMIN - Totais gerais
+
+@admin_blueprint.route("/dashboard_admin/cargas", methods=["GET"])
+def total_cargas_admin():
+    try:
+        total = admin_model.totalCargasSistema()
+        return jsonify(total), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+
+@admin_blueprint.route("/dashboard_admin/clientes", methods=["GET"])
+def total_clientes_admin():
+    try:
+        total = admin_model.totalClientesSistema()
+        return jsonify(total), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+
+@admin_blueprint.route("/dashboard_admin/motoristas", methods=["GET"])
+def total_motoristas_admin():
+    try:
+        total = admin_model.totalMotoristasSistema()
+        return jsonify(total), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+
+@admin_blueprint.route("/dashboard_admin/veiculos", methods=["GET"])
+def total_veiculos_admin():
+    try:
+        total = admin_model.totalVeiculosSistema()
+        return jsonify(total), 200
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
