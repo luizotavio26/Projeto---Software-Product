@@ -67,7 +67,7 @@ def solicitar_otp():
     url = "https://api.emailjs.com/api/v1.0/email/send"
     
     payload = {
-        "service_id": "service_hcrph7p",
+        "service_id": "service_pj4d8ms",
         "template_id": "template_66qjhvt",
         "user_id": "8dJ0veWBqIDGi4g6O",        
         "accessToken": "cJCuCAhkDT9Roq1v7KlCH",    
