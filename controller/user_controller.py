@@ -94,7 +94,7 @@ def solicitar_otp():
 # =========================
 # CONFIRMAR OTP E CADASTRAR
 # =========================
-@cadastro_usuario_blueprint.route("/usuario/confirmar-otp", methods=['POST'])
+@cadastro_usuario_blueprint.route("/usuario/Confirmar-otp", methods=['POST'])
 def confirmar_otp():
     dados = request.get_json(silent=True)
 
