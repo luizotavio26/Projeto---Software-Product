@@ -2,8 +2,7 @@ from flask import Blueprint, request, jsonify
 from model import user_model
 from model.user_model import *
 import pyotp
-from flask_mail import Message
-from config import mail
+import requests
 
 cadastro_usuario_blueprint = Blueprint('cadastro_usuario', __name__)
 
@@ -26,13 +25,11 @@ def listarUsuarioId(id_usuario):
         return jsonify({'erro': str(e)}), 500
 
 
-
 @cadastro_usuario_blueprint.route("/usuario", methods=['GET'])
 def listarUsuarios():
     try:
         usuarios = user_model.getUsuarios()
         return jsonify(usuarios), 200
-
     except Exception as e:
         return jsonify({'erro': str(e)}), 500
         
@@ -53,8 +50,8 @@ def gerar_otp():
 def solicitar_otp():
     dados = request.get_json(silent=True)
 
-    if not dados:
-        return jsonify({"erro": "Dados não enviados"}), 400
+    if not dados or "email" not in dados:
+        return jsonify({"erro": "Dados não enviados ou campo e-mail ausente"}), 400
 
     secret, otp = gerar_otp()
 
@@ -64,18 +61,34 @@ def solicitar_otp():
         "dados": dados
     }
 
-    # envia e-mail
-    msg = Message("Seu código OTP", recipients=[dados["email"]])
-    msg.body = f"""
-Olá!
+    # =========================
+    # ENVIO DE E-MAIL VIA EMAILJS
+    # =========================
+    url = "https://api.emailjs.com/api/v1.0/email/send"
+    
+    payload = {
+        "service_id": "service_hcrph7p",
+        "template_id": "template_66qjhvt",
+        "user_id": "8dJ0veWBqIDGi4g6O",        
+        "accessToken": "cJCuCAhkDT9Roq1v7KlCH",    
+        "template_params": {
+            "to_email": dados["email"],          
+            "otp_code": otp                      
+        }
+    }
 
-Seu código de verificação é: {otp}
+    try:
+        # Faz o disparo via HTTPS na porta 443 (liberada por padrão no Render)
+        resposta = requests.post(url, json=payload)
+        
+        # O EmailJS retorna status 200 e o texto "OK" quando o envio dá certo
+        if resposta.status_code == 200:
+            return jsonify({"mensagem": "OTP enviado para o e-mail"}), 200
+        else:
+            return jsonify({"erro": "Falha no provedor de e-mail", "detalhe": resposta.text}), 400
 
-Digite este código no sistema para concluir seu cadastro.
-"""
-    mail.send(msg)
-
-    return jsonify({"mensagem": "OTP enviado para o e-mail"}), 200
+    except Exception as e:
+        return jsonify({"erro": f"Erro interno ao conectar com o serviço de e-mail: {str(e)}"}), 500
 
 
 # =========================
