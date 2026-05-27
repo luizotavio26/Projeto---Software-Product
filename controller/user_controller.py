@@ -98,8 +98,9 @@ def solicitar_otp():
 def confirmar_otp():
     dados = request.get_json(silent=True)
 
-    email = dados.get("email")
-    codigo = dados.get("otp")
+    # 1. PEGAMOS O DADO, FORÇAMOS A SER TEXTO (str) E REMOVEMOS ESPAÇOS INVISÍVEIS (.strip)
+    email = str(dados.get("email", "")).strip()
+    codigo = str(dados.get("otp", "")).strip()
 
     registro = otp_cache.get(email)
 
@@ -108,6 +109,7 @@ def confirmar_otp():
 
     totp = pyotp.TOTP(registro["secret"], interval=300)
 
+    # Agora a verificação vai funcionar perfeitamente!
     if not totp.verify(codigo):
         return jsonify({"erro": "OTP inválido ou expirado"}), 400
 
